@@ -20,7 +20,7 @@ public class HomeActivity extends Activity {
 	private static final int INVALID_POINTER_ID = 0;
 
 	public HomeActivity() {
-		// Testing Change
+		
 	}
 	
 	Pet pet; // Pet
@@ -30,6 +30,7 @@ public class HomeActivity extends Activity {
 	// Window parameters
 	int windowWidth;
 	int windowHeight;
+	int menuHeight;
 	
 	// The ‘active pointer’ is the one currently moving our object.
 	private int mActivePointerId = INVALID_POINTER_ID;
@@ -52,6 +53,9 @@ public class HomeActivity extends Activity {
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		windowWidth = metrics.widthPixels;
 		windowHeight = metrics.heightPixels;
+		menuHeight = windowHeight / 4;
+		
+		Log.v("window height metrics", Integer.toString(windowHeight));
 		
 		// Retrieve home view
 		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);
@@ -114,7 +118,7 @@ public class HomeActivity extends Activity {
 			        if (petIsClicked)
 			        {
 			        	if((userX > 0) && (userX < (windowWidth - pet.width)) 
-			        			&& (userY > 0) && (userY < (windowHeight - pet.height))) 
+			        			&& (userY > 0) && (userY < (windowHeight - pet.height - menuHeight))) 
 			        	{
 			        		homeview.dragPet(userX, userY);
 			        		pet.xCoordinate = userX;
