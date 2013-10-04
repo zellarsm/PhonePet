@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PhonePet</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="pet_name">Willy</string>
+    <string name="preference_file_key">PREFERENCES</string>
+    <string name="title_activity_create">Meet your pet!</string>
+
+</resources>
