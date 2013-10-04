@@ -21,6 +21,7 @@ public class HomeActivity extends Activity {
 
 	public HomeActivity() {
 		//make a soccer ball!
+		//comment made by joey
 	}
 	
 	Pet pet; // Pet
