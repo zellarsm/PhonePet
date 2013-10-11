@@ -9,8 +9,19 @@
     tools:context=".CreateActivity" >
 
     <TextView
+        android:id="@+id/txt_pick_egg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+       	android:layout_centerInParent="true"
+        android:text="@string/pick_egg" />
 
+    <ImageView
+	    android:id="@+id/img_green_egg"
+	    android:layout_width="60dp"
+	    android:layout_height="60dp"
+	    android:layout_centerInParent="true"
+	    android:layout_below="@id/txt_pick_egg"
+	    android:contentDescription="@string/img_green_egg"
+	    android:src="@drawable/dummy_egg" />
+    
 </RelativeLayout>

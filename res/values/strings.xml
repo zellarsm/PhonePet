@@ -8,5 +8,17 @@
     <string name="pet_name">Willy</string>
     <string name="preference_file_key">PREFERENCES</string>
     <string name="title_activity_create">Meet your pet!</string>
+    
+    <!-- Strings related to CreateActivity -->
+    <string name="pick_egg">Pick an egg!</string>
+    <string name="img_green_egg">Green egg</string>
+    
+    <!-- Strings related to Popup Window Animation -->
+    <string name="close_button">Close [X]</string>
+    <string name="welcome">Welcome! It\'s time to meet your pet.\nThere are many eggs to choose from.</string>
+    <color name="color_popup">#BB000000</color>
+    <color name="color_popup_window">#000000</color>
+    <color name="color_popup_outer_window">#FFFFFF</color>
+    
 
 </resources>
