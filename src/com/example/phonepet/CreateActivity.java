@@ -22,11 +22,7 @@ public class CreateActivity extends Activity {
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		
-		
 		// User creates pet
-		
-		
-		Log.v("3", "createActivity");
 		
 		
 		// Pet has been created.
