@@ -45,8 +45,8 @@ public class HomeView extends View {
 				petPoint.x, petPoint.y, null);
 	}
 	
+	// Draw the pet on the bitmap
 	public void drawPet(float x, float y) {
-
 		petPoint.x = x;
 		petPoint.y = y;
 		
@@ -55,12 +55,16 @@ public class HomeView extends View {
 			
 	}
 
+	// Update the pet on the bitmap if it's moved.
 	public void dragPet(float x, float y) {
-		// TODO Auto-generated method stub
 		petPoint.x = x;
 		petPoint.y = y;
 				
 		this.invalidate();
+	}
+	
+	public void drawMenuButtons() {
+		
 	}
 	
 }
