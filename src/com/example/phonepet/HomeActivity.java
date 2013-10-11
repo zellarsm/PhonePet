@@ -31,6 +31,8 @@ public class HomeActivity extends Activity {
 	// Window parameters
 	int windowWidth;
 	int windowHeight;
+	static int playgroundHeight;
+	static int playgroundWidth;
 	int menuHeight;
 	
 	// The ‘active pointer’ is the one currently moving our object.
@@ -52,11 +54,15 @@ public class HomeActivity extends Activity {
 		// Get metrics of display
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		
+		// Set window metrics
 		windowWidth = metrics.widthPixels;
 		windowHeight = metrics.heightPixels;
+		// Set menu height
 		menuHeight = windowHeight / 4;
-		
-		Log.v("window height metrics", Integer.toString(windowHeight));
+		// Set playground metrics (where the pet can roam).
+		playgroundWidth = windowWidth;
+		playgroundHeight = (menuHeight * 3);
 		
 		// Retrieve home view
 		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);
@@ -64,11 +70,12 @@ public class HomeActivity extends Activity {
 		
 		// Get pet information.
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-		Log.v("width", Integer.toString(homeview.getWidth()));
-		pet.width = windowWidth/4;
-		pet.height = windowHeight/6;
+		// Load pet coordinates from previous app state.
 		pet.xCoordinate = sharedPref.getFloat("petX", windowWidth/2);
 		pet.yCoordinate = sharedPref.getFloat("petY", windowHeight/2);
+		// Set pet resolution.
+		pet.width = windowWidth/4;
+		pet.height = windowHeight/6;
 		
 		
 		// Draw the pet on the screen.

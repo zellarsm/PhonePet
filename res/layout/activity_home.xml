@@ -9,26 +9,82 @@
     
     <com.example.phonepet.HomeView
 	    android:id="@+id/HomeView"
-	    android:layout_width="fill_parent"
+	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	/>
     
-    <!--  <ImageButton
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        >
+        
+    <Button 
+        android:id="@+id/Accessorize"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/shirt_button"
+    	android:paddingLeft="5dp"
+    	android:paddingRight="5dp"
+    	
+    	/> 
+        
+    <Button 
+        android:id="@+id/Feed"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/food_button"
+    	android:paddingLeft="5dp"
+    	android:paddingRight="5dp"
+    	android:layout_toRightOf="@id/Accessorize"
+    	android:layout_centerInParent="true"
+    	/> 
+    	
+   <Button 
+        android:id="@+id/Play"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/play_button"
+    	android:paddingLeft="5dp"
+    	android:paddingRight="5dp"
+    	android:layout_toRightOf="@id/Feed"
+    	android:layout_centerInParent="true"
+    	/> 
+    	
+   <Button 
+        android:id="@+id/Poop"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/poop_button"
+    	android:paddingLeft="5dp"
+    	android:paddingRight="5dp"
+    	android:layout_toRightOf="@id/Play"
+    	android:layout_centerInParent="true"
+    	/> 
+    	
+   <Button 
+        android:id="@+id/Sponge"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/sponge_button"
+    	android:paddingLeft="5dp"
+    	android:paddingRight="5dp"
+    	android:layout_toRightOf="@id/Poop"
+    	android:layout_centerInParent="true"
+    	/> 
+   
+    
+    <!-- 
+    <ImageButton
         android:id="@+id/Accessorize"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:src="@drawable/tshirt"
-    /> -->
-    
-    
-    <!-- <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="@string/pet_name"
-        android:src="@drawable/smileyface" /> 
-        android:background="@drawable/templatebackground"
-        -->
+    	android:layout_marginTop="200dp"
+    	android:layout_marginLeft="50dp"
+    	android:contentDescription="@string/shirt_button"
+    />-->
+    </RelativeLayout>
+       
 
 </LinearLayout>

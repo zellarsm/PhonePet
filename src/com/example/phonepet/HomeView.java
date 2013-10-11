@@ -34,10 +34,10 @@ public class HomeView extends View {
 		super.onDraw(canvas);
 		
 		// Set the layout parameters
-		this.setLayoutParams(new LinearLayout.LayoutParams(this.getWidth(), this.getHeight()));
+		this.setLayoutParams(new LinearLayout.LayoutParams(HomeActivity.playgroundWidth, HomeActivity.playgroundHeight));
 		
 		// Build board & scale it to the size of our screen.
-    	mBoard = Bitmap.createScaledBitmap(mBoard, (int)this.getWidth(), (int)this.getHeight(), true);
+    	mBoard = Bitmap.createScaledBitmap(mBoard, HomeActivity.playgroundWidth, HomeActivity.playgroundHeight, true);
 		
 		canvas.drawBitmap(mBoard, 0, 0, null);
 		

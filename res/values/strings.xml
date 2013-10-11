@@ -8,6 +8,11 @@
     <string name="pet_name">Willy</string>
     <string name="preference_file_key">PREFERENCES</string>
     <string name="title_activity_create">Meet your pet!</string>
+    <string name="shirt_button">Shirt</string>
+    <string name="food_button">Feed</string>
+    <string name="play_button">Play</string>
+    <string name="poop_button">Poop</string>
+    <string name="sponge_button">Sponge</string>
     
     <!-- Strings related to CreateActivity -->
     <string name="pick_egg">Pick an egg!</string>

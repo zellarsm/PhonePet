@@ -39,17 +39,23 @@ public final class R {
         public static final int taco=0x7f020006;
         public static final int templatebackground=0x7f020007;
         public static final int tennisball=0x7f020008;
-        public static final int tshirt=0x7f020009;
+        public static final int transbackground=0x7f020009;
+        public static final int tshirt=0x7f02000a;
     }
     public static final class id {
+        public static final int Accessorize=0x7f0a0004;
+        public static final int Feed=0x7f0a0005;
         public static final int HomeView=0x7f0a0003;
-        public static final int action_settings=0x7f0a0007;
+        public static final int Play=0x7f0a0006;
+        public static final int Poop=0x7f0a0007;
+        public static final int Sponge=0x7f0a0008;
+        public static final int action_settings=0x7f0a000c;
         public static final int activity_home_view=0x7f0a0002;
-        public static final int close=0x7f0a0005;
+        public static final int close=0x7f0a000a;
         public static final int img_green_egg=0x7f0a0001;
-        public static final int popupLinearLayout=0x7f0a0004;
+        public static final int popupLinearLayout=0x7f0a0009;
         public static final int txt_pick_egg=0x7f0a0000;
-        public static final int txt_welcome=0x7f0a0006;
+        public static final int txt_welcome=0x7f0a000b;
     }
     public static final class layout {
         public static final int activity_create=0x7f030000;
@@ -67,17 +73,22 @@ public final class R {
         public static final int app_name=0x7f060000;
         /**  Strings related to Popup Window Animation 
          */
-        public static final int close_button=0x7f060009;
+        public static final int close_button=0x7f06000e;
+        public static final int food_button=0x7f060008;
         public static final int hello_world=0x7f060002;
-        public static final int img_green_egg=0x7f060008;
+        public static final int img_green_egg=0x7f06000d;
         public static final int pet_name=0x7f060004;
         /**  Strings related to CreateActivity 
          */
-        public static final int pick_egg=0x7f060007;
+        public static final int pick_egg=0x7f06000c;
+        public static final int play_button=0x7f060009;
+        public static final int poop_button=0x7f06000a;
         public static final int preference_file_key=0x7f060005;
+        public static final int shirt_button=0x7f060007;
+        public static final int sponge_button=0x7f06000b;
         public static final int title_activity_create=0x7f060006;
         public static final int title_activity_home=0x7f060003;
-        public static final int welcome=0x7f06000a;
+        public static final int welcome=0x7f06000f;
     }
     public static final class style {
         /** 
