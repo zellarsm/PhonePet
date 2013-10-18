@@ -15,7 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class HomeActivity extends Activity {
 
@@ -26,11 +26,11 @@ public class HomeActivity extends Activity {
 		//comment made by joey
 	}
 	
-	Button playButton;
-	Button accessorizeButton;
-	Button poopButton;
-	Button feedButton;
-	Button cleanButton;
+	ImageButton playButton;
+	ImageButton accessorizeButton;
+	ImageButton poopButton;
+	ImageButton feedButton;
+	ImageButton cleanButton;
 	
 	Pet pet; // Pet
 	String fileName = "preferences";
@@ -57,20 +57,29 @@ public class HomeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 		
-		playButton = (Button)findViewById(R.id.Play);
-		accessorizeButton = (Button)findViewById(R.id.Accessorize);
-		poopButton = (Button)findViewById(R.id.Poop);
-		feedButton = (Button)findViewById(R.id.Feed);
-		cleanButton = (Button)findViewById(R.id.Sponge);
+		playButton = (ImageButton)findViewById(R.id.Play);
+		accessorizeButton = (ImageButton)findViewById(R.id.Accessorize);
+		poopButton = (ImageButton)findViewById(R.id.Poop);
+		feedButton = (ImageButton)findViewById(R.id.Feed);
+		cleanButton = (ImageButton)findViewById(R.id.Sponge);
 		
 		final Intent playIntent = new Intent(this, PlayActivity.class);
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startActivity(playIntent);
+				
 			}
 		});
 		
+		final Intent accessIntent = new Intent(this, AccessorizeActivity.class);
+		accessorizeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(accessIntent);
+				
+			}
+		});
 		
 		
 		pet = new Pet();
