@@ -3,6 +3,7 @@ package com.example.phonepet;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
@@ -14,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 
 public class HomeActivity extends Activity {
 
@@ -23,6 +25,12 @@ public class HomeActivity extends Activity {
 		//make a soccer ball!
 		//comment made by joey
 	}
+	
+	Button playButton;
+	Button accessorizeButton;
+	Button poopButton;
+	Button feedButton;
+	Button cleanButton;
 	
 	Pet pet; // Pet
 	String fileName = "preferences";
@@ -48,6 +56,22 @@ public class HomeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		
+		playButton = (Button)findViewById(R.id.Play);
+		accessorizeButton = (Button)findViewById(R.id.Accessorize);
+		poopButton = (Button)findViewById(R.id.Poop);
+		feedButton = (Button)findViewById(R.id.Feed);
+		cleanButton = (Button)findViewById(R.id.Sponge);
+		
+		final Intent playIntent = new Intent(this, PlayActivity.class);
+		playButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(playIntent);
+			}
+		});
+		
+		
 		
 		pet = new Pet();
 		

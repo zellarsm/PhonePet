@@ -58,15 +58,19 @@ public final class R {
         public static final int txt_welcome=0x7f0a000b;
     }
     public static final class layout {
-        public static final int activity_create=0x7f030000;
-        public static final int activity_home=0x7f030001;
-        public static final int activity_startup=0x7f030002;
-        public static final int popup_layout=0x7f030003;
+        public static final int activity_accessorize=0x7f030000;
+        public static final int activity_create=0x7f030001;
+        public static final int activity_home=0x7f030002;
+        public static final int activity_play=0x7f030003;
+        public static final int activity_startup=0x7f030004;
+        public static final int popup_layout=0x7f030005;
     }
     public static final class menu {
-        public static final int create=0x7f090000;
-        public static final int home=0x7f090001;
-        public static final int startup=0x7f090002;
+        public static final int accessorize=0x7f090000;
+        public static final int create=0x7f090001;
+        public static final int home=0x7f090002;
+        public static final int play=0x7f090003;
+        public static final int startup=0x7f090004;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
@@ -86,8 +90,10 @@ public final class R {
         public static final int preference_file_key=0x7f060005;
         public static final int shirt_button=0x7f060007;
         public static final int sponge_button=0x7f06000b;
+        public static final int title_activity_accessorize=0x7f060011;
         public static final int title_activity_create=0x7f060006;
         public static final int title_activity_home=0x7f060003;
+        public static final int title_activity_play=0x7f060010;
         public static final int welcome=0x7f06000f;
     }
     public static final class style {

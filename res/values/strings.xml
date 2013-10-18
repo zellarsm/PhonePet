@@ -13,17 +13,20 @@
     <string name="play_button">Play</string>
     <string name="poop_button">Poop</string>
     <string name="sponge_button">Sponge</string>
-    
+
     <!-- Strings related to CreateActivity -->
     <string name="pick_egg">Pick an egg!</string>
     <string name="img_green_egg">Green egg</string>
-    
+
     <!-- Strings related to Popup Window Animation -->
     <string name="close_button">Close [X]</string>
     <string name="welcome">Welcome! It\'s time to meet your pet.\nThere are many eggs to choose from.</string>
+
     <color name="color_popup">#BB000000</color>
     <color name="color_popup_window">#000000</color>
     <color name="color_popup_outer_window">#FFFFFF</color>
-    
+
+    <string name="title_activity_play">PlayActivity</string>
+    <string name="title_activity_accessorize">AccessorizeActivity</string>
 
 </resources>
