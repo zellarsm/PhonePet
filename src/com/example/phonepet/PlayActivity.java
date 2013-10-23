@@ -7,6 +7,12 @@ import android.view.Menu;
 
 public class PlayActivity extends Activity {
 
+	Pet pet;
+	
+	void selectGame() {};
+	void startGame1() {};
+	void startGame2() {};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
