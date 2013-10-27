@@ -258,5 +258,11 @@ public class HomeActivity extends Activity {
 		petIsClicked = false;
 		
 	} // End method isPetClicked
+	
+	void feedPet() {};
+	void bathePet() {};
+	void removePoop() {};
+	void notifyOwnerOfNeglect(){};
+	void runawayPet(Pet pet) {};
 
 } // End class HomeActivity

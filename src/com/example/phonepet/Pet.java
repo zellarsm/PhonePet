@@ -5,7 +5,6 @@ public class Pet {
 	String petName;
 	int width;
 	int height;
-	boolean dennisisafaggot=true;
 	float xCoordinate;
 	float yCoordinate;
 	

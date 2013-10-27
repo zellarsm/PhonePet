@@ -10,6 +10,9 @@ import android.view.Menu;
 
 public class CreateActivity extends Activity {
 
+	Pet pet;
+	Pet createPet() {return pet;};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

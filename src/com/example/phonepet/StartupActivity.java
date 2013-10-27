@@ -9,6 +9,9 @@ import android.view.Menu;
 
 public class StartupActivity extends Activity {
 
+	Pet pet;
+	boolean checkForPreviousPet(){return true;};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,8 +35,6 @@ public class StartupActivity extends Activity {
 			intent = new Intent(this, CreateActivity.class);
 			startActivity(intent);
 		}
-		
-
 		
 	}
 
