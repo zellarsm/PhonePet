@@ -1,4 +1,4 @@
-package com.example.phonepet;
+package com.example.utils;
 
 public class Point {
     public float x; // initial point

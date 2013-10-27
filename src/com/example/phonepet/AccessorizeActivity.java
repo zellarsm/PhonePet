@@ -7,7 +7,7 @@ import android.view.Menu;
 public class AccessorizeActivity extends Activity {
 
 	
-	Pet pet;
+	//Pet pet;
 	
 	void addAccessoryToPet() {};
 	void saveAccessories() {};

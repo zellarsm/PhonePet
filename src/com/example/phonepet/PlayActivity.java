@@ -6,9 +6,6 @@ import android.util.Log;
 import android.view.Menu;
 
 public class PlayActivity extends Activity {
-
-	Pet pet;
-	
 	void selectGame() {};
 	void startGame1() {};
 	void startGame2() {};

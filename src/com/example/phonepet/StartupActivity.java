@@ -5,11 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.Menu;
 
 public class StartupActivity extends Activity {
-
-	Pet pet;
 	boolean checkForPreviousPet(){return true;};
 	
 	@Override
@@ -22,7 +21,15 @@ public class StartupActivity extends Activity {
 		
 		// Check if a pet exists on the user's phone
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
+		
+		// Clear pet everytime for development purposes.
+		SharedPreferences.Editor editor = sharedPref.edit();
+		// Theoretically there should be no saved information at this point. Clear for development purposes.
+		editor.clear();
+		editor.commit();
+		
 		Boolean petExists = sharedPref.getBoolean("pet_exists", false);
+		Log.v("petexists", Boolean.toString(petExists));
 		
 		if (petExists) {
 			// Pet exists, go Home
