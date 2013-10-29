@@ -112,29 +112,67 @@ public class PetController extends Controller {
 					sharedPref.getInt("petX", 0), sharedPref.getInt("petY", 0)
 					);
 		
-		/**
-		 *  Start a new thread that controls the pet's actions and feelings. 
-		 */
-		// (Temporary demo of thread)
-		//int i=0;
-		//while(true) {
-			// Make the pet jump
-		//	while (i != 1000) {
-		//		i++;
-		//		if (i == 1000) {
-		//			i=0;
-		//			randomJump();
-		//		}
-		//	}
-			
-		//}
+		// Create and start thread to control pet's actions and feelings.
+		PetLife life = new PetLife();
+		life.start();
 	}
 
+	/**
+	 *  This thread is used to control the pet's actions and feelings. 
+	 */
+	private class PetLife extends Thread {
+		public void run() {
+			while(true) {
+				// Sleep for 5 seconds.
+				try {
+					sleep(5000);
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				// Perform jump
+				randomJump();
+				
+			}
+			
+		}
+		
+	}
 	/**
 	 * Make the pet jump in a random direction.
 	 */
 	private void randomJump() {
+		/*
+		boolean jumped = false;
+		while (!jumped) {
+			int direction = 1 + (int)(Math.random() * ((2 - 1) + 1));
+			/* Direction values	5 3 6
+								1 * 2
+								8 4 7
+				
+		}
 		
+		//Log.v("direction", Integer.toString(direction));
+		if (direction == 1) {
+			// Jump left
+			// The jump will occur in 10 frames.
+			for (int i=0; i<10; i++) {
+				
+			}
+			
+		}
+		else if (direction == 2) {
+			// Jump right
+		}
+		//else if (direction == 3) {
+			
+	//	}
+		//else if (direction == 4) {
+			
+		//}
+		*/
 		
 	}
 
