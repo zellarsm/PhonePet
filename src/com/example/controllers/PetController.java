@@ -116,18 +116,18 @@ public class PetController extends Controller {
 		 *  Start a new thread that controls the pet's actions and feelings. 
 		 */
 		// (Temporary demo of thread)
-		int i=0;
-		while(true) {
+		//int i=0;
+		//while(true) {
 			// Make the pet jump
-			while (i != 1000) {
-				i++;
-				if (i == 1000) {
-					i=0;
-					randomJump();
-				}
-			}
+		//	while (i != 1000) {
+		//		i++;
+		//		if (i == 1000) {
+		//			i=0;
+		//			randomJump();
+		//		}
+		//	}
 			
-		}
+		//}
 	}
 
 	/**
