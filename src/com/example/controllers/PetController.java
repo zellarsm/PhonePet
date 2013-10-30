@@ -231,7 +231,7 @@ public class PetController extends Controller {
 		// Move down
 		else if (direction == 4) {
 			destY = model.getYCoord() + distance;
-
+ 
 			if (destY+model.getHeight() > AREA_MAX_Y)
 				// Cannot move down
 				return false;
