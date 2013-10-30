@@ -54,10 +54,10 @@ public class HomeView extends View {
 		super.onDraw(canvas);
 		
 		// Set the layout parameters
-		this.setLayoutParams(new LinearLayout.LayoutParams(sharedPref.getInt("playgroundWidth", 0), sharedPref.getInt("playgroundHeight", 0)));
+		this.setLayoutParams(new LinearLayout.LayoutParams(sharedPref.getInt("backgroundWidth", 0), sharedPref.getInt("backgroundHeight", 0)));
 		
 		// Build environment & scale it to the size of our screen.
-    	mBackground = Bitmap.createScaledBitmap(mBackground, sharedPref.getInt("playgroundWidth", 0), sharedPref.getInt("playgroundHeight", 0), true);
+    	mBackground = Bitmap.createScaledBitmap(mBackground, sharedPref.getInt("backgroundWidth", 0), sharedPref.getInt("backgroundHeight", 0), true);
 		
 		canvas.drawBitmap(mBackground, 0, 0, null);
 		

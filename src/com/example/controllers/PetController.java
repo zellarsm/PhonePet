@@ -35,8 +35,22 @@ public class PetController extends Controller {
 	public static final int MESSAGE_KEY_EVENT = 7;
 	public static final int MESSAGE_TAPPED = 8;
 	
-	//HomeActivity hActivity = new HomeActivity();
-
+	/*
+	 * Phone screen sizes are different, these constants are used to handle this.
+	 */
+	private int BACKGROUND_WIDTH;
+	private int BACKGROUND_HEIGHT;
+	
+	// AREA values represent the rectangle contained in the fence.
+	// Pet can NEVER move outside of AREA.
+	private int AREA_MIN_Y; // 2/3 of background height
+	private int AREA_MAX_Y; // Background height
+	private int AREA_MIN_X; // 0
+	private int AREA_MAX_X; // Background width
+	
+	private int CENTER_HOUSE_X;	// The center of the opening of the pet house width is 7/10 of background width
+	private int CENTER_HOUSE_Y; // The center of the opening of the pet house height is 2/3 background height.
+	
 	String fileName = "preferences";
 	
 	private PetVo model;
@@ -99,105 +113,285 @@ public class PetController extends Controller {
 	private void loadPet() {
 		SharedPreferences sharedPref = homeContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
 
-//		Log.v("cscreenWidth", Integer.toString(sharedPref.getInt("screenWidth", 10)));
-//		Log.v("cscreenHeight", Integer.toString(sharedPref.getInt("screenHeight", 10)));
-//		Log.v("cplaygroundWidth", Integer.toString(sharedPref.getInt("playgroundWidth", 10)));
-//		Log.v("cplaygroundHeight", Integer.toString(sharedPref.getInt("playgroundHeight", 10)));
-//		Log.v("cpetWidth", Integer.toString(sharedPref.getInt("petWidth", 10)));
-//		Log.v("cpetHeight", Integer.toString(sharedPref.getInt("petHeight", 10)));
+		// Set constant values
+		float num;
+		BACKGROUND_WIDTH = sharedPref.getInt("backgroundWidth", 10);
+		BACKGROUND_HEIGHT = sharedPref.getInt("backgroundHeight", 10);
+		
+		// Bottom of fence is 2/3 of the background height.
+		num = BACKGROUND_HEIGHT;
+		AREA_MIN_Y =  (int)(num * (2f/3f));
+		AREA_MAX_Y = BACKGROUND_HEIGHT;
+		AREA_MIN_X = 0;
+		AREA_MAX_X = BACKGROUND_WIDTH;
+		
+		// Center of the pet house opening is
+		// x coord: 7/10 of the background width.
+		// y coord: 2/3 of background height
+		num = BACKGROUND_WIDTH;
+		CENTER_HOUSE_X = (int)(num * (7f/10f));
+		CENTER_HOUSE_Y = AREA_MIN_Y;
 
 		// Load pet coordinates from previous app state.
 		model.loadPet(
-					sharedPref.getInt("petWidth", 0),sharedPref.getInt("petHeight", 0),
+					sharedPref.getInt("petWidth", 0), sharedPref.getInt("petHeight", 0),
 					sharedPref.getInt("petX", 0), sharedPref.getInt("petY", 0)
 					);
 		
-		// Create and start thread to control pet's actions and feelings.
+		// Create and start a thread to control pet's actions and feelings.
 		PetLife life = new PetLife();
 		life.start();
+		
+		// Place the pet in the middle of the play area.
+		model.setXYCoord(AREA_MAX_X/2-(model.getWidth()/2), 		
+						(AREA_MIN_Y + (AREA_MAX_Y-AREA_MIN_Y)/2) - (model.getHeight()/2));
+	}
+
+
+	/**
+	 * Make the pet move in a specified direction. A complete movement
+	 * takes 20 frames.
+	 * 
+	 *	@param direction: Integer from 1-8 used to specify movement direction
+	 *
+		  	Values:
+		  	5 3 6
+		  	1 * 2
+		  	7 4 8	
+	 */
+	// TODO: Diagonal movements
+	private boolean move(int direction) {
+		int destX, destY;
+		// No matter what the movement, the distance will be 1/10th the 
+		// width of screen in x or y or both.
+		int distance = BACKGROUND_WIDTH/10;
+		
+		// Move left 1/10 background width	
+		if (direction == 1) {
+			destX = model.getXCoord() - distance;
+
+			if (destX <= AREA_MIN_X)
+				// No room to move left, return.
+				return false;
+
+			// A complete movement takes 20 frames.
+			int newY;
+			int dx = Math.round(distance/20);
+
+			for (int i=0; i<20; i++) {
+				if (i<10) 
+					// Jumping up
+					newY = model.getYCoord() - dx;
+				else 
+					// Jumping down
+					newY = model.getYCoord() + dx;
+				
+				model.setXYCoord(model.getXCoord() - dx, newY);
+				sleepThread(10); // Sleep for 10 milliseconds to implement animation.
+			}
+		}
+		// Move right
+		else if (direction == 2) {
+			destX = model.getXCoord() + distance;
+
+			if (destX+model.getWidth() >= AREA_MAX_X)
+				// Cannot move right
+				return false;
+			
+			// Move occurs in 20 frames
+			int newY;
+			int dx = Math.round(distance/20);
+
+			for (int i=0; i<20; i++) {
+				if (i<10) newY = model.getYCoord() - dx;
+				else newY = model.getYCoord() + dx;
+				
+				model.setXYCoord(model.getXCoord() + dx, newY);
+				sleepThread(10);
+			}
+			
+		}
+		
+		// Move up
+		else if (direction == 3) {
+			destY = model.getYCoord() - distance;
+
+			if (destY+model.getHeight() < AREA_MIN_Y)
+				// Cannot move up
+				return false;
+			
+			// Move occurs in 20 frames
+			int dx = Math.round(distance/20);
+
+			for (int i=0; i<20; i++) {	
+				model.setYCoord(model.getYCoord() - dx);
+				sleepThread(10);
+			}
+		}
+		// Move down
+		else if (direction == 4) {
+			destY = model.getYCoord() + distance;
+
+			if (destY+model.getHeight() > AREA_MAX_Y)
+				// Cannot move down
+				return false;
+			
+			// Move occurs in 20 frames
+			int dx = Math.round(distance/20);
+
+			for (int i=0; i<20; i++) {
+				model.setYCoord(model.getYCoord() + dx);
+				sleepThread(10);
+			}
+			
+		}
+		// Move up left
+				/*
+				else if (direction == 5) {
+					destX = model.getXCoord() - distance;
+					destY = model.getYCoord() - distance;
+
+					if ((destX < AREA_MIN_X) || (destY+model.getHeight() < AREA_MIN_Y))
+						// Cannot move up left
+						return false;
+
+					// Move occurs in 20 frames
+					int dx = Math.round(distance/20);
+
+					for (int i=0; i<20; i++) {
+						model.setXYCoord(model.getXCoord() - dx, model.getYCoord() - dx);
+						sleepThread(10);
+					}
+				}
+				*/
+		/*
+		// Move up right
+		else if (direction == 6) {
+			destX = model.getXCoord() + distance;
+			destY = model.getYCoord() - distance;
+
+			if ((destX+model.getWidth() > AREA_MAX_X) || (destY+model.getHeight() < AREA_MIN_Y))
+				// Cannot move up right
+				return false;
+			
+			// Move occurs in 20 frames
+			int dx = Math.round(distance/20);
+
+			for (int i=0; i<20; i++) {
+				model.setXYCoord(model.getXCoord() + dx, model.getYCoord() - dx);
+				sleepThread(10);
+			}
+			
+		}
+		// Move down left
+		else if (direction == 7) {
+			destX = model.getXCoord() - distance;
+			destY = model.getYCoord() + distance;
+
+			if ((destX < AREA_MIN_X) || (destY+model.getHeight() > AREA_MAX_Y))
+				// Cannot move down left
+				return false;
+			
+			// Move occurs in 20 frames
+			int dx = Math.round(distance/20);
+
+			for (int i=0; i<20; i++) {
+				model.setXYCoord(model.getXCoord() - dx, model.getYCoord() + dx);
+				sleepThread(10);
+			}
+		}
+		*/
+		
+		
+		// Move down right
+		/*
+		else {
+			destX = model.getXCoord() + distance;
+			destY = model.getYCoord() + distance;
+
+			if ((destX + model.getWidth() > AREA_MAX_X) || (destY+model.getHeight() > AREA_MAX_Y))
+				// Cannot move down right
+				return false;
+			
+			// Move occurs in 20 frames
+			int dx = Math.round(distance/20);
+
+			for (int i=0; i<20; i++) {
+				model.setXYCoord(model.getXCoord() + dx, model.getYCoord() + dx);
+				sleepThread(10);
+			}
+		}
+		*/
+
+		return true;
+		
 	}
 
 	/**
-	 *  This thread is used to control the pet's actions and feelings. 
+	 * Puts the main thread to sleep
+	 * 
+	 * @param millis: The number of milliseconds the thread will sleep for
 	 */
-	private class PetLife extends Thread {
-		public void run() {
-			while(true) {
-				// Sleep for 5 seconds.
-				try {
-					sleep(5000);
-					
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				// Perform jump
-				randomJump();
-				
-			}
-			
+	private void sleepThread(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		
-	}
-	/**
-	 * Make the pet jump in a random direction.
-	 */
-	private void randomJump() {
-		/*
-		boolean jumped = false;
-		while (!jumped) {
-			int direction = 1 + (int)(Math.random() * ((2 - 1) + 1));
-			/* Direction values	5 3 6
-								1 * 2
-								8 4 7
-				
-		}
-		
-		//Log.v("direction", Integer.toString(direction));
-		if (direction == 1) {
-			// Jump left
-			// The jump will occur in 10 frames.
-			for (int i=0; i<10; i++) {
-				
-			}
-			
-		}
-		else if (direction == 2) {
-			// Jump right
-		}
-		//else if (direction == 3) {
-			
-	//	}
-		//else if (direction == 4) {
-			
-		//}
-		*/
 		
 	}
 
 	private void play() {
-		// TODO Auto-generated method stub
+		// Testing: Put pet in top left corner
+		model.setXYCoord(AREA_MIN_X, AREA_MIN_Y-model.getHeight()/2);
 		
 	}
 
 	private void clean() {
-		// TODO Auto-generated method stub
+		// Testing: put pet in its house
+		model.setXYCoord(CENTER_HOUSE_X - model.getWidth()/2, CENTER_HOUSE_Y - model.getHeight()/2);
 		
 	}
 
 	private void feed() {
-		// TODO Auto-generated method stub
-		
+		// Testing: Put pet in top right corner
+		model.setXYCoord(AREA_MAX_X - model.getWidth(), AREA_MIN_Y - model.getHeight()/2);
 	}
 
 	private void scoopPoop() {
-		// TODO Auto-generated method stub
+		// Testing: Put pet in bottom left corner
+		model.setXYCoord(AREA_MIN_X, AREA_MAX_Y - model.getHeight());
 		
 	}
 
 	private void accessorize() {
-		// TODO Auto-generated method stub
+		// Testing: Put pet in bottom right corner
+		model.setXYCoord(AREA_MAX_X - model.getWidth() , AREA_MAX_Y - model.getHeight());
+	}
+	
+	/**
+	 *  This thread is used to control the pet's actions and feelings. 
+	 */
+	// TODO: A lot. Right now this thread is only used to move the pet around randomly.
+	private class PetLife extends Thread {
+		public void run() {
+			while(true) {
+				// Sleep for 3 seconds.
+				try {
+					sleep(3000);
+					
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				// Move the pet randomly.
+				int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
+							//  min + ................... ((max - min) + 1));
+				move(direction);
+				
+			}
+			
+		}
 		
 	}
 

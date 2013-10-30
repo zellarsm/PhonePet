@@ -42,6 +42,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	
 	// Pet has been initially loaded, notify the view.
 	public void loadPet(int width, int height, int xCoord, int yCoord) {
+		// Remember that width and height is NOT the center of the pet bitmap, it's the top left.
 		this.width = width;
 		this.height = height;
 		this.xCoord = xCoord;
@@ -52,9 +53,16 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 	public void setXCoord(int x) {
 		this.xCoord = x;
+		notifyObservers(this);
 	}
 	public void setYCoord(int y) {
 		this.yCoord = y;
+		notifyObservers(this);
+	}
+	public void setXYCoord(int x, int y) {
+		this.xCoord = x;//-(width/2);
+		this.yCoord = y;//-(height/2);
+		notifyObservers(this);
 	}
 	public void setWidth(int width) {
 		this.width = width;
