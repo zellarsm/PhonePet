@@ -3,12 +3,14 @@ package com.example.controllers;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.example.phonepet.AccessorizeActivity;
 import com.example.phonepet.HomeActivity;
 import com.example.vos.PetVo;
 
@@ -367,6 +369,11 @@ public class PetController extends Controller {
 	private void accessorize() {
 		// Testing: Put pet in bottom right corner
 		model.setXYCoord(AREA_MAX_X - model.getWidth() , AREA_MAX_Y - model.getHeight());
+		
+		// Launch new activity.
+		Intent myIntent = new Intent(this.getHomeContext(), AccessorizeActivity.class);
+		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PetController.this.homeContext.startActivity(myIntent);
 	}
 	
 	/**

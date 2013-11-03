@@ -240,7 +240,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	 */
 	@Override
 	public void onChange(PetVo pett) {
-		/* Since a change has occured we need to update the view. All views must be modified
+		/* Since a change has occurred we need to update the view. All views must be modified
 		 * on the UI Thread. Since we don't know what thread called onChange, we need to switch
 		 * over to the UI thread before making a modification. The updateView() method is the
 		 * one that is responsible for syncing all of our widgets to our model's data.
