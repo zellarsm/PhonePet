@@ -31,7 +31,7 @@ public class HomeView extends View {
 		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.templatebackground);
 		
 		// Default mPet to the pet image.
-		mPet = BitmapFactory.decodeResource(getResources(), R.drawable.smileyface);
+		mPet = BitmapFactory.decodeResource(getResources(), R.drawable.foxx);
 		
 		// Get preferences file
 		sharedPref = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);

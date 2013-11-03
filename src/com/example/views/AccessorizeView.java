@@ -31,7 +31,7 @@ public class AccessorizeView extends View {
 		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.red_curtain);
 		
 		// Default mPet to the pet image.
-		mPet = BitmapFactory.decodeResource(getResources(), R.drawable.smileyface);
+		mPet = BitmapFactory.decodeResource(getResources(), R.drawable.foxx);
 		
 		// Get preferences file
 		sharedPref = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);

@@ -37,7 +37,6 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 		// Retrieve home view
 		final AccessorizeView accessview = (AccessorizeView)findViewById(R.id.Accessorize);
 		this.aView = accessview;
-		
 	} 
 
 	@Override
