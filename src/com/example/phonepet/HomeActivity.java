@@ -117,6 +117,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				
 			}
 		});
+
 		
 		// Retrieve home view
 		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);

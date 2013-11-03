@@ -23,7 +23,7 @@ public class AccessorizeView extends View {
 	private SharedPreferences sharedPref;
 	
 	public AccessorizeView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+		super(context, attrs); 
 		
 		petPoint = new Point();
 		

@@ -17,5 +17,128 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Poop on Joey" /> -->
+        
+	<ScrollView 
+	    android:id="@+id/inner_scroll_layout" 
+	    android:layout_height="fill_parent"     
+	    android:scrollbars="horizontal" 
+	    android:layout_width="fill_parent"     
+	    android:layout_marginTop="5dp"     
+	    android:scrollbarStyle="outsideInset"
+	    android:fillViewport="true"
+	> 
+	<!-- android:layout_alignParentBottom="true" -->
+		<HorizontalScrollView 
+		    android:id="@+id/horizontalScrollView" 
+		    android:layout_height="wrap_content"     
+		    android:scrollbars="horizontal" 
+		    android:layout_width="wrap_content"     
+		    android:layout_marginTop="5dp"
+		>
+	
+		<RelativeLayout
+		    android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+        >
+		    
+			<ImageButton
+		        android:id="@+id/topHat"
+		    	android:layout_width="50dp"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:background="@drawable/acc_top_hat"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    />
+			
+			<ImageButton
+		        android:id="@+id/unicornHorn"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/topHat"
+		    	android:background="@drawable/acc_unicorn_horn"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    />
+		    
+		    <ImageButton
+		        android:id="@+id/glasses"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/unicornHorn"
+		    	android:background="@drawable/acc_glasses"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		    
+		    <ImageButton
+		        android:id="@+id/blackTie"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/glasses"
+		    	android:background="@drawable/acc_black_tie"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    />
+	
+		    <ImageButton
+		        android:id="@+id/redTie"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/blackTie"
+		    	android:background="@drawable/acc_red_tie"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		    
+		    <ImageButton
+		        android:id="@+id/blueTie"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/redTie"
+		    	android:background="@drawable/acc_blue_tie"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		    
+		    <ImageButton
+		        android:id="@+id/bowtie"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/blueTie"
+		    	android:background="@drawable/acc_black_bowtie"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		
+	    </RelativeLayout>
+	    </HorizontalScrollView> 
+	</ScrollView>
+        
 
 </LinearLayout>

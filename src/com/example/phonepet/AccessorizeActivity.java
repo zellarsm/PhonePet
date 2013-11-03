@@ -26,23 +26,19 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_accessorize);
-		
-		
+	
+
 		// Instantiate pet model and set the HomeActivity as an observer.
 		// Now anytime the model changes, the onChange method gets called. 
 		//pet = new PetVo();
 		//pet.addListener(this);
 		//controller = new PetController(pet, getApplicationContext());
-		
+
 		// Retrieve home view
 		final AccessorizeView accessview = (AccessorizeView)findViewById(R.id.Accessorize);
-		Log.v("oncreate4", "homeview");
 		this.aView = accessview;
-		Log.v("oncreate5", "1");
-		// Load pet information.
 		
-	}
-
+	} 
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,7 +60,7 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 	
 	private void updateView() {
 		// Update pet on the screen.
-		this.aView.drawPet(pet.getXCoord(), pet.getYCoord());
+		// this.aView.drawPet(pet.getXCoord(), pet.getYCoord());
 	}
 
 }
