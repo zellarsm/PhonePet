@@ -50,7 +50,7 @@ public class AccessorizeView extends View {
 		
 		canvas.drawBitmap(mBackground, 0, 0, null);
 		
-		canvas.drawBitmap(Bitmap.createScaledBitmap(mPet, sharedPref.getInt("petWidth", 0), sharedPref.getInt("petHeight", 0), true),
+		canvas.drawBitmap(Bitmap.createScaledBitmap(mPet, 2*sharedPref.getInt("petWidth", 0), 2*sharedPref.getInt("petHeight", 0), true),
 				petPoint.x, petPoint.y, null);
 	}
 	

@@ -1,5 +1,6 @@
 package com.example.phonepet;
 
+import com.example.controllers.AccessorizeController;
 import com.example.controllers.PetController;
 import com.example.views.AccessorizeView;
 import com.example.views.HomeView;
@@ -9,6 +10,7 @@ import com.example.vos.PetVo;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 
 public class AccessorizeActivity extends Activity implements OnChangeListener<PetVo> {
@@ -16,7 +18,7 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 	
 	private AccessorizeView aView;
 	
-	private PetController controller;
+	private AccessorizeController controller;
 	private PetVo pet;
 	
 	void addAccessoryToPet() {};
@@ -28,15 +30,18 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 		setContentView(R.layout.activity_accessorize);
 	
 
-		// Instantiate pet model and set the HomeActivity as an observer.
-		// Now anytime the model changes, the onChange method gets called. 
-		//pet = new PetVo();
-		//pet.addListener(this);
-		//controller = new PetController(pet, getApplicationContext());
+		// Instantiate pet model and set the AccessorizeActivity as an observer.
+		// Now any time the model changes, the onChange method gets called. 
+		pet = new PetVo();
+		pet.addListener(this);
+		controller = new AccessorizeController(pet, getApplicationContext());
 
-		// Retrieve home view
-		final AccessorizeView accessview = (AccessorizeView)findViewById(R.id.Accessorize);
+		// Retrieve view 
+		final AccessorizeView accessview = (AccessorizeView)findViewById(R.id.AccessorizeView);
 		this.aView = accessview;
+		
+		Log.v("about to call setpet", "tralala");
+		controller.handleMessage(AccessorizeController.MESSAGE_SETPET);
 	} 
 
 	@Override
@@ -45,13 +50,45 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 		getMenuInflater().inflate(R.menu.accessorize, menu);
 		return true;
 	}
+
+
+	/*
+	 * Simply delegate the logic to the controller by sending a message asking it to handle the
+	 * KeyEvent for us.  Our controller returns a boolean indicating whether or not the message
+	 * handled. 
+	 */
+		@Override
+		public boolean dispatchKeyEvent(KeyEvent event) 
+		{
+			Log.v("dispatchingKeyEvent", "accessorize");
+			boolean handled = controller.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
+			if (!handled) {
+				// If the controller didn't handle the KeyEvent the method calls its super.
+				return super.dispatchKeyEvent(event);
+			}
+			return handled;
+			
+		}
+	
+	/**
+	 * Once the model notifies the view of a change, we just update the views on the UI thread.
+	 * @param pet
+	 */
 	@Override
-	public void onChange(PetVo modelPet) {
-		// TODO Auto-generated method stub
-		
+	public void onChange(PetVo pett) {
+		/* Since a change has occurred we need to update the view. All views must be modified
+		 * on the UI Thread. Since we don't know what thread called onChange, we need to switch
+		 * over to the UI thread before making a modification. The updateView() method is the
+		 * one that is responsible for syncing all of our widgets to our model's data.
+		 * 
+		 * This implements data binding. Our activity is registered as an observer and whenever 
+		 * our model is updated we know our UI is going to stay right in-sync.
+		*/ 
 		runOnUiThread(new Runnable() {
 			@Override
-			public void run() {
+			public void run() 
+			{
+				Log.v("Updating the view", "onChange Accessorize");
 				updateView();
 			}
 		});
@@ -59,7 +96,10 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 	
 	private void updateView() {
 		// Update pet on the screen.
-		// this.aView.drawPet(pet.getXCoord(), pet.getYCoord());
+		Log.v("call drawpet", "msgplz");
+		Log.v("gettX", Integer.toString(pet.getXCoord()));
+		Log.v("gettY", Integer.toString(pet.getYCoord()));
+		this.aView.drawPet(pet.getXCoord(), pet.getYCoord());
 	}
 
 }

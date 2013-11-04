@@ -368,7 +368,7 @@ public class PetController extends Controller {
 
 	private void accessorize() {
 		// Testing: Put pet in bottom right corner
-		model.setXYCoord(AREA_MAX_X - model.getWidth() , AREA_MAX_Y - model.getHeight());
+		//model.setXYCoord(AREA_MAX_X - model.getWidth() , AREA_MAX_Y - model.getHeight());
 		
 		// Launch new activity.
 		Intent myIntent = new Intent(this.getHomeContext(), AccessorizeActivity.class);
