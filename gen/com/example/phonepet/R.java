@@ -48,13 +48,14 @@ public final class R {
         public static final int mikesoccerball=0x7f02000f;
         public static final int pooper_scooper=0x7f020010;
         public static final int red_curtain=0x7f020011;
-        public static final int smileyface=0x7f020012;
-        public static final int sponge=0x7f020013;
-        public static final int taco=0x7f020014;
-        public static final int templatebackground=0x7f020015;
-        public static final int tennisball=0x7f020016;
-        public static final int transbackground=0x7f020017;
-        public static final int tshirt=0x7f020018;
+        public static final int red_curtain_light=0x7f020012;
+        public static final int smileyface=0x7f020013;
+        public static final int sponge=0x7f020014;
+        public static final int taco=0x7f020015;
+        public static final int templatebackground=0x7f020016;
+        public static final int tennisball=0x7f020017;
+        public static final int transbackground=0x7f020018;
+        public static final int tshirt=0x7f020019;
     }
     public static final class id {
         public static final int Accessorize=0x7f0a0013;

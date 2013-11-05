@@ -9,6 +9,8 @@ import com.example.vos.PetVo;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -20,6 +22,8 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 	
 	private AccessorizeController controller;
 	private PetVo pet;
+	
+
 	
 	void addAccessoryToPet() {};
 	void saveAccessories() {};
@@ -39,6 +43,8 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 		// Retrieve view 
 		final AccessorizeView accessview = (AccessorizeView)findViewById(R.id.AccessorizeView);
 		this.aView = accessview;
+		pet.setWidth(aView.aPetwidth);
+		pet.setHeight(aView.aPetheight);
 		
 		Log.v("about to call setpet", "tralala");
 		controller.handleMessage(AccessorizeController.MESSAGE_SETPET);
@@ -99,7 +105,9 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 		Log.v("call drawpet", "msgplz");
 		Log.v("gettX", Integer.toString(pet.getXCoord()));
 		Log.v("gettY", Integer.toString(pet.getYCoord()));
-		this.aView.drawPet(pet.getXCoord(), pet.getYCoord());
+		Log.v("gettWidth", Integer.toString(pet.getWidth()));
+		
+		this.aView.drawPet((pet.getXCoord()-(pet.getWidth())/2), pet.getYCoord()-(pet.getHeight()/6));
 	}
 
 }

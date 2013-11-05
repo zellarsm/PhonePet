@@ -22,19 +22,24 @@ public class AccessorizeView extends View {
 	private String fileName = "preferences";
 	private SharedPreferences sharedPref;
 	
+	public int aPetwidth;
+	public int aPetheight;
+	
 	public AccessorizeView(Context context, AttributeSet attrs) {
 		super(context, attrs); 
 		
 		petPoint = new Point();
 		
 		// Default mBoard to the background image.
-		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.red_curtain);
+		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.red_curtain_light);
 		
 		// Default mPet to the pet image.
 		mPet = BitmapFactory.decodeResource(getResources(), R.drawable.foxx);
 		
 		// Get preferences file
 		sharedPref = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+		aPetwidth = 2*sharedPref.getInt("petWidth", 0);
+		aPetheight = 2*sharedPref.getInt("petHeight", 0);
 	}
 	
 	@SuppressLint("DrawAllocation")
@@ -52,6 +57,8 @@ public class AccessorizeView extends View {
 		
 		canvas.drawBitmap(Bitmap.createScaledBitmap(mPet, 2*sharedPref.getInt("petWidth", 0), 2*sharedPref.getInt("petHeight", 0), true),
 				petPoint.x, petPoint.y, null);
+		
+		
 	}
 	
 	// Draw the pet on the bitmap
