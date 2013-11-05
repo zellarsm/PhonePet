@@ -11,6 +11,13 @@ public class AccessorizeController extends Controller {
 	// Message types
 	public static final int MESSAGE_SETPET = 0;
 	public static final int MESSAGE_MODEL_UPDATED = 1;
+	public static final int MESSAGE_TOPHAT = 2;
+	public static final int MESSAGE_UNICORN = 3;
+	public static final int MESSAGE_GLASSES = 4;
+	public static final int MESSAGE_BLACKTIE = 5;
+	public static final int MESSAGE_REDTIE = 6;
+	public static final int MESSAGE_BLUETIE = 7;
+	public static final int MESSAGE_BOWTIE = 8;
 	
 	/*
 	 * Phone screen sizes are different, these constants are used to handle this.
@@ -44,6 +51,27 @@ public class AccessorizeController extends Controller {
 			setPetLocation();
 			return true;
 		case MESSAGE_MODEL_UPDATED:
+			return true;
+		case MESSAGE_TOPHAT:
+			Log.v("inside topHat", "top hat");
+			return true;
+		case MESSAGE_UNICORN:
+			Log.v("inside unicorn", "unicorn");
+			return true;
+		case MESSAGE_GLASSES:
+			Log.v("inside glasses", "glasses");
+			return true;
+		case MESSAGE_BLACKTIE:
+			Log.v("inside blacktie", "blacktie");
+			return true;
+		case MESSAGE_REDTIE:
+			Log.v("inside redtie", "redtie");
+			return true;
+		case MESSAGE_BLUETIE:
+			Log.v("inside bluetie", "bluetie");
+			return true;
+		case MESSAGE_BOWTIE:
+			Log.v("inside bowtie", "bowtie");
 			return true;
 		}
 		return false;

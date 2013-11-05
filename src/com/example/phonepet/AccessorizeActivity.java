@@ -14,6 +14,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageButton;
 
 public class AccessorizeActivity extends Activity implements OnChangeListener<PetVo> {
 
@@ -23,7 +25,15 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 	private AccessorizeController controller;
 	private PetVo pet;
 	
-
+	private ImageButton topHatButton;
+	private ImageButton unicornButton;
+	private ImageButton glassesButton;
+	private ImageButton blackTieButton;
+	private ImageButton redTieButton;
+	private ImageButton blueTieButton;
+	private ImageButton bowTieButton;
+	
+	
 	
 	void addAccessoryToPet() {};
 	void saveAccessories() {};
@@ -39,7 +49,65 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 		pet = new PetVo();
 		pet.addListener(this);
 		controller = new AccessorizeController(pet, getApplicationContext());
-
+		
+		topHatButton = (ImageButton)findViewById(R.id.topHat);
+		unicornButton = (ImageButton)findViewById(R.id.unicornHorn);
+		glassesButton = (ImageButton)findViewById(R.id.glasses);
+		blackTieButton = (ImageButton)findViewById(R.id.blackTie);
+		redTieButton = (ImageButton)findViewById(R.id.redTie);
+		blueTieButton = (ImageButton)findViewById(R.id.blueTie);
+		bowTieButton = (ImageButton)findViewById(R.id.bowtie);
+		
+		topHatButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				controller.handleMessage(AccessorizeController.MESSAGE_TOPHAT);
+			}
+		});
+		
+		unicornButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				controller.handleMessage(AccessorizeController.MESSAGE_UNICORN);
+			}
+		});
+		
+		glassesButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				controller.handleMessage(AccessorizeController.MESSAGE_GLASSES);
+			}
+		});
+		
+		blackTieButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				controller.handleMessage(AccessorizeController.MESSAGE_BLACKTIE);
+			}
+		});
+		
+		redTieButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				controller.handleMessage(AccessorizeController.MESSAGE_REDTIE);
+			}
+		});
+		
+		blueTieButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				controller.handleMessage(AccessorizeController.MESSAGE_BLUETIE);
+			}
+		});
+		
+		bowTieButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				controller.handleMessage(AccessorizeController.MESSAGE_BOWTIE);
+			}
+		});
+		
+		
 		// Retrieve view 
 		final AccessorizeView accessview = (AccessorizeView)findViewById(R.id.AccessorizeView);
 		this.aView = accessview;
