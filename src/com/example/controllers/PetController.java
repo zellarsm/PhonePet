@@ -367,9 +367,7 @@ public class PetController extends Controller {
 	}
 
 	private void accessorize() {
-		// Testing: Put pet in bottom right corner
-		//model.setXYCoord(AREA_MAX_X - model.getWidth() , AREA_MAX_Y - model.getHeight());
-		
+
 		// Launch new activity.
 		Intent myIntent = new Intent(this.getHomeContext(), AccessorizeActivity.class);
 		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -381,20 +379,30 @@ public class PetController extends Controller {
 	 */
 	// TODO: A lot. Right now this thread is only used to move the pet around randomly.
 	private class PetLife extends Thread {
+		int petMove = 0;
+		
 		public void run() {
 			while(true) {
-				// Sleep for 3 seconds.
+				// Sleep for 1 second.
 				try {
-					sleep(3000);
+					sleep(1000);
 					
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				
-				// Move the pet randomly.
-				int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
-							//  min + ................... ((max - min) + 1));
-				move(direction);
+				// Move pet every 3 seconds.
+				petMove++;
+				if (petMove == 3) {
+					petMove = 0;
+					// Move the pet randomly.
+					int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
+								//  min + ................... ((max - min) + 1));
+					move(direction);
+				}
+				
+				// Redraw every second.
+				model.justDraw();
 				
 			}
 			

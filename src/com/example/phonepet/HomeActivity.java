@@ -1,7 +1,6 @@
 package com.example.phonepet;
 
 import java.util.logging.Handler;
-
 import com.example.controllers.PetController;
 import com.example.views.HomeView;
 import com.example.vos.OnChangeListener;
@@ -39,7 +38,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private ImageButton feedButton;
 	private ImageButton cleanButton;
 	
-	private PetController controller;
+	private PetController petController;
 	private PetVo pet; // Pet
 	
 	private HomeView hView;
@@ -71,7 +70,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		pet = new PetVo();
 		pet.addListener(this);
 		
-		controller = new PetController(pet, getApplicationContext());
+		petController = new PetController(pet, getApplicationContext());
 		
 		playButton = (ImageButton)findViewById(R.id.Play);
 		accessorizeButton = (ImageButton)findViewById(R.id.Accessorize);
@@ -82,7 +81,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(PetController.MESSAGE_PLAY);
+				petController.handleMessage(PetController.MESSAGE_PLAY);
 			}
 		});
 		
@@ -91,7 +90,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			public void onClick(View v) {
 				// Send message to the controller asking it to handle event.
 				// When the event is handled, the controller updates the model.
-				controller.handleMessage(PetController.MESSAGE_ACCESSORIZE);
+				petController.handleMessage(PetController.MESSAGE_ACCESSORIZE);
 				
 			}
 		});
@@ -99,21 +98,21 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		poopButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(PetController.MESSAGE_SCOOP_POOP);
+				petController.handleMessage(PetController.MESSAGE_SCOOP_POOP);
 			}
 		});
 		
 		feedButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(PetController.MESSAGE_FEED);
+				petController.handleMessage(PetController.MESSAGE_FEED);
 			}
 		});
 		
 		cleanButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(PetController.MESSAGE_CLEAN);
+				petController.handleMessage(PetController.MESSAGE_CLEAN);
 				
 			}
 		});
@@ -123,7 +122,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);
 		this.hView = homeview;
 		// Load pet information.
-		controller.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
+		petController.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
 		
 		homeview.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
@@ -226,7 +225,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	 */
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		boolean handled = controller.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
+		boolean handled = petController.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
 		if (!handled) {
 			// If the controller didn't handle the KeyEvent the method calls its super.
 			return super.dispatchKeyEvent(event);
@@ -240,7 +239,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	 * @param pet
 	 */
 	@Override
-	public void onChange(PetVo pett) {
+	public void onChange(PetVo pet) {
 		/* Since a change has occurred we need to update the view. All views must be modified
 		 * on the UI Thread. Since we don't know what thread called onChange, we need to switch
 		 * over to the UI thread before making a modification. The updateView() method is the

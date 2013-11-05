@@ -51,6 +51,11 @@ public class PetVo extends SimpleObservable<PetVo> {
 		// Pet is loaded.
 		notifyObservers(this);
 	}
+	
+	public void justDraw() {
+		notifyObservers(this);
+	}
+	
 	public void setXCoord(int x) {
 		this.xCoord = x;
 		notifyObservers(this);
