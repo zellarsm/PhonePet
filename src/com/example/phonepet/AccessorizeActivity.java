@@ -61,49 +61,49 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 		topHatButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(AccessorizeController.MESSAGE_TOPHAT);
+				controller.handleMessage(AccessorizeController.MESSAGE_TOPHAT, pet);
 			}
 		});
 		
 		unicornButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(AccessorizeController.MESSAGE_UNICORN);
+				controller.handleMessage(AccessorizeController.MESSAGE_UNICORN, pet);
 			}
 		});
 		
 		glassesButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(AccessorizeController.MESSAGE_GLASSES);
+				controller.handleMessage(AccessorizeController.MESSAGE_GLASSES, pet);
 			}
 		});
 		
 		blackTieButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(AccessorizeController.MESSAGE_BLACKTIE);
+				controller.handleMessage(AccessorizeController.MESSAGE_BLACKTIE, pet);
 			}
 		});
 		
 		redTieButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(AccessorizeController.MESSAGE_REDTIE);
+				controller.handleMessage(AccessorizeController.MESSAGE_REDTIE, pet);
 			}
 		});
 		
 		blueTieButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(AccessorizeController.MESSAGE_BLUETIE);
+				controller.handleMessage(AccessorizeController.MESSAGE_BLUETIE, pet);
 			}
 		});
 		
 		bowTieButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(AccessorizeController.MESSAGE_BOWTIE);
+				controller.handleMessage(AccessorizeController.MESSAGE_BOWTIE, pet);
 			}
 		});
 		
@@ -176,6 +176,8 @@ public class AccessorizeActivity extends Activity implements OnChangeListener<Pe
 		Log.v("gettWidth", Integer.toString(pet.getWidth()));
 		
 		this.aView.drawPet((pet.getXCoord()-(pet.getWidth())/2), pet.getYCoord()-(pet.getHeight()/6));
+		
+		this.aView.drawAccessories(pet.head_hitbox, pet.neck_hitbox);
 	}
 
 }

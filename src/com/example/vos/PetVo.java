@@ -40,6 +40,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private Time lastTimeSlept;
 	private Time lastTimePlayedWith;
 	
+	// Accessorize
+	public String head_hitbox = null;
+	public String neck_hitbox = null;
+	
 	// Pet has been initially loaded, notify the view.
 	public void loadPet(int width, int height, int xCoord, int yCoord) {
 		// Remember that width and height is NOT the center of the pet bitmap, it's the top left.

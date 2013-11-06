@@ -57,6 +57,13 @@ public class CreateActivity extends Activity {
 		editor.putInt("petX", (backgroundWidth/2)-(petWidth/2));
 		editor.putInt("petY", backgroundHeight*8/10);
 		
+		// Accessorize Activity, currently hardcoded values.
+		// TODO: Figure out how to make this dynamic.
+		editor.putInt("hatWidth", 50);
+		editor.putInt("hatHeight", 50);
+		editor.putFloat("hat_xCoord", 15);
+		editor.putFloat("hat_yCoord", 135);
+		
 		editor.commit();
 		
 		// Go to Home activity

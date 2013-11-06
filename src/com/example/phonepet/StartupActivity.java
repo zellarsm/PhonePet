@@ -26,6 +26,7 @@ public class StartupActivity extends Activity {
 		SharedPreferences.Editor editor = sharedPref.edit();
 		// Theoretically there should be no saved information at this point. Clear for development purposes.
 		editor.clear();
+		
 		editor.commit();
 		
 		Boolean petExists = sharedPref.getBoolean("pet_exists", false);

@@ -25,6 +25,13 @@ public class AccessorizeView extends View {
 	public int aPetwidth;
 	public int aPetheight;
 	
+	private Bitmap acc_unicorn;
+	
+	private boolean hitbox_head = false;
+	private String h_head;
+	private boolean hitbox_neck = false;
+	private String h_neck;
+	
 	public AccessorizeView(Context context, AttributeSet attrs) {
 		super(context, attrs); 
 		
@@ -35,6 +42,9 @@ public class AccessorizeView extends View {
 		
 		// Default mPet to the pet image.
 		mPet = BitmapFactory.decodeResource(getResources(), R.drawable.foxx);
+		
+		// Set all the accessories here.
+		acc_unicorn = BitmapFactory.decodeResource(getResources(), R.drawable.acc_unicorn_horn);
 		
 		// Get preferences file
 		sharedPref = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
@@ -47,6 +57,8 @@ public class AccessorizeView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		
+		Log.v("super ondraw", "accessorizeView");
+		
 		// Set the layout parameters
 		this.setLayoutParams(new LinearLayout.LayoutParams(sharedPref.getInt("backgroundWidth", 0), sharedPref.getInt("backgroundHeight", 0)));
 		
@@ -58,6 +70,13 @@ public class AccessorizeView extends View {
 		canvas.drawBitmap(Bitmap.createScaledBitmap(mPet, 2*sharedPref.getInt("petWidth", 0), 2*sharedPref.getInt("petHeight", 0), true),
 				petPoint.x, petPoint.y, null);
 		
+		Log.v("hitbox_head bool", Boolean.toString(hitbox_head));
+		if(hitbox_head)
+		{
+			Log.v("hatwidth", Integer.toString(sharedPref.getInt("hatWidth", 0)));
+			canvas.drawBitmap(Bitmap.createScaledBitmap(acc_unicorn, sharedPref.getInt("hatWidth", 0), sharedPref.getInt("hatHeight", 0), true),
+					(2*aPetwidth)+sharedPref.getFloat("hat_xCoord", 0), (2*aPetheight)+sharedPref.getFloat("hat_yCoord", 0), null);
+		}
 		
 	}
 	
@@ -67,6 +86,19 @@ public class AccessorizeView extends View {
 		petPoint.y = y;
 		
 		// Calls onDraw; redraws the board and then deletes the old one.
+		this.invalidate();
+	}
+	
+	public void drawAccessories(String head, String neck) 
+	{
+		if(head == null) hitbox_head = false;
+		else { 
+			Log.v("head", head);
+			hitbox_head = true;
+		}
+		if(neck == null) hitbox_neck = false;
+		Log.v("bitch", "Draw accessories!");
+		
 		this.invalidate();
 	}
 	

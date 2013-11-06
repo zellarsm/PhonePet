@@ -16,8 +16,8 @@ public class AccessorizeController extends Controller {
 	public static final int MESSAGE_GLASSES = 4;
 	public static final int MESSAGE_BLACKTIE = 5;
 	public static final int MESSAGE_REDTIE = 6;
-	public static final int MESSAGE_BLUETIE = 7;
-	public static final int MESSAGE_BOWTIE = 8;
+	public static final int MESSAGE_BLUETIE = 8;
+	public static final int MESSAGE_BOWTIE = 9;
 	
 	/*
 	 * Phone screen sizes are different, these constants are used to handle this.
@@ -57,6 +57,7 @@ public class AccessorizeController extends Controller {
 			return true;
 		case MESSAGE_UNICORN:
 			Log.v("inside unicorn", "unicorn");
+			addAccessoryToPet("acc_unicorn_horn", (PetVo)data);
 			return true;
 		case MESSAGE_GLASSES:
 			Log.v("inside glasses", "glasses");
@@ -93,5 +94,15 @@ public class AccessorizeController extends Controller {
 		model.setXYCoord(ACC_BACKGROUND_WIDTH/2 , ACC_BACKGROUND_HEIGHT - (ACC_BACKGROUND_HEIGHT/4));
 	}
 	
+	
+	void addAccessoryToPet(String accessory, PetVo o)
+	{
+		
+		Log.v("what is accessory", accessory);
+		if(accessory == "acc_unicorn_horn")
+			o.head_hitbox = accessory;
+		
+		model.justDraw();
+	}
 	
 }
