@@ -19,6 +19,10 @@
     <!-- Strings related to CreateActivity -->
     <string name="pick_egg">Pick an egg!</string>
     <string name="img_green_egg">Green egg</string>
+    
+    <!-- Strings related to AccessorizeActivity -->
+    <string name="save_button">Save Changes</string>
+    <string name="clear_button">Clear</string>
 
     <!-- Strings related to Popup Window Animation -->
     <string name="close_button">Close [X]</string>

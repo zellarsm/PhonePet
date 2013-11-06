@@ -1,20 +1,13 @@
 package com.example.phonepet;
 
-import java.util.logging.Handler;
 import com.example.controllers.PetController;
 import com.example.views.HomeView;
 import com.example.vos.OnChangeListener;
 import com.example.vos.PetVo;
-
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.view.MotionEventCompat;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -38,7 +31,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private ImageButton feedButton;
 	private ImageButton cleanButton;
 	
-	private PetController petController;
+	private PetController controller;
 	private PetVo pet; // Pet
 	
 	private HomeView hView;
@@ -67,10 +60,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 		// Instantiate pet model and set the HomeActivity as an observer.
 		// Now anytime the model changes, the onChange method gets called. 
-		pet = new PetVo();
+		pet = PetVo.getInstance();
 		pet.addListener(this);
 		
-		petController = new PetController(pet, getApplicationContext());
+		controller = new PetController(pet, getApplicationContext());
 		
 		playButton = (ImageButton)findViewById(R.id.Play);
 		accessorizeButton = (ImageButton)findViewById(R.id.Accessorize);
@@ -81,7 +74,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				petController.handleMessage(PetController.MESSAGE_PLAY);
+				controller.handleMessage(PetController.MESSAGE_PLAY);
 			}
 		});
 		
@@ -90,7 +83,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			public void onClick(View v) {
 				// Send message to the controller asking it to handle event.
 				// When the event is handled, the controller updates the model.
-				petController.handleMessage(PetController.MESSAGE_ACCESSORIZE);
+				controller.handleMessage(PetController.MESSAGE_ACCESSORIZE);
 				
 			}
 		});
@@ -98,21 +91,21 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		poopButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				petController.handleMessage(PetController.MESSAGE_SCOOP_POOP);
+				controller.handleMessage(PetController.MESSAGE_SCOOP_POOP);
 			}
 		});
 		
 		feedButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				petController.handleMessage(PetController.MESSAGE_FEED);
+				controller.handleMessage(PetController.MESSAGE_FEED);
 			}
 		});
 		
 		cleanButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				petController.handleMessage(PetController.MESSAGE_CLEAN);
+				controller.handleMessage(PetController.MESSAGE_CLEAN);
 				
 			}
 		});
@@ -122,7 +115,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);
 		this.hView = homeview;
 		// Load pet information.
-		petController.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
+		controller.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
 		
 		homeview.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
@@ -225,7 +218,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	 */
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		boolean handled = petController.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
+		boolean handled = controller.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
 		if (!handled) {
 			// If the controller didn't handle the KeyEvent the method calls its super.
 			return super.dispatchKeyEvent(event);
@@ -252,13 +245,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			@Override
 			public void run() {
 				updateView();
-				/*
-				 * if (!label.getText().toString().equals(counter.getLabel()))
-					label.setText(counter.getLabel());
-				    label.setEnabled(!counter.isLocked());
-				    count.setText(Integer.toString(counter.getCount()));
-				    lockedBtn.setChecked(counter.isLocked());
-				 */
 			}
 		});
 	}
@@ -269,27 +255,22 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	}
 
 	@Override
-	protected void onPause(){
-		super.onPause();
-		
-		// Save data to file
-	//	savePetLocation();
-		
-	}// End method onPause
-	
-	/*
-	private void savePetLocation() {
-				
-		// Get the preferences file and create the editor
-		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
-		
-		// Pet has been created.
-		editor.putFloat("petX", pet.xCoordinate);
-		editor.putFloat("petY", pet.yCoordinate);
-		editor.commit();
+	protected void onStop() {
+		super.onStop();
 	}
-*/
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.v("got here", "yay");
+		
+		controller.handleMessage(PetController.MESSAGE_PET_RETURNING);
+		// Redraw 
+		this.hView.loadBitmaps();
+		
+		updateView();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

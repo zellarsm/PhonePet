@@ -5,19 +5,60 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".AccessorizeActivity" >
-
+<!-- 
     <com.example.views.AccessorizeView
 	    android:id="@+id/AccessorizeView"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	/>
-    
+    -->
+
+    <RelativeLayout
+        android:id="@+id/pet_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".75"
+        android:background="@drawable/red_curtain_light" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="@string/save_button" />
+
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/clear_button" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/pet_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="25dp"
+            android:contentDescription="@string/pet_name" />
+
+    </RelativeLayout>
        
 	<ScrollView 
 	    android:id="@+id/inner_scroll_layout" 
-	    android:layout_height="fill_parent"     
+	    android:layout_height="wrap_content"     
 	    android:scrollbars="horizontal" 
-	    android:layout_width="fill_parent"     
+	    android:layout_width="match_parent"     
 	    android:layout_marginTop="5dp"     
 	    android:scrollbarStyle="outsideInset"
 	    android:fillViewport="true"

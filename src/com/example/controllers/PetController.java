@@ -1,17 +1,11 @@
 package com.example.controllers;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
-import android.util.Log;
+
 
 import com.example.phonepet.AccessorizeActivity;
-import com.example.phonepet.HomeActivity;
 import com.example.vos.PetVo;
 
 /*
@@ -36,6 +30,9 @@ public class PetController extends Controller {
 	public static final int MESSAGE_PLAY = 6;
 	public static final int MESSAGE_KEY_EVENT = 7;
 	public static final int MESSAGE_TAPPED = 8;
+	public static final int MESSAGE_STOP_LIFE = 9;
+	public static final int MESSAGE_RESUME_LIFE = 10;
+	public static final int MESSAGE_PET_RETURNING = 11;
 	
 	/*
 	 * Phone screen sizes are different, these constants are used to handle this.
@@ -56,16 +53,20 @@ public class PetController extends Controller {
 	String fileName = "preferences";
 	
 	private PetVo model;
+	private PetLife life;
 	private Context homeContext;
+	private SharedPreferences sharedPref;
+	
+	public PetController(PetVo model, Context hActivityContext) {
+		this.model = model;
+		homeContext = hActivityContext;
+		sharedPref = homeContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+	}
 	
 	public PetVo getModel() {
 		return model;
 	}
 	
-	public PetController(PetVo model, Context hActivityContext) {
-		this.model = model;
-		this.homeContext = hActivityContext;
-	}
 	public Context getHomeContext() {
 		return this.homeContext;
 	}
@@ -102,6 +103,9 @@ public class PetController extends Controller {
 		case MESSAGE_TAPPED:
 			handleTap(data);
 			return true;
+		case MESSAGE_PET_RETURNING:
+			life.petIsHome = true;
+			return true;
 		}
 		return false;
 	}
@@ -113,8 +117,6 @@ public class PetController extends Controller {
 
 	// Get pet's information
 	private void loadPet() {
-		SharedPreferences sharedPref = homeContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-
 		// Set constant values
 		float num;
 		BACKGROUND_WIDTH = sharedPref.getInt("backgroundWidth", 10);
@@ -137,11 +139,12 @@ public class PetController extends Controller {
 		// Load pet coordinates from previous app state.
 		model.loadPet(
 					sharedPref.getInt("petWidth", 0), sharedPref.getInt("petHeight", 0),
-					sharedPref.getInt("petX", 0), sharedPref.getInt("petY", 0)
+					sharedPref.getInt("petX", 0), sharedPref.getInt("petY", 0),
+					sharedPref.getInt("petType", 0)
 					);
 		
 		// Create and start a thread to control pet's actions and feelings.
-		PetLife life = new PetLife();
+		life = new PetLife();
 		life.start();
 		
 		// Place the pet in the middle of the play area.
@@ -344,70 +347,72 @@ public class PetController extends Controller {
 	}
 
 	private void play() {
-		// Testing: Put pet in top left corner
-		model.setXYCoord(AREA_MIN_X, AREA_MIN_Y-model.getHeight()/2);
 		
 	}
 
 	private void clean() {
-		// Testing: put pet in its house
-		model.setXYCoord(CENTER_HOUSE_X - model.getWidth()/2, CENTER_HOUSE_Y - model.getHeight()/2);
 		
 	}
 
 	private void feed() {
-		// Testing: Put pet in top right corner
-		model.setXYCoord(AREA_MAX_X - model.getWidth(), AREA_MIN_Y - model.getHeight()/2);
+
 	}
 
 	private void scoopPoop() {
-		// Testing: Put pet in bottom left corner
-		model.setXYCoord(AREA_MIN_X, AREA_MAX_Y - model.getHeight());
 		
 	}
 
 	private void accessorize() {
-
+		// Pet is leaving Home to go to new activity.
+		life.petIsHome = false;
+		
 		// Launch new activity.
-		Intent myIntent = new Intent(this.getHomeContext(), AccessorizeActivity.class);
+		Intent myIntent = new Intent(getHomeContext(), AccessorizeActivity.class);
 		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PetController.this.homeContext.startActivity(myIntent);
 	}
-	
+
 	/**
 	 *  This thread is used to control the pet's actions and feelings. 
 	 */
-	// TODO: A lot. Right now this thread is only used to move the pet around randomly.
 	private class PetLife extends Thread {
 		int petMove = 0;
+		boolean movementEnabled = true;
+		boolean petIsHome = true;
 		
 		public void run() {
 			while(true) {
-				// Sleep for 1 second.
+				// Sleep
 				try {
-					sleep(1000);
+					sleep(2000);
 					
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				
-				// Move pet every 3 seconds.
-				petMove++;
-				if (petMove == 3) {
-					petMove = 0;
-					// Move the pet randomly.
-					int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
-								//  min + ................... ((max - min) + 1));
-					move(direction);
+				// Stay here if user working with pet in another activity.
+				while (!petIsHome) {
+					yield();
 				}
 				
-				// Redraw every second.
-				model.justDraw();
+				if (movementEnabled) {
+					// Move pet
+					petMove++;
+					if (petMove == 3) {
+						petMove = 0;
+						// Move the pet randomly.
+						int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
+									//  min + ................... ((max - min) + 1));
+						move(direction);
+					}
+				}
 				
+				// Redraw Home every thread loop.
+				model.justDraw();
 			}
 			
 		}
 		
 	}
-
+	
 }
