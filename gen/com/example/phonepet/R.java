@@ -56,6 +56,7 @@ public final class R {
         public static final int tennisball=0x7f020017;
         public static final int transbackground=0x7f020018;
         public static final int tshirt=0x7f020019;
+        public static final int tshirt2=0x7f02001a;
     }
     public static final class id {
         public static final int Accessorize=0x7f0a0017;
