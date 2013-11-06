@@ -1,7 +1,5 @@
 package com.example.views;
 
-
-import java.util.logging.LogRecord;
 import com.example.phonepet.R;
 import com.example.utils.Point;
 import android.annotation.SuppressLint;
@@ -10,9 +8,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.os.Message;
+import android.os.Environment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
  
@@ -30,32 +27,22 @@ public class HomeView extends View {
 		
 		petPoint = new Point();
 		
-		// Default mBoard to the background image.
-		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.templatebackground);
-		
-		// Default mPet to the pet image.
-		mPet = BitmapFactory.decodeResource(getResources(), R.drawable.foxx);
-		
-		// Default mCloud to cloud image
-		mCloud = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
-		
 		// Get preferences file
 		sharedPref = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		
 		// Get constant values from preference file
 		backgroundWidth = sharedPref.getInt("backgroundWidth", 0);
 		backgroundHeight = sharedPref.getInt("backgroundHeight", 0);
+		
 		petWidth = sharedPref.getInt("petWidth", 0);
 		petHeight = sharedPref.getInt("petHeight", 0);
-		
-		// Scale the bitmaps
-		mBackground = Bitmap.createScaledBitmap(mBackground, backgroundWidth, backgroundHeight, true); // Environment
-		mPet = Bitmap.createScaledBitmap(mPet, petWidth, petHeight, true); // Pet
-		mCloud = Bitmap.createScaledBitmap(mCloud, backgroundWidth/4, backgroundHeight/10, true); // Cloud
 		
 		// Set the cloud positions
 		cloud1X = backgroundWidth / 2;
 		cloud2X = 10;
+		
+		// Load bitmaps
+		loadBitmaps();
 		
 		// Start a thread that simulates cloud movement.
 		Thread moveThread = new MoveClouds();
@@ -90,11 +77,10 @@ public class HomeView extends View {
 		
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, null);
-
 	}
 	
 	/**
-	 * Handles cloud movement every 2 seconds.
+	 * Handles cloud movement at a time interval.
 	 * If a cloud moves off screen it will eventually be redrawn on the opposite side.
 	 * 
 	 * @author Michael
@@ -147,6 +133,24 @@ public class HomeView extends View {
 		petPoint.y = y;
 				
 		this.invalidate();
+	}
+	
+	// Load pet bitmap from file
+	public void loadBitmaps() {
+		// Get pet image from sd card.
+		String imageInSD = Environment.getExternalStorageDirectory() + "/PhonePet/petBitmap/pet";
+		mPet = BitmapFactory.decodeFile(imageInSD);
+		
+		// Default mBoard to the background image.
+		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.templatebackground);
+				
+		// Default mCloud to cloud image
+		mCloud = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
+		
+		// Scale the bitmaps
+		mBackground = Bitmap.createScaledBitmap(mBackground, backgroundWidth, backgroundHeight, true); // Environment
+		mCloud = Bitmap.createScaledBitmap(mCloud, backgroundWidth/4, backgroundHeight/10, true); // Cloud
+		mPet = Bitmap.createScaledBitmap(mPet, petWidth, petHeight, true); // Pet
 	}
 	
 }

@@ -18,8 +18,20 @@ import android.text.format.Time;
  * 
  */
 
-
 public class PetVo extends SimpleObservable<PetVo> {
+	
+	// Initialize the pet for Singleton purposes (One instance of pet throughout entire application).
+	private static PetVo pet = new PetVo();
+	
+	/* Pet type
+	 * fox = 1
+ 	 * panda = 2 */
+	private int petType;
+	
+	/* Pet color
+	 * orange = 1
+	 * red = 2 */
+	private int petColor;
 	
 	// Pet size and location
 	private int width;
@@ -40,17 +52,32 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private Time lastTimeSlept;
 	private Time lastTimePlayedWith;
 	
-	// Accessorize
-	public String head_hitbox = null;
-	public String neck_hitbox = null;
+	// We only want one instance of pet through the entire project. This is known as a Singleton.
+	// A private constructor prevents any other class from instantiating PetVo.
+	private PetVo() {}
+	
+	/** Static 'instance' method 
+	 * Returns the single existing instance of pet */
+	public static PetVo getInstance() {
+		return pet;
+	}
+	
+	public int getPetType() {
+		return this.petType;
+	}
+	
+	public int getPetColor() {
+		return this.petColor;
+	}
 	
 	// Pet has been initially loaded, notify the view.
-	public void loadPet(int width, int height, int xCoord, int yCoord) {
+	public void loadPet(int width, int height, int xCoord, int yCoord, int petType) {
 		// Remember that width and height is NOT the center of the pet bitmap, it's the top left.
 		this.width = width;
 		this.height = height;
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
+		this.petType = petType;
 		
 		// Pet is loaded.
 		notifyObservers(this);
