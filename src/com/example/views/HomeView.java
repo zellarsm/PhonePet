@@ -21,6 +21,8 @@ public class HomeView extends View {
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight;
 	private int cloud1X, cloud2X;
+	private boolean thoughtActive = false;
+	private int thought;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -77,6 +79,12 @@ public class HomeView extends View {
 		
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, null);
+		
+		// Draw thought bubble if necessary.
+		if (thoughtActive) {
+			//canvas.drawBitmap(mThoughtBubble),
+			// .................(mThoughtPic)
+		}
 	}
 	
 	/**
