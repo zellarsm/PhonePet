@@ -3,9 +3,11 @@ package com.example.controllers;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import com.example.utils.RunawayCountdownTimer;
 
 
 import com.example.phonepet.AccessorizeActivity;
+import com.example.phonepet.RunawayActivity;
 import com.example.vos.PetVo;
 
 /*
@@ -57,10 +59,16 @@ public class PetController extends Controller {
 	private Context homeContext;
 	private SharedPreferences sharedPref;
 	
+	private RunawayCountdownTimer countDownTimer;
+	
 	public PetController(PetVo model, Context hActivityContext) {
 		this.model = model;
 		homeContext = hActivityContext;
 		sharedPref = homeContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+		
+		// Create timer and start it.
+		countDownTimer = new RunawayCountdownTimer(60 * 1000, 1000);
+		countDownTimer.start();
 	}
 	
 	public PetVo getModel() {
@@ -86,18 +94,28 @@ public class PetController extends Controller {
 			loadPet();
 			return true;
 		case MESSAGE_ACCESSORIZE:
+			countDownTimer.cancel();
+			countDownTimer.start();
 			accessorize();
 			return true;
 		case MESSAGE_SCOOP_POOP:
+			countDownTimer.cancel();
+			countDownTimer.start();
 			scoopPoop();
 			return true;
 		case MESSAGE_FEED:
+			countDownTimer.cancel();
+			countDownTimer.start();
 			feed();
 			return true;
 		case MESSAGE_CLEAN:
+			countDownTimer.cancel();
+			countDownTimer.start();
 			clean();
 			return true;
 		case MESSAGE_PLAY:
+			countDownTimer.cancel();
+			countDownTimer.start();
 			play();
 			return true;
 		case MESSAGE_TAPPED:
@@ -346,7 +364,8 @@ public class PetController extends Controller {
 		
 	}
 
-	private void play() {
+	private void play()
+	{
 		
 	}
 
@@ -371,6 +390,18 @@ public class PetController extends Controller {
 		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PetController.this.homeContext.startActivity(myIntent);
 	}
+	
+	/*
+	// Need to be able to get time remaining in countdown
+	public long getCountdownTimeLeft()
+	{
+		return countDownTimer.getTimeLeft();
+	}
+	public void setCountdownTimeLeft(long t)
+	{
+		countDownTimer.cancel();
+		countDownTimer = new RunawayCountdownTimer(t, 1000);
+	}*/
 
 	/**
 	 *  This thread is used to control the pet's actions and feelings. 
@@ -380,8 +411,10 @@ public class PetController extends Controller {
 		boolean movementEnabled = true;
 		boolean petIsHome = true;
 		
-		public void run() {
-			while(true) {
+		public void run()
+		{
+			while(true)
+			{
 				// Sleep
 				try {
 					sleep(2000);
@@ -391,11 +424,13 @@ public class PetController extends Controller {
 				}
 				
 				// Stay here if user working with pet in another activity.
-				while (!petIsHome) {
+				while (!petIsHome)
+				{
 					yield();
 				}
 				
-				if (movementEnabled) {
+				if (movementEnabled)
+				{
 					// Move pet
 					petMove++;
 					if (petMove == 3) {
@@ -405,6 +440,16 @@ public class PetController extends Controller {
 									//  min + ................... ((max - min) + 1));
 						move(direction);
 					}
+				}
+				
+				// Runaway counter
+				if(countDownTimer.isTimerCompleted() && !countDownTimer.isRestartInitiated())
+				{
+					countDownTimer.setRestartInitiated();
+					// Pet runs away! Call Runaway Activity, ie reset.
+					Intent myIntent = new Intent(getHomeContext(), RunawayActivity.class);
+					myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					PetController.this.homeContext.startActivity(myIntent);
 				}
 				
 				// Redraw Home every thread loop.

@@ -52,6 +52,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private Time lastTimeSlept;
 	private Time lastTimePlayedWith;
 	
+	private Time lastCountDownTime;
+	private long timeLeftBeforeRunaway;
+	
 	// We only want one instance of pet through the entire project. This is known as a Singleton.
 	// A private constructor prevents any other class from instantiating PetVo.
 	private PetVo() {}
@@ -121,6 +124,25 @@ public class PetVo extends SimpleObservable<PetVo> {
 	
 	public int getHeight() {
 		return this.height;
+	}
+	
+	public void setCurrentTime(Time t)
+	{
+		this.lastCountDownTime = t;
+	}
+	
+	public Time getLastSavedTime()
+	{
+		return this.lastCountDownTime;
+	}
+	public void setCurrentRunawayTimeLeft(long s)
+	{
+		this.timeLeftBeforeRunaway = s;
+	}
+	
+	public long getRunawayTimeLeft()
+	{
+		return this.timeLeftBeforeRunaway;
 	}
 	
 	// Chow down

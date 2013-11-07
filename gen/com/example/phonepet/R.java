@@ -67,16 +67,17 @@ public final class R {
         public static final int HungerText=0x7f0a0014;
         public static final int Play=0x7f0a0019;
         public static final int Poop=0x7f0a001a;
+        public static final int RunawayOKButton=0x7f0a001c;
         public static final int Sponge=0x7f0a001b;
         public static final int StatusBar=0x7f0a0012;
-        public static final int action_settings=0x7f0a001f;
+        public static final int action_settings=0x7f0a0020;
         public static final int activity_accessorize_view=0x7f0a0000;
         public static final int activity_home_view=0x7f0a0011;
         public static final int blackTie=0x7f0a000b;
         public static final int blueTie=0x7f0a000d;
         public static final int bowtie=0x7f0a000e;
         public static final int clearButton=0x7f0a0004;
-        public static final int close=0x7f0a001d;
+        public static final int close=0x7f0a001e;
         public static final int glasses=0x7f0a000a;
         public static final int horizontalScrollView=0x7f0a0007;
         public static final int img_green_egg=0x7f0a0010;
@@ -84,12 +85,12 @@ public final class R {
         public static final int linearLayout1=0x7f0a0002;
         public static final int pet_image=0x7f0a0005;
         public static final int pet_image_layout=0x7f0a0001;
-        public static final int popupLinearLayout=0x7f0a001c;
+        public static final int popupLinearLayout=0x7f0a001d;
         public static final int redTie=0x7f0a000c;
         public static final int saveButton=0x7f0a0003;
         public static final int topHat=0x7f0a0008;
         public static final int txt_pick_egg=0x7f0a000f;
-        public static final int txt_welcome=0x7f0a001e;
+        public static final int txt_welcome=0x7f0a001f;
         public static final int unicornHorn=0x7f0a0009;
     }
     public static final class layout {
@@ -97,15 +98,17 @@ public final class R {
         public static final int activity_create=0x7f030001;
         public static final int activity_home=0x7f030002;
         public static final int activity_play=0x7f030003;
-        public static final int activity_startup=0x7f030004;
-        public static final int popup_layout=0x7f030005;
+        public static final int activity_runaway=0x7f030004;
+        public static final int activity_startup=0x7f030005;
+        public static final int popup_layout=0x7f030006;
     }
     public static final class menu {
         public static final int accessorize=0x7f090000;
         public static final int create=0x7f090001;
         public static final int home=0x7f090002;
         public static final int play=0x7f090003;
-        public static final int startup=0x7f090004;
+        public static final int runaway=0x7f090004;
+        public static final int startup=0x7f090005;
     }
     public static final class string {
         public static final int access_desc=0x7f060014;
@@ -136,6 +139,7 @@ public final class R {
         public static final int title_activity_create=0x7f060006;
         public static final int title_activity_home=0x7f060003;
         public static final int title_activity_play=0x7f060012;
+        public static final int title_activity_runaway=0x7f060015;
         public static final int welcome=0x7f060011;
     }
     public static final class style {

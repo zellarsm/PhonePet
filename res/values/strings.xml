@@ -8,7 +8,7 @@
     <string name="pet_name">Willy</string>
     <string name="preference_file_key">PREFERENCES</string>
     <string name="title_activity_create">Meet your pet!</string>
-    
+
     <!-- Strings related to HomeActivity Menu buttons -->
     <string name="shirt_button">Shirt</string>
     <string name="food_button">Feed</string>
@@ -19,7 +19,7 @@
     <!-- Strings related to CreateActivity -->
     <string name="pick_egg">Pick an egg!</string>
     <string name="img_green_egg">Green egg</string>
-    
+
     <!-- Strings related to AccessorizeActivity -->
     <string name="save_button">Save Changes</string>
     <string name="clear_button">Clear</string>
@@ -34,7 +34,7 @@
 
     <string name="title_activity_play">PlayActivity</string>
     <string name="title_activity_accessorize">AccessorizeActivity</string>
-    
     <string name="access_desc">Pet Accessory</string>
+    <string name="title_activity_runaway">RunawayActivity</string>
 
 </resources>

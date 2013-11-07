@@ -6,7 +6,10 @@ import com.example.vos.OnChangeListener;
 import com.example.vos.PetVo;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.view.MotionEventCompat;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.KeyEvent;
@@ -109,7 +112,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				
 			}
 		});
-
+		
 		
 		// Retrieve home view
 		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);
@@ -257,6 +260,24 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	@Override
 	protected void onStop() {
 		super.onStop();
+		
+		/*
+		// Get current time
+		Time currTime = new Time();
+		currTime.setToNow();
+		Log.v("current time", currTime.toString());
+		
+		// Get the preferences file and create the editor
+		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		
+		// Put data into preferences file
+		//editor.putString("lastSavedTime", currTime.toString());
+		editor.putLong("lastSavedTimeMillis", currTime.toMillis(true)); // ignore daylight savings time
+		editor.putLong("runawayTimeLeft", controller.getCountdownTimeLeft());
+		
+		editor.commit();*/
+		
 	}
 	
 	@Override
