@@ -94,14 +94,18 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		poopButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(PetController.MESSAGE_SCOOP_POOP);
+				//controller.handleMessage(PetController.MESSAGE_SCOOP_POOP);
+				
+				hView.removePoop();
 			}
 		});
 		
 		feedButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(PetController.MESSAGE_FEED);
+				
+				hView.drawPoop();
+				//controller.handleMessage(PetController.MESSAGE_FEED);
 			}
 		});
 		
@@ -131,53 +135,53 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        final float userX = MotionEventCompat.getX(event, pointerIndex); 
 			        final float userY = MotionEventCompat.getY(event, pointerIndex); 
 			            
-			        // Check if something is clicked.
-			  //      isPetClicked(userX, userY);
-			//        Log.v("petIsClicked, down", Boolean.toString(petIsClicked));
-			        
-			        // Remember where we started (for dragging)
-			    //    mLastTouchX = userX;
-			    //    mLastTouchY = userY;
-			        
-			        // Save the ID of this pointer (for dragging)
-			    //   mActivePointerId = MotionEventCompat.getPointerId(event, 0);
-			     //   break;
-					
-				} // End case MotionEvent.ACTION_DOWN
-				
-			//	case MotionEvent.ACTION_MOVE: {
-			        // Find the index of the active pointer and fetch its position
-			  //      final int pointerIndex = 
-			  //              MotionEventCompat.findPointerIndex(event, mActivePointerId);  
-			            
-			 //       final float userX = MotionEventCompat.getX(event, pointerIndex);
-			 //       final float userY = MotionEventCompat.getY(event, pointerIndex);
-			            
-			        // Calculate the distance moved
-			 //       final float dx = userX - mLastTouchX;
-			 //       final float dy = userY - mLastTouchY;
-
-			  //      mPosX += dx;
-			  //      mPosY += dy;
-			        
-			        // Invalidate
-			 //       if (petIsClicked)
-			//        {
-			  //      	if((userX > 0) && (userX < (windowWidth - pet.width)) 
-			 //       			&& (userY > 0) && (userY < (windowHeight - pet.height - menuHeight))) 
-			//        	{
-			//        		homeview.dragPet(userX, userY);
-			//        		pet.xCoordinate = userX;
-			////        		pet.yCoordinate = userY;
-			////        	}
-			//        }
-			        
-			        // Remember this touch position for the next move event
-			//        mLastTouchX = userX;
-			//        mLastTouchY = userY;
-
-			//        break;
-			//    }
+//			        // Check if something is clicked.
+//			       isPoopClicked(userX, userY);
+//			        //Log.v("petIsClicked, down", Boolean.toString(petIsClicked));
+//			        
+//			        // Remember where we started (for dragging)
+//			        mLastTouchX = userX;
+//			        mLastTouchY = userY;
+//			        
+//			        // Save the ID of this pointer (for dragging)
+//			       mActivePointerId = MotionEventCompat.getPointerId(event, 0);
+//			        break;
+//					
+//				} // End case MotionEvent.ACTION_DOWN
+//				
+//				case MotionEvent.ACTION_MOVE: {
+//			        // Find the index of the active pointer and fetch its position
+//			        final int pointerIndex = 
+//			                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
+//			            
+//			        final float userX = MotionEventCompat.getX(event, pointerIndex);
+//			        final float userY = MotionEventCompat.getY(event, pointerIndex);
+//			            
+//			        // Calculate the distance moved
+//			       final float dx = userX - mLastTouchX;
+//			       final float dy = userY - mLastTouchY;
+//
+//			       mPosX += dx;
+//			       mPosY += dy;
+//			        
+//			        // Invalidate
+//			        if (petIsClicked)
+//			        {
+//			        	if((userX > 0) && (userX < (windowWidth - pet.width)) 
+//			        			&& (userY > 0) && (userY < (windowHeight - pet.height - menuHeight))) 
+//			        	{
+//			        		homeview.dragPet(userX, userY);
+//			        		pet.xCoordinate = userX;
+//			        		pet.yCoordinate = userY;
+//			        	}
+//			        }
+//			        
+//			        // Remember this touch position for the next move event
+//			       mLastTouchX = userX;
+//		           mLastTouchY = userY;
+//
+//			        break;
+//				}
 				
 			//	case MotionEvent.ACTION_UP: {
 			//        mActivePointerId = INVALID_POINTER_ID;
@@ -203,15 +207,15 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			//            mActivePointerId = MotionEventCompat.getPointerId(event, newPointerIndex);
 			//        }
 			 //       break;
-			//    }
+			    }
 					
 				} // End switch
+			
 				return true;
 				
 			} // End function onTouch
-		
+
 		}); // Set onTouchListener
-			
 	}
 	
 	/*

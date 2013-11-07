@@ -1,7 +1,13 @@
 package com.example.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.phonepet.R;
 import com.example.utils.Point;
+import com.example.vos.Poop;
+
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,17 +16,24 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-	private Bitmap mBackground, mPet, mCloud;
+	private Bitmap mBackground, mPet, mCloud, mPoop;
 	private Point petPoint = null;
 	private String fileName = "preferences";
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight;
 	private int cloud1X, cloud2X;
+	private List<com.example.vos.Poop> myList = null;
+	private com.example.vos.Poop temp;
+	private boolean poopExists;
+	private int poop1x,poop1y, poop2x, poop2y, poop3x, poop3y;
+	Thread moveT;
+	private boolean isRunning;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -40,7 +53,8 @@ public class HomeView extends View {
 		// Set the cloud positions
 		cloud1X = backgroundWidth / 2;
 		cloud2X = 10;
-		
+		poopExists = false;
+		isRunning = false;
 		// Load bitmaps
 		loadBitmaps();
 		
@@ -77,6 +91,13 @@ public class HomeView extends View {
 		
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, null);
+		
+		//canvas.drawBitmap(mPoop,e.getX(), e.getY(), null);
+		if(poopExists) {
+			canvas.drawBitmap(mPoop, temp.getX(), temp.getY(), null);
+			canvas.drawBitmap(mPoop, poop2x, poop2y, null);
+			canvas.drawBitmap(mPoop, poop3x, poop3y, null);
+		}
 	}
 	
 	/**
@@ -140,7 +161,7 @@ public class HomeView extends View {
 		// Get pet image from sd card.
 		String imageInSD = Environment.getExternalStorageDirectory() + "/PhonePet/petBitmap/pet";
 		mPet = BitmapFactory.decodeFile(imageInSD);
-		
+		mPoop = BitmapFactory.decodeResource(getResources(), R.drawable.poop);
 		// Default mBoard to the background image.
 		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.templatebackground);
 				
@@ -151,6 +172,78 @@ public class HomeView extends View {
 		mBackground = Bitmap.createScaledBitmap(mBackground, backgroundWidth, backgroundHeight, true); // Environment
 		mCloud = Bitmap.createScaledBitmap(mCloud, backgroundWidth/4, backgroundHeight/10, true); // Cloud
 		mPet = Bitmap.createScaledBitmap(mPet, petWidth, petHeight, true); // Pet
+		mPoop = Bitmap.createScaledBitmap(mPoop, petWidth, petHeight, true);
+		
+	}
+
+	public void drawPoop() {
+		
+		//int numPoop = (int)Math.random() * 5;
+		
+//		Poop temp;
+//		myList = new ArrayList<Poop>();
+//		for(int i = 0; i < 3; i ++) {
+//			
+//			temp = new Poop(petHeight, petWidth, (int)Math.random() * backgroundWidth, (int)Math.random() * backgroundHeight);
+//			myList.add(temp);
+//			
+//		}
+		
+		poop1x = (int)(Math.random() * backgroundWidth);
+		poop1y = (int)(Math.random() * backgroundHeight);
+		poop2x = (int)(Math.random() * backgroundWidth);
+		poop2y = (int)(Math.random() * backgroundHeight);
+		poop3x = (int)(Math.random() * backgroundWidth);
+		poop3y = (int)(Math.random() * backgroundHeight);
+		poopExists = true;		
+		
+		this.invalidate();
 	}
 	
+	public void removePoop() {
+				
+		moveT = new MovePoop();
+		moveT.start();
+		if(!poopExists) {
+			moveT.interrupt();
+		}
+		this.invalidate();
+		
+	}
+	
+	public void dragPoop(int poop1x,int poop1y, int poop2x, int poop2y, int poop3x, int poop3y) {
+		
+		this.poop1x = poop1x;
+		this.poop1y = poop1y;
+		this.poop2x = poop2x;
+		this.poop2x = poop2x;
+		this.poop3x = poop3x;
+		this.poop3x = poop3x;
+		temp = new Poop(petHeight, petWidth, poop1x, poop1y);
+		this.invalidate();
+		
+	}
+	private class MovePoop extends Thread {
+			
+		public void run() {
+			while (poopExists) {
+				
+				poop1y = poop1y - 50;
+				poop2y = poop2y - 50;
+				poop3y = poop3y - 50;
+				
+				if(poop1y > backgroundHeight && poop2y > backgroundHeight && poop3y > backgroundHeight)
+					poopExists = false;
+				// Sleep thread for 2 seconds.
+				try {
+					sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+		
+	}
 }

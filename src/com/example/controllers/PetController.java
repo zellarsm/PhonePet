@@ -1,13 +1,14 @@
 package com.example.controllers;
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import com.example.utils.RunawayCountdownTimer;
-
-
 import com.example.phonepet.AccessorizeActivity;
 import com.example.phonepet.RunawayActivity;
+import com.example.views.HomeView;
 import com.example.vos.PetVo;
 
 /*
@@ -57,7 +58,9 @@ public class PetController extends Controller {
 	private PetVo model;
 	private PetLife life;
 	private Context homeContext;
+	private HomeView hView;
 	private SharedPreferences sharedPref;
+	
 	
 	private RunawayCountdownTimer countDownTimer;
 	
@@ -65,7 +68,7 @@ public class PetController extends Controller {
 		this.model = model;
 		homeContext = hActivityContext;
 		sharedPref = homeContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-		
+		this.hView= hView;
 		// Create timer and start it.
 		countDownTimer = new RunawayCountdownTimer(60 * 1000, 1000);
 		countDownTimer.start();
@@ -374,7 +377,17 @@ public class PetController extends Controller {
 	}
 
 	private void feed() {
-
+		
+//		int numPoop = (int)Math.random() * 5;
+//		Poop temp;
+//		
+//		for(int i = 0; i < numPoop; i ++) {
+//			
+//			temp = new Poop(this.getModel().getHeight(), this.getModel().getWidth(), (int)Math.random() * BACKGROUND_WIDTH, (int)Math.random() * BACKGROUND_HEIGHT);
+//			myList.add(temp);
+//			
+//		}
+		
 	}
 
 	private void scoopPoop() {
