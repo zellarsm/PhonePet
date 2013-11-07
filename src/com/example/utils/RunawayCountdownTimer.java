@@ -1,13 +1,12 @@
 package com.example.utils;
 
-import android.content.Intent;
 import android.os.CountDownTimer;
 import android.util.Log;
 
 public class RunawayCountdownTimer extends CountDownTimer
 {
 	private long timeElapsed;
-	private long startTime = 60000;
+	private long startT;
 	private long timeLeft;
 	
 	private boolean timerCompleted = false;
@@ -33,7 +32,6 @@ public class RunawayCountdownTimer extends CountDownTimer
 	
 	public long getTimeLeft()
 	{
-		Log.v("getTimeLeft", Long.toString(this.timeLeft));
 		return this.timeLeft;
 	}
 	
@@ -41,9 +39,10 @@ public class RunawayCountdownTimer extends CountDownTimer
 	// Constructor
     public RunawayCountdownTimer(long startTime, long interval)
     {
-        super(startTime, interval);
+    	super(startTime, interval);
+    	this.startT = startTime;
     }
-
+    
     @Override
     public void onFinish()
     {
@@ -51,20 +50,14 @@ public class RunawayCountdownTimer extends CountDownTimer
     	Log.v("onFinish", "countdown has completed!!");
         timerCompleted = true;
     	
-    	/*
-        Intent i = new Intent();
-    	i.setClassName("com.example.phonepet", "com.example.phonepet.RunawayActivity");
-    	startActivityForResult(i, 0);
-    	*/
-    	
     }
 
     @Override
     public void onTick(long millisUntilFinished)
     {
     	timeLeft = millisUntilFinished;
-        timeElapsed = startTime - millisUntilFinished;
-    	Log.v("ticking, time left = ", Long.toString(startTime - timeElapsed));
+        timeElapsed = startT - millisUntilFinished;
+    	Log.v("ticking, time left = ", Long.toString(startT - timeElapsed));
     }
 
 }

@@ -5,8 +5,10 @@ import com.example.views.HomeView;
 import com.example.vos.OnChangeListener;
 import com.example.vos.PetVo;
 import android.os.Bundle;
+import android.provider.Settings.System;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.view.MotionEventCompat;
 import android.text.format.Time;
@@ -265,11 +267,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	protected void onStop() {
 		super.onStop();
 		
-		/*
+		///*
 		// Get current time
 		Time currTime = new Time();
 		currTime.setToNow();
-		Log.v("current time", currTime.toString());
+		Log.v("stop current time", currTime.toString());
 		
 		// Get the preferences file and create the editor
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
@@ -278,16 +280,68 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		// Put data into preferences file
 		//editor.putString("lastSavedTime", currTime.toString());
 		editor.putLong("lastSavedTimeMillis", currTime.toMillis(true)); // ignore daylight savings time
-		editor.putLong("runawayTimeLeft", controller.getCountdownTimeLeft());
+		long t = controller.getCountdownTimeLeft();
+		Log.v("getTimeLeft", Long.toString(t));
+		editor.putLong("runawayTimeLeft", t);
+		//editor.putLong("runawayTimeLeft", controller.getCountdownTimeLeft());
 		
-		editor.commit();*/
+		editor.commit();
+		//*/
 		
 	}
 	
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		super.onResume();
 		Log.v("got here", "yay");
+		
+		/* Problems: close the app. On resume, a new petController is created, and this method
+		 * makes RunawayActivity start. Thus have two counters and an infinite loop of BADOWNER.
+		 * Need to lock this method??
+		 */
+		
+		
+		
+		// Reset countdown timer
+		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
+		long lastTimeSaved = sharedPref.getLong("lastSavedTimeMillis", 0);
+		long timerRemaining = sharedPref.getLong("runawayTimeLeft", controller.DEFAULT_RUNAWAY_TIME_START);
+		
+		// Get current time
+		Time currTime = new Time();
+		currTime.setToNow();
+		Log.v("resume current time", Long.toString(currTime.toMillis(true)));
+		Log.v("resume last time saved", Long.toString(lastTimeSaved));
+		
+		// Calculate time elapsed
+		long timeElapsed = currTime.toMillis(true) - lastTimeSaved;
+		Log.v("resume timeElapsed", Long.toString(timeElapsed));
+		Log.v("resume timerRemaining", Long.toString(timerRemaining));
+		
+		// If timeElapsed == currTime, there was no data in preferences file.
+		  // Do not change timer / runaway if you just created a brand new pet.
+		if(timeElapsed != currTime.toMillis(true)) 
+		{
+			// Pet ran away while the app was closed!
+			if(timeElapsed >= timerRemaining)
+			{
+				// GOTO RunawayActivity
+				//controller.handleMessage(controller.MESSAGE_PET_RUNAWAY);
+				// Launch RunawayActivity.
+				Intent myIntent = new Intent(getBaseContext(), RunawayActivity.class);
+				myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(myIntent);
+				return;
+			}
+			else
+			{
+				// Update counter to reflect time elapsed. Pet hasn't run away yet.
+				controller.continueCountdownTimer(timerRemaining - timeElapsed);
+			}
+			
+		}
+		
 		
 		controller.handleMessage(PetController.MESSAGE_PET_RETURNING);
 		// Redraw 
