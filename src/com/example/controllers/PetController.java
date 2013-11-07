@@ -35,6 +35,11 @@ public class PetController extends Controller {
 	public static final int MESSAGE_STOP_LIFE = 9;
 	public static final int MESSAGE_RESUME_LIFE = 10;
 	public static final int MESSAGE_PET_RETURNING = 11;
+	public static final int MESSAGE_PET_RUNAWAY = 12;
+	
+	
+	public static final long DEFAULT_RUNAWAY_TIME_START = 60*60*24*3 * 1000; //3days //20*1000; // 60 seconds
+	public static final long CURRENT_TIME_BUFFER = 10*1000; // 10 seconds
 	
 	/*
 	 * Phone screen sizes are different, these constants are used to handle this.
@@ -61,22 +66,32 @@ public class PetController extends Controller {
 	
 	private RunawayCountdownTimer countDownTimer;
 	
-	public PetController(PetVo model, Context hActivityContext) {
+	public PetController(PetVo model, Context hActivityContext)
+	{
 		this.model = model;
 		homeContext = hActivityContext;
 		sharedPref = homeContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		
 		// Create timer and start it.
-		countDownTimer = new RunawayCountdownTimer(60 * 1000, 1000);
+		countDownTimer = new RunawayCountdownTimer(DEFAULT_RUNAWAY_TIME_START, 1000);
 		countDownTimer.start();
 	}
 	
-	public PetVo getModel() {
+	public PetVo getModel()
+	{
 		return model;
 	}
 	
-	public Context getHomeContext() {
+	public Context getHomeContext()
+	{
 		return this.homeContext;
+	}
+	
+	public void continueCountdownTimer(long newTime)
+	{
+		countDownTimer.cancel();
+		countDownTimer = new RunawayCountdownTimer(newTime, 1000); // Overwrite old timer.
+		countDownTimer.start();
 	}
 	
 	/**
@@ -94,28 +109,23 @@ public class PetController extends Controller {
 			loadPet();
 			return true;
 		case MESSAGE_ACCESSORIZE:
-			countDownTimer.cancel();
-			countDownTimer.start();
+			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			accessorize();
 			return true;
 		case MESSAGE_SCOOP_POOP:
-			countDownTimer.cancel();
-			countDownTimer.start();
+			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			scoopPoop();
 			return true;
 		case MESSAGE_FEED:
-			countDownTimer.cancel();
-			countDownTimer.start();
+			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			feed();
 			return true;
 		case MESSAGE_CLEAN:
-			countDownTimer.cancel();
-			countDownTimer.start();
+			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			clean();
 			return true;
 		case MESSAGE_PLAY:
-			countDownTimer.cancel();
-			countDownTimer.start();
+			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			play();
 			return true;
 		case MESSAGE_TAPPED:
@@ -123,6 +133,9 @@ public class PetController extends Controller {
 			return true;
 		case MESSAGE_PET_RETURNING:
 			life.petIsHome = true;
+			return true;
+		case MESSAGE_PET_RUNAWAY:
+			runaway();
 			return true;
 		}
 		return false;
@@ -385,13 +398,24 @@ public class PetController extends Controller {
 		// Pet is leaving Home to go to new activity.
 		life.petIsHome = false;
 		
-		// Launch new activity.
+		// Launch AccessorizeActivity.
 		Intent myIntent = new Intent(getHomeContext(), AccessorizeActivity.class);
 		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PetController.this.homeContext.startActivity(myIntent);
 	}
 	
-	/*
+	private void runaway()
+	{
+		// Pet is leaving Home to go to new activity.
+		life.petIsHome = false;
+		
+		// Launch RunawayActivity.
+		Intent myIntent = new Intent(getHomeContext(), RunawayActivity.class);
+		myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		PetController.this.homeContext.startActivity(myIntent);
+	}
+	
+	///*
 	// Need to be able to get time remaining in countdown
 	public long getCountdownTimeLeft()
 	{
@@ -401,7 +425,7 @@ public class PetController extends Controller {
 	{
 		countDownTimer.cancel();
 		countDownTimer = new RunawayCountdownTimer(t, 1000);
-	}*/
+	}//*/
 
 	/**
 	 *  This thread is used to control the pet's actions and feelings. 
