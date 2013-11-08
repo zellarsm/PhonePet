@@ -11,6 +11,8 @@ public class CleanActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
+	 
+	    
 	    Log.v("Clean Activity", "This works!");
 	    
 	    // TODO Auto-generated method stub
