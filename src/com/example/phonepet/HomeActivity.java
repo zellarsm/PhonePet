@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -33,13 +34,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	public HomeActivity() {
 
 	}
-	
-	private ImageButton playButton;
-	private ImageButton accessorizeButton;
-	private ImageButton poopButton;
-	private ImageButton feedButton;
-	private ImageButton cleanButton;
-	
+
 	private PetController controller;
 	private PetVo pet; // Pet
 	
@@ -62,6 +57,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	//boolean petIsClicked = false;
 	private String fileName = "preferences";
 	
+	private boolean testButtonJustHeld = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,11 +71,12 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		controller = new PetController(pet, getApplicationContext());
 		
-		playButton = (ImageButton)findViewById(R.id.Play);
-		accessorizeButton = (ImageButton)findViewById(R.id.Accessorize);
-		poopButton = (ImageButton)findViewById(R.id.Poop);
-		feedButton = (ImageButton)findViewById(R.id.Feed);
-		cleanButton = (ImageButton)findViewById(R.id.Sponge);
+		ImageButton playButton = (ImageButton)findViewById(R.id.Play);
+		ImageButton accessorizeButton = (ImageButton)findViewById(R.id.Accessorize);
+		ImageButton poopButton = (ImageButton)findViewById(R.id.Poop);
+		ImageButton feedButton = (ImageButton)findViewById(R.id.Feed);
+		ImageButton cleanButton = (ImageButton)findViewById(R.id.Sponge);
+		Button testButton = (Button)findViewById(R.id.TestButton);
 		
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -121,6 +119,30 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			public void onClick(View v) {
 				controller.handleMessage(PetController.MESSAGE_CLEAN);
 				
+			}
+		});
+		
+	/**
+	 * Run a test when clicked and run a test when held
+	 */
+		testButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!testButtonJustHeld) // Prevents running both hold test and click test
+					// Will return false when test is complete
+					controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_CLICKED);
+				
+				testButtonJustHeld = false;
+			}
+		});
+		// Hold button for about 1.5 seconds
+		testButton.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// Will return true when test is complete
+				testButtonJustHeld = controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_HELD);
+				return false;
 			}
 		});
 		
