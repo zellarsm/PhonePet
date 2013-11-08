@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background_grid_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="@drawable/background2">
+
+    <Button
+        android:id="@+id/start_btn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Restart" />
+
+    <Button
+        android:id="@+id/depth_add_btn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/depth_minus_btn"
+        android:layout_alignBottom="@+id/depth_minus_btn"
+        android:layout_alignParentRight="true"
+        android:text="+"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/depth_minus_btn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/plidDepth"
+        android:layout_marginTop="16dp"
+        android:layout_toLeftOf="@+id/depth_add_btn"
+        android:text="-"
+        android:textSize="20dp" />
+
+    <CheckBox
+        android:id="@+id/humanFirstCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/start_btn"
+        android:layout_alignBottom="@+id/start_btn"
+        android:layout_toRightOf="@+id/start_btn"
+        android:text="User First"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/plidDepth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/humanFirstCB"
+        android:layout_marginLeft="21dp"
+        android:layout_toRightOf="@+id/humanFirstCB"
+        android:text="Current Difficulty is: " />
+    
+    <com.example.connect4.Connect4View
+        android:id="@+id/connect4View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true" />
+</RelativeLayout>

@@ -80,6 +80,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			@Override
 			public void onClick(View v) {
 				controller.handleMessage(PetController.MESSAGE_PLAY);
+				showPlayOptions(v);
 			}
 		});
 		
@@ -375,6 +376,36 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	public int getMenuHeight() {
 		return this.menuHeight;
 	}
+	
+	private void showPlayOptions(final View v)
+	{
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+		final String[] playOptions = {"Fecth", "Do nothing", "Connect 4", "Quit Life"};
+		dialogBuilder.setTital("What would you like to play");
+		dialogBuilder.setItems(playOptions, new DialogInterface.OnClickListener(){
+		
+			@Overide
+			public void onClick(DialogInterface dialog, int which){
+			
+				switch(which)
+				{
+					case 0: Intent intent0 = new Intent(v.getContext(), PlayActivity.class);
+							startActivityForResult(intent0, 0);
+							break;
+							
+					case 1: break;
+					
+					case 2: Intent intent2 = new Intent(v.getContext(), Connect4Activity.class);
+							startActivityForResult(intent2, 0);
+							break;
+				}
+				Toast.makeText(getApplicationContext(), playOptions[which], Toast.LENGTH_SHORT).show();
+			}
+		});
+		AlertDialog alertDialog = dialogBuilder.create();
+		alertDialog.show();
+	}
+	
 	/*
 	public void isPetClicked(float userX, float userY) {
 		
