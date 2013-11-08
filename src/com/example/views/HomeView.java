@@ -29,11 +29,9 @@ public class HomeView extends View {
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight;
 	private int cloud1X, cloud2X;
 	private List<com.example.vos.Poop> myList = null;
-	private com.example.vos.Poop temp;
 	private boolean poopExists;
-	private int poop1x,poop1y, poop2x, poop2y, poop3x, poop3y;
+	public int poop1x,poop1y, poop2x, poop2y, poop3x, poop3y;
 	Thread moveT;
-	private boolean isRunning;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -54,7 +52,7 @@ public class HomeView extends View {
 		cloud1X = backgroundWidth / 2;
 		cloud2X = 10;
 		poopExists = false;
-		isRunning = false;
+		
 		// Load bitmaps
 		loadBitmaps();
 		
@@ -94,7 +92,7 @@ public class HomeView extends View {
 		
 		//canvas.drawBitmap(mPoop,e.getX(), e.getY(), null);
 		if(poopExists) {
-			canvas.drawBitmap(mPoop, temp.getX(), temp.getY(), null);
+			canvas.drawBitmap(mPoop, poop1x, poop1y, null);
 			canvas.drawBitmap(mPoop, poop2x, poop2y, null);
 			canvas.drawBitmap(mPoop, poop3x, poop3y, null);
 		}
@@ -219,7 +217,7 @@ public class HomeView extends View {
 		this.poop2x = poop2x;
 		this.poop3x = poop3x;
 		this.poop3x = poop3x;
-		temp = new Poop(petHeight, petWidth, poop1x, poop1y);
+		
 		this.invalidate();
 		
 	}
