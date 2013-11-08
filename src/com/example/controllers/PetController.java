@@ -5,6 +5,8 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import com.example.utils.RunawayCountdownTimer;
 import com.example.phonepet.AccessorizeActivity;
 import com.example.phonepet.RunawayActivity;
@@ -37,10 +39,12 @@ public class PetController extends Controller {
 	public static final int MESSAGE_RESUME_LIFE = 10;
 	public static final int MESSAGE_PET_RETURNING = 11;
 	public static final int MESSAGE_PET_RUNAWAY = 12;
-	
+	public static final int MESSAGE_TEST_BUTTON_CLICKED = 13;
+	public static final int MESSAGE_TEST_BUTTON_HELD = 14;
 	
 	public static final long DEFAULT_RUNAWAY_TIME_START = 60*60*24*3 * 1000; //3days //20*1000; // 60 seconds
 	public static final long CURRENT_TIME_BUFFER = 10*1000; // 10 seconds
+	
 	
 	/*
 	 * Phone screen sizes are different, these constants are used to handle this.
@@ -51,12 +55,15 @@ public class PetController extends Controller {
 	// AREA values represent the rectangle contained in the fence.
 	// Pet can NEVER move outside of AREA.
 	private int AREA_MIN_Y; // 2/3 of background height
-	private int AREA_MAX_Y; // Background height
-	private int AREA_MIN_X; // 0
-	private int AREA_MAX_X; // Background width
 	
+	private int WIDTH_OF_HOUSE; // Width of pet house is 6/13 of BACKGROUND_WIDTH; 
 	private int CENTER_HOUSE_X;	// The center of the opening of the pet house width is 7/10 of background width
-	private int CENTER_HOUSE_Y; // The center of the opening of the pet house height is 2/3 background height.
+	private int BOTTOM_HOUSE_Y; // The bottom of pet house height is 7/10 background height.
+	private int LEFT_HOUSE_X; // Left x coord of house is CENTER_HOUSE_X - (WIDTH_OF_HOUSE/2)
+	private int RIGHT_HOUSE_X; // Right x coord of house is CENTER_HOUSE_X + (WIDTH_OF_HOUSE/2)
+	private int LEFT_HOUSE_DOOR_X; // x coord of leftmost part of house door is LEFT_OF_HOUSE + 1/3 WIDTH_OF_HOUSE
+	private int RIGHT_HOUSE_DOOR_X; // x coord of rightmost part of house door is LEFT_OF_HOUSE + 2/3 WIDTH_OF_HOUSE
+	private int TOP_HOUSE_DOOR_Y; // y coord of topmost part of house door is BOTTOM_HOUSE_Y - WIDTH_OF_HOUSE/2
 	
 	String fileName = "preferences";
 	
@@ -65,6 +72,7 @@ public class PetController extends Controller {
 	private Context homeContext;
 	private HomeView hView;
 	private SharedPreferences sharedPref;
+	
 	
 	
 	private RunawayCountdownTimer countDownTimer;
@@ -135,16 +143,42 @@ public class PetController extends Controller {
 			handleTap(data);
 			return true;
 		case MESSAGE_PET_RETURNING:
-			life.petIsHome = true;
+			model.setPetIsHome(true);
 			return true;
 		case MESSAGE_PET_RUNAWAY:
 			runaway();
 			return true;
+		case MESSAGE_TEST_BUTTON_CLICKED:
+			runTest(1);
+			return false; // false means click test just completed
+		case MESSAGE_TEST_BUTTON_HELD:
+			runTest(2);
+			return true; // true means hold test just completed
 		}
 		return false;
 	}
 
-	
+	/**
+	 * Runs tests when Dev button is clicked and when it's held.
+	 * Change and use this method for whatever you'd like
+	 */
+	private void runTest(int which) {
+		// On button click
+		if (which == 1) {
+			// move pet up
+			move(3);
+			move(3);
+			move(1);
+		}
+		// On button held for about 1.5 seconds
+		else if (which == 2) {
+			// move pet down
+			move(4);
+		}
+		
+		
+	}
+
 	private void handleTap(Object data) {
 		// Determine what the user tapped.
 	}
@@ -152,23 +186,21 @@ public class PetController extends Controller {
 	// Get pet's information
 	private void loadPet() {
 		// Set constant values
-		float num;
 		BACKGROUND_WIDTH = sharedPref.getInt("backgroundWidth", 10);
 		BACKGROUND_HEIGHT = sharedPref.getInt("backgroundHeight", 10);
 		
 		// Bottom of fence is 2/3 of the background height.
-		num = BACKGROUND_HEIGHT;
-		AREA_MIN_Y =  (int)(num * (2f/3f));
-		AREA_MAX_Y = BACKGROUND_HEIGHT;
-		AREA_MIN_X = 0;
-		AREA_MAX_X = BACKGROUND_WIDTH;
+		AREA_MIN_Y =  (int)(BACKGROUND_HEIGHT * (2f/3f));
 		
-		// Center of the pet house opening is
-		// x coord: 7/10 of the background width.
-		// y coord: 2/3 of background height
-		num = BACKGROUND_WIDTH;
-		CENTER_HOUSE_X = (int)(num * (7f/10f));
-		CENTER_HOUSE_Y = AREA_MIN_Y;
+		// Find house dimensions
+		WIDTH_OF_HOUSE = (int)(BACKGROUND_WIDTH * (6f/13f)); // 6/13 of background width
+		CENTER_HOUSE_X = (int)(BACKGROUND_WIDTH * (7f/10f)); // 7/10 of background width
+		BOTTOM_HOUSE_Y = (int)(BACKGROUND_HEIGHT * (7f/10f)); // 7/10 of background height
+		LEFT_HOUSE_X = (int)(CENTER_HOUSE_X - WIDTH_OF_HOUSE/2);
+		RIGHT_HOUSE_X = (int)(CENTER_HOUSE_X + WIDTH_OF_HOUSE/2);
+		LEFT_HOUSE_DOOR_X = LEFT_HOUSE_X + WIDTH_OF_HOUSE / 3; // x coord of leftmost part of house door is 1/3 house width + left of house 
+		RIGHT_HOUSE_DOOR_X = LEFT_HOUSE_X + (int)(WIDTH_OF_HOUSE * (2f/3f)); // x coord of rightmost part of house door is 2/3 house width + left of house
+		TOP_HOUSE_DOOR_Y = BOTTOM_HOUSE_Y - WIDTH_OF_HOUSE/2;
 
 		// Load pet coordinates from previous app state.
 		model.loadPet(
@@ -182,8 +214,8 @@ public class PetController extends Controller {
 		life.start();
 		
 		// Place the pet in the middle of the play area.
-		model.setXYCoord(AREA_MAX_X/2-(model.getWidth()/2), 		
-						(AREA_MIN_Y + (AREA_MAX_Y-AREA_MIN_Y)/2) - (model.getHeight()/2));
+		model.setXYCoord(BACKGROUND_WIDTH/2-(model.getWidth()/2), 		
+						(AREA_MIN_Y + (BACKGROUND_HEIGHT-AREA_MIN_Y)/2) - (model.getHeight()/2));
 	}
 
 
@@ -198,7 +230,6 @@ public class PetController extends Controller {
 		  	1 * 2
 		  	7 4 8	
 	 */
-	// TODO: Diagonal movements
 	private boolean move(int direction) {
 		int destX, destY;
 		// No matter what the movement, the distance will be 1/10th the 
@@ -209,9 +240,13 @@ public class PetController extends Controller {
 		if (direction == 1) {
 			destX = model.getXCoord() - distance;
 
-			if (destX <= AREA_MIN_X)
-				// No room to move left, return.
+			if (destX <= 0)
+				// Cannot move off screen
 				return false;
+			if ((destX < RIGHT_HOUSE_X) && (destX > LEFT_HOUSE_X) && (model.getYCoord() > BOTTOM_HOUSE_Y + model.getHeight()))
+				// Cannot jump into side of house
+				return false;
+		
 
 			// A complete movement takes 20 frames.
 			int newY;
@@ -233,9 +268,13 @@ public class PetController extends Controller {
 		else if (direction == 2) {
 			destX = model.getXCoord() + distance;
 
-			if (destX+model.getWidth() >= AREA_MAX_X)
-				// Cannot move right
+			if (destX+model.getWidth() >= BACKGROUND_WIDTH)
+				// Cannot move off screen
 				return false;
+			if ((destX < RIGHT_HOUSE_X) && (destX > LEFT_HOUSE_X) && (model.getYCoord() > BOTTOM_HOUSE_Y + model.getHeight()))
+				// Cannot jump into house
+				return false;
+			
 			
 			// Move occurs in 20 frames
 			int newY;
@@ -255,9 +294,22 @@ public class PetController extends Controller {
 		else if (direction == 3) {
 			destY = model.getYCoord() - distance;
 
-			if (destY+model.getHeight() < AREA_MIN_Y)
-				// Cannot move up
-				return false;
+			// Check if pet is trying to move into house.
+			if (!(model.getXCoord() > LEFT_HOUSE_DOOR_X && model.getXCoord() + model.getWidth() < RIGHT_HOUSE_DOOR_X)) {
+				// Pet's x coord is not within the range of door opening.
+				// So check if it's trying to jump through fence.
+				if (destY+model.getHeight() < AREA_MIN_Y) {
+					// Cannot move through fence
+					return false;
+				}
+			}
+			else {
+				// Pet is within range of house door.  Move up only if not going through top of house
+				Log.v("gothere", "5");
+				if (destY < TOP_HOUSE_DOOR_Y) {
+					return false;
+				}
+			}
 			
 			// Move occurs in 20 frames
 			int dx = Math.round(distance/20);
@@ -270,8 +322,8 @@ public class PetController extends Controller {
 		// Move down
 		else if (direction == 4) {
 			destY = model.getYCoord() + distance;
- 
-			if (destY+model.getHeight() > AREA_MAX_Y)
+
+			if (destY+model.getHeight() > BACKGROUND_HEIGHT)
 				// Cannot move down
 				return false;
 			
@@ -279,88 +331,12 @@ public class PetController extends Controller {
 			int dx = Math.round(distance/20);
 
 			for (int i=0; i<20; i++) {
+				Log.v("gott", "11");
 				model.setYCoord(model.getYCoord() + dx);
 				sleepThread(10);
 			}
 			
 		}
-		// Move up left
-				/*
-				else if (direction == 5) {
-					destX = model.getXCoord() - distance;
-					destY = model.getYCoord() - distance;
-
-					if ((destX < AREA_MIN_X) || (destY+model.getHeight() < AREA_MIN_Y))
-						// Cannot move up left
-						return false;
-
-					// Move occurs in 20 frames
-					int dx = Math.round(distance/20);
-
-					for (int i=0; i<20; i++) {
-						model.setXYCoord(model.getXCoord() - dx, model.getYCoord() - dx);
-						sleepThread(10);
-					}
-				}
-				*/
-		/*
-		// Move up right
-		else if (direction == 6) {
-			destX = model.getXCoord() + distance;
-			destY = model.getYCoord() - distance;
-
-			if ((destX+model.getWidth() > AREA_MAX_X) || (destY+model.getHeight() < AREA_MIN_Y))
-				// Cannot move up right
-				return false;
-			
-			// Move occurs in 20 frames
-			int dx = Math.round(distance/20);
-
-			for (int i=0; i<20; i++) {
-				model.setXYCoord(model.getXCoord() + dx, model.getYCoord() - dx);
-				sleepThread(10);
-			}
-			
-		}
-		// Move down left
-		else if (direction == 7) {
-			destX = model.getXCoord() - distance;
-			destY = model.getYCoord() + distance;
-
-			if ((destX < AREA_MIN_X) || (destY+model.getHeight() > AREA_MAX_Y))
-				// Cannot move down left
-				return false;
-			
-			// Move occurs in 20 frames
-			int dx = Math.round(distance/20);
-
-			for (int i=0; i<20; i++) {
-				model.setXYCoord(model.getXCoord() - dx, model.getYCoord() + dx);
-				sleepThread(10);
-			}
-		}
-		*/
-		
-		
-		// Move down right
-		/*
-		else {
-			destX = model.getXCoord() + distance;
-			destY = model.getYCoord() + distance;
-
-			if ((destX + model.getWidth() > AREA_MAX_X) || (destY+model.getHeight() > AREA_MAX_Y))
-				// Cannot move down right
-				return false;
-			
-			// Move occurs in 20 frames
-			int dx = Math.round(distance/20);
-
-			for (int i=0; i<20; i++) {
-				model.setXYCoord(model.getXCoord() + dx, model.getYCoord() + dx);
-				sleepThread(10);
-			}
-		}
-		*/
 
 		return true;
 		
@@ -386,7 +362,8 @@ public class PetController extends Controller {
 	}
 
 	private void clean() {
-		
+		// Testing: put pet in house door
+		model.setXYCoord(CENTER_HOUSE_X - model.getWidth()/2, BOTTOM_HOUSE_Y - model.getHeight());
 	}
 
 	private void feed() {
@@ -396,7 +373,9 @@ public class PetController extends Controller {
 //		
 //		for(int i = 0; i < numPoop; i ++) {
 //			
-//			temp = new Poop(this.getModel().getHeight(), this.getModel().getWidth(), (int)Math.random() * BACKGROUND_WIDTH, (int)Math.random() * BACKGROUND_HEIGHT);
+//			temp = new Poop(this.getModel().getHeight(), this.getModel().getWidth(), (int)Math.random() * BACKGROUND_WIDTH, (int)Math.random() * 
+
+//BACKGROUND_HEIGHT);
 //			myList.add(temp);
 //			
 //		}
@@ -409,7 +388,7 @@ public class PetController extends Controller {
 
 	private void accessorize() {
 		// Pet is leaving Home to go to new activity.
-		life.petIsHome = false;
+		model.setPetIsHome(false);
 		
 		// Launch AccessorizeActivity.
 		Intent myIntent = new Intent(getHomeContext(), AccessorizeActivity.class);
@@ -420,7 +399,7 @@ public class PetController extends Controller {
 	private void runaway()
 	{
 		// Pet is leaving Home to go to new activity.
-		life.petIsHome = false;
+		model.setPetIsHome(false);
 		
 		// Launch RunawayActivity.
 		Intent myIntent = new Intent(getHomeContext(), RunawayActivity.class);
@@ -446,12 +425,11 @@ public class PetController extends Controller {
 	private class PetLife extends Thread {
 		int petMove = 0;
 		boolean movementEnabled = true;
-		boolean petIsHome = true;
 		
 		public void run()
 		{
 			while(true)
-			{				
+			{
 				// Sleep
 				try {
 					sleep(2000);
@@ -461,13 +439,10 @@ public class PetController extends Controller {
 				}
 				
 				// Stay here if user working with pet in another activity.
-				while (!petIsHome)
+				while (!model.getPetIsHome())
 				{
-					
 					yield();
 				}
-				// implement runaway if stmt here.  
-				
 				
 				if (movementEnabled)
 				{

@@ -108,9 +108,20 @@
     	android:layout_toRightOf="@id/Poop"
     	android:src="@drawable/sponge"
     	android:layout_marginLeft="2dp"
-    	android:layout_marginRight="4dp"
+    	android:layout_marginRight="2dp"
     	android:contentDescription="@string/sponge_button"
     />
+    
+    <Button
+         android:id="@+id/TestButton"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_centerVertical="true"
+    	android:layout_toRightOf="@id/Sponge"
+ 		android:text="@string/test_button"
+    	android:layout_marginLeft="2dp"
+    	android:layout_marginRight="4dp"
+    	/>
         <!-- 
     <Button 
         android:id="@+id/Accessorize"

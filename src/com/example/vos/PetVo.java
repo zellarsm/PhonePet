@@ -27,7 +27,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	 * fox = 1
  	 * panda = 2 */
 	private int petType;
-	
+	private boolean petIsHome;
 	/* Pet color
 	 * orange = 1
 	 * red = 2 */
@@ -72,7 +72,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public int getPetColor() {
 		return this.petColor;
 	}
-	
+	public boolean getPetIsHome() {
+		return this.petIsHome;
+	}
+
 	// Pet has been initially loaded, notify the view.
 	public void loadPet(int width, int height, int xCoord, int yCoord, int petType) {
 		// Remember that width and height is NOT the center of the pet bitmap, it's the top left.
@@ -86,10 +89,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 		notifyObservers(this);
 	}
 	
-	public void justDraw() {
-		notifyObservers(this);
+	public void setPetIsHome(boolean bool) {
+		this.petIsHome = bool;
 	}
-	
 	public void setXCoord(int x) {
 		this.xCoord = x;
 		notifyObservers(this);
@@ -175,6 +177,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 	
 	public void roll(int x) {
+		notifyObservers(this);
+	}
+	
+	public void justDraw() {
 		notifyObservers(this);
 	}
 
