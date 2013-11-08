@@ -1,6 +1,8 @@
 package com.example.connect4;
 
-import com.example.connect4.R;
+
+
+import com.example.phonepet.R;
 
 import android.os.Bundle;
 import android.app.Activity;

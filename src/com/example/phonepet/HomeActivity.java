@@ -1,5 +1,6 @@
 package com.example.phonepet;
 
+import com.example.connect4.Connect4Activity;
 import com.example.controllers.PetController;
 import com.example.views.HomeView;
 import com.example.vos.OnChangeListener;
@@ -7,7 +8,9 @@ import com.example.vos.PetVo;
 import android.os.Bundle;
 import android.provider.Settings.System;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.view.MotionEventCompat;
@@ -21,6 +24,7 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
@@ -380,11 +384,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private void showPlayOptions(final View v)
 	{
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-		final String[] playOptions = {"Fecth", "Do nothing", "Connect 4", "Quit Life"};
-		dialogBuilder.setTital("What would you like to play");
+		final String[] playOptions = {"Fetch", "Do nothing", "Connect 4", "Quit Life"};
+		dialogBuilder.setTitle("What would you like to play");
 		dialogBuilder.setItems(playOptions, new DialogInterface.OnClickListener(){
 		
-			@Overide
+			@Override
 			public void onClick(DialogInterface dialog, int which){
 			
 				switch(which)
