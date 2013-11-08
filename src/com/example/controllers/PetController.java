@@ -451,7 +451,7 @@ public class PetController extends Controller {
 		public void run()
 		{
 			while(true)
-			{
+			{				
 				// Sleep
 				try {
 					sleep(2000);
@@ -463,8 +463,11 @@ public class PetController extends Controller {
 				// Stay here if user working with pet in another activity.
 				while (!petIsHome)
 				{
+					
 					yield();
 				}
+				// implement runaway if stmt here.  
+				
 				
 				if (movementEnabled)
 				{
