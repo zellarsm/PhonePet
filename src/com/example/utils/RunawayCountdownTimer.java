@@ -47,7 +47,7 @@ public class RunawayCountdownTimer extends CountDownTimer
     public void onFinish()
     {
     	// Pet runs away
-    	Log.v("onFinish", "countdown has completed!!");
+    	//Log.v("onFinish", "countdown has completed!!");
         timerCompleted = true;
     	
     }

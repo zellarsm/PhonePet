@@ -30,8 +30,6 @@ public class HomeView extends View {
 	private int cloud1X, cloud2X;
 	private List<Poop> myList = null;
 	private boolean poopExists;
-	public int poop1x,poop1y, poop2x, poop2y, poop3x, poop3y;
-	Thread moveT;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -181,15 +179,7 @@ public class HomeView extends View {
             String log = "Id: "+cn.getID()+" ,Name: " + cn.getX() + " ,Phone: " + cn.getY();
             Log.d("Name: ", log);
         }	
-		
-                // Writing Contacts to log
-//		poop1x = (int)(Math.random() * backgroundWidth);
-//		poop1y = (int)(Math.random() * backgroundHeight);
-//		poop2x = (int)(Math.random() * backgroundWidth);
-//		poop2y = (int)(Math.random() * backgroundHeight);
-//		poop3x = (int)(Math.random() * backgroundWidth);
-//		poop3y = (int)(Math.random() * backgroundHeight);
-        
+		        
 		poopExists = true;		
 		
 		this.invalidate();
@@ -197,11 +187,7 @@ public class HomeView extends View {
 	
 	public void removePoop() {
 				
-		moveT = new MovePoop();
-		moveT.start();
-		if(!poopExists) {
-			moveT.interrupt();
-		}
+		poopExists = false;
 		this.invalidate();
 		
 	}
@@ -212,27 +198,7 @@ public class HomeView extends View {
 		this.invalidate();
 		
 	}
-	private class MovePoop extends Thread {
-			
-		public void run() {
-			while (poopExists) {
-				
-				poop1y = poop1y - 50;
-				poop2y = poop2y - 50;
-				poop3y = poop3y - 50;
-				
-				if(poop1y > backgroundHeight && poop2y > backgroundHeight && poop3y > backgroundHeight)
-					poopExists = false;
-				// Sleep thread for 2 seconds.
-				try {
-					sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}	
-	}
+	
 	public int getBackgroundWidth() {
 		return backgroundWidth;
 	}
