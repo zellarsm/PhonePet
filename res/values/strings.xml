@@ -37,5 +37,8 @@
     <string name="title_activity_accessorize">AccessorizeActivity</string>
     <string name="access_desc">Pet Accessory</string>
     <string name="title_activity_runaway">RunawayActivity</string>
+    <string name="title_activity_clean">CleanActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
