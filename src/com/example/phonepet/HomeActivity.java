@@ -129,7 +129,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				for(int i = 0; i < numPoop; i ++){
 					
 					tempX = (int)(Math.random() * width);
-					tempY = (int)(Math.random() * (height/2) + (height/4));
+					tempY = (int)(Math.random() * (height/2) + (height/2));
+					
+					if(tempY > height - pet.getHeight()) {
+						tempY = tempY - height/12;
+					}
 					poop = new Poop(tempX, tempY);
 					db.addPoop(poop);
 				}

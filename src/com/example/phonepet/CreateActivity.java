@@ -42,6 +42,7 @@ public class CreateActivity extends Activity {
 		int backgroundHeight = screenHeight * 8/10;	
 		int petWidth = backgroundWidth/10;
 		int petHeight = screenHeight/10;
+		boolean poopExists = true;
 		
 		// User creates pet
 		
@@ -56,6 +57,7 @@ public class CreateActivity extends Activity {
 		editor.putInt("petHeight", petHeight);
 		editor.putInt("petX", (backgroundWidth/2)-(petWidth/2));
 		editor.putInt("petY", backgroundHeight*8/10);
+		editor.putBoolean("poop", poopExists);
 		
 		editor.commit();
 		
