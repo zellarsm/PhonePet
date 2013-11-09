@@ -2,38 +2,47 @@ package com.example.vos;
 
 public class Poop {
 
-	private int poopWidth;
-	private int poopHeight;
 	private int poopX;
 	private int poopY;
-	private int ID = 0;
+	private int ID;
 	
-	public Poop(int height, int width, int x, int y) {
+	public Poop(int id, int x, int y) {
 		
-		poopHeight = height;
-		poopWidth = width;
+		ID = id;
+		poopX = x;
+		poopY = y;	
+	}
+	
+	public Poop() {
+	}
+	
+	public Poop(int x, int y) {
+		
 		poopX = x;
 		poopY = y;
-		ID = ID + 1;
 	}
-	
-	public int getHeight() {
-		return poopHeight;
-	}
-	
-	public int getWidth() {
-		return poopWidth;
-	}
-	
+
 	public int getX() {
-		return poopX;
+		return this.poopX;
 	}
 	
 	public int getY() {
-		return poopY;
+		return this.poopY;
 	}
 	
 	public int getID() {
-		return ID;
+		return this.ID;
+	}
+	
+	public void setX(int x) {
+		poopX = x;
+	}
+	
+	public void setY(int y) {
+		poopY = y;
+	}
+	
+	public void setID(int id) {
+		ID = id;
 	}
 }

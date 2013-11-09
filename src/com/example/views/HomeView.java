@@ -28,7 +28,7 @@ public class HomeView extends View {
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight;
 	private int cloud1X, cloud2X;
-	private List<com.example.vos.Poop> myList = null;
+	private List<Poop> myList = null;
 	private boolean poopExists;
 	public int poop1x,poop1y, poop2x, poop2y, poop3x, poop3y;
 	Thread moveT;
@@ -92,9 +92,9 @@ public class HomeView extends View {
 		
 		//canvas.drawBitmap(mPoop,e.getX(), e.getY(), null);
 		if(poopExists) {
-			canvas.drawBitmap(mPoop, poop1x, poop1y, null);
-			canvas.drawBitmap(mPoop, poop2x, poop2y, null);
-			canvas.drawBitmap(mPoop, poop3x, poop3y, null);
+			for(Poop e: myList) {
+				canvas.drawBitmap(mPoop, e.getX(), e.getY(), null);
+			}
 		}
 	}
 	
@@ -170,29 +170,26 @@ public class HomeView extends View {
 		mBackground = Bitmap.createScaledBitmap(mBackground, backgroundWidth, backgroundHeight, true); // Environment
 		mCloud = Bitmap.createScaledBitmap(mCloud, backgroundWidth/4, backgroundHeight/10, true); // Cloud
 		mPet = Bitmap.createScaledBitmap(mPet, petWidth, petHeight, true); // Pet
-		mPoop = Bitmap.createScaledBitmap(mPoop, petWidth, petHeight, true);
+		mPoop = Bitmap.createScaledBitmap(mPoop, petWidth/2, petHeight/2, true);
 		
 	}
 
-	public void drawPoop() {
+	public void drawPoop(List<Poop> list) {
 		
-		//int numPoop = (int)Math.random() * 5;
+		myList = list;
+		for (Poop cn : myList) {
+            String log = "Id: "+cn.getID()+" ,Name: " + cn.getX() + " ,Phone: " + cn.getY();
+            Log.d("Name: ", log);
+        }	
 		
-//		Poop temp;
-//		myList = new ArrayList<Poop>();
-//		for(int i = 0; i < 3; i ++) {
-//			
-//			temp = new Poop(petHeight, petWidth, (int)Math.random() * backgroundWidth, (int)Math.random() * backgroundHeight);
-//			myList.add(temp);
-//			
-//		}
-		
-		poop1x = (int)(Math.random() * backgroundWidth);
-		poop1y = (int)(Math.random() * backgroundHeight);
-		poop2x = (int)(Math.random() * backgroundWidth);
-		poop2y = (int)(Math.random() * backgroundHeight);
-		poop3x = (int)(Math.random() * backgroundWidth);
-		poop3y = (int)(Math.random() * backgroundHeight);
+                // Writing Contacts to log
+//		poop1x = (int)(Math.random() * backgroundWidth);
+//		poop1y = (int)(Math.random() * backgroundHeight);
+//		poop2x = (int)(Math.random() * backgroundWidth);
+//		poop2y = (int)(Math.random() * backgroundHeight);
+//		poop3x = (int)(Math.random() * backgroundWidth);
+//		poop3y = (int)(Math.random() * backgroundHeight);
+        
 		poopExists = true;		
 		
 		this.invalidate();
@@ -211,13 +208,7 @@ public class HomeView extends View {
 	
 	public void dragPoop(int poop1x,int poop1y, int poop2x, int poop2y, int poop3x, int poop3y) {
 		
-		this.poop1x = poop1x;
-		this.poop1y = poop1y;
-		this.poop2x = poop2x;
-		this.poop2x = poop2x;
-		this.poop3x = poop3x;
-		this.poop3x = poop3x;
-		
+		poopExists = false;
 		this.invalidate();
 		
 	}
@@ -240,8 +231,13 @@ public class HomeView extends View {
 				}
 			}
 			
-		}
-		
-		
+		}	
+	}
+	public int getBackgroundWidth() {
+		return backgroundWidth;
+	}
+	
+	public int getBackgroundHeight() {
+		return backgroundHeight;
 	}
 }

@@ -1,10 +1,15 @@
 package com.example.phonepet;
 
+import java.util.List;
+
 import com.example.connect4.Connect4Activity;
 import com.example.controllers.PetController;
+import com.example.utils.DatabaseHelper;
 import com.example.views.HomeView;
 import com.example.vos.OnChangeListener;
 import com.example.vos.PetVo;
+import com.example.vos.Poop;
+
 import android.os.Bundle;
 import android.provider.Settings.System;
 import android.app.Activity;
@@ -56,7 +61,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private float mPosY = 0;
 	//boolean petIsClicked = false;
 	private String fileName = "preferences";
-	
+	DatabaseHelper db;
 	private boolean testButtonJustHeld = false;
 	
 	@Override
@@ -68,6 +73,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		// Now anytime the model changes, the onChange method gets called. 
 		pet = PetVo.getInstance();
 		pet.addListener(this);
+		
+		db = new DatabaseHelper(this);
+		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);
+		this.hView = homeview;
 		
 		controller = new PetController(pet, getApplicationContext());
 		
@@ -99,8 +108,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		poopButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//controller.handleMessage(PetController.MESSAGE_SCOOP_POOP);
 				
+				db.deleteDatabse();
 				hView.removePoop();
 			}
 		});
@@ -109,7 +118,26 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			@Override
 			public void onClick(View v) {
 				
-				hView.drawPoop();
+				int numPoop = (int)(Math.random() * 3) + 1;
+				int tempX, tempY;
+				Poop poop;
+				
+				for(int i = 0; i < numPoop; i ++){
+					
+					tempX = (int)(Math.random() * hView.getBackgroundWidth());
+					tempY = (int)(Math.random() * hView.getBackgroundHeight());
+					poop = new Poop(tempX, tempY);
+					db.addPoop(poop);
+				}
+				
+				
+				List<Poop> myList = db.getAllPoop();
+			
+				//Log.d("Reading: ", "Reading all contacts.."); 
+		    
+		         
+		        			
+				hView.drawPoop(myList);
 				//controller.handleMessage(PetController.MESSAGE_FEED);
 			}
 		});
@@ -146,10 +174,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			}
 		});
 		
-		
-		// Retrieve home view
-		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);
-		this.hView = homeview;
 		// Load pet information.
 		controller.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
 		
