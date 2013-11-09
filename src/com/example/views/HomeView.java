@@ -176,7 +176,7 @@ public class HomeView extends View {
 		
 		myList = list;
 		for (Poop cn : myList) {
-            String log = "Id: "+cn.getID()+" ,Name: " + cn.getX() + " ,Phone: " + cn.getY();
+            String log = "Id: "+cn.getID()+" ,x: " + cn.getX() + " ,y: " + cn.getY();
             Log.d("Name: ", log);
         }	
 		        
@@ -205,5 +205,13 @@ public class HomeView extends View {
 	
 	public int getBackgroundHeight() {
 		return backgroundHeight;
+	}
+	
+	public int getPetWidth() {
+		return petWidth;
+	}
+	
+	public int getPetHeight() {
+		return petHeight;
 	}
 }

@@ -57,7 +57,7 @@ public class RunawayCountdownTimer extends CountDownTimer
     {
     	timeLeft = millisUntilFinished;
         timeElapsed = startT - millisUntilFinished;
-    	Log.v("ticking, time left = ", Long.toString(startT - timeElapsed));
+    	//Log.v("ticking, time left = ", Long.toString(startT - timeElapsed));
     }
 
 }

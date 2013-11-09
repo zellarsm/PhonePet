@@ -121,24 +121,23 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				int numPoop = (int)(Math.random() * 3) + 1;
 				int tempX, tempY;
 				Poop poop;
+				int width, height, height2;
+				
+				width = hView.getBackgroundWidth() - hView.getPetWidth();
+				height = hView.getBackgroundHeight();
 				
 				for(int i = 0; i < numPoop; i ++){
 					
-					tempX = (int)(Math.random() * hView.getBackgroundWidth());
-					tempY = (int)(Math.random() * hView.getBackgroundHeight());
+					tempX = (int)(Math.random() * width);
+					tempY = (int)(Math.random() * (height/2) + (height/4));
 					poop = new Poop(tempX, tempY);
 					db.addPoop(poop);
 				}
 				
-				
-				List<Poop> myList = db.getAllPoop();
-			
-				//Log.d("Reading: ", "Reading all contacts.."); 
-		    
-		         
+				List<Poop> myList = db.getAllPoop();       
 		        			
 				hView.drawPoop(myList);
-				//controller.handleMessage(PetController.MESSAGE_FEED);
+				
 			}
 		});
 		
