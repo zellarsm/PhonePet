@@ -49,7 +49,7 @@ public class HomeView extends View {
 		// Set the cloud positions
 		cloud1X = backgroundWidth / 2;
 		cloud2X = 10;
-		poopExists = sharedPref.getBoolean("poop", false);
+		poopExists = false;
 		
 		// Load bitmaps
 		loadBitmaps();
