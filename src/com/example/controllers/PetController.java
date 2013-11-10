@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.example.utils.RunawayCountdownTimer;
 import com.example.phonepet.AccessorizeActivity;
+import com.example.phonepet.CleanActivity;
 import com.example.phonepet.RunawayActivity;
 import com.example.views.HomeView;
 import com.example.vos.PetVo;
@@ -363,7 +364,15 @@ public class PetController extends Controller {
 
 	private void clean() {
 		// Testing: put pet in house door
-		model.setXYCoord(CENTER_HOUSE_X - model.getWidth()/2, BOTTOM_HOUSE_Y - model.getHeight());
+		//model.setXYCoord(CENTER_HOUSE_X - model.getWidth()/2, BOTTOM_HOUSE_Y - model.getHeight());
+		// Pet is leaving Home to go to new activity.
+				model.setPetIsHome(false);
+				
+				// Launch AccessorizeActivity.
+				Intent myIntent = new Intent(getHomeContext(), CleanActivity.class);
+				myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				PetController.this.homeContext.startActivity(myIntent);
+		
 	}
 
 	private void feed() {

@@ -19,7 +19,7 @@ import android.view.View;
 public class CleanActivity extends Activity {
 	/**
 	 * Whether or not the system UI should be auto-hidden after
-	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
+	 * {@link #AUTO_HIDE_DELAY_MILLIS} millcleaniseconds.
 	 */
 	private static final boolean AUTO_HIDE = true;
 
