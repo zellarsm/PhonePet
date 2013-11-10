@@ -171,6 +171,132 @@
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
+		    
+		     <ImageButton
+		        android:id="@+id/mustache"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/bowtie"
+		    	android:background="@drawable/acc_mustache"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		     
+		    <ImageButton
+		        android:id="@+id/partyhat"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/mustache"
+		    	android:background="@drawable/acc_party_hat"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		     
+		    <ImageButton
+		        android:id="@+id/pikachu"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/partyhat"
+		    	android:background="@drawable/acc_pikachu_headband"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		     
+		     <ImageButton
+		        android:id="@+id/monocle"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/pikachu"
+		    	android:background="@drawable/acc_monocle"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		      
+		     <ImageButton
+		        android:id="@+id/clownnose"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/monocle"
+		    	android:background="@drawable/acc_clown_nose"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		     
+		     <ImageButton
+		        android:id="@+id/tealhairbow"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/clownnose"
+		    	android:background="@drawable/acc_teal_hairbow"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		     
+		     <ImageButton
+		        android:id="@+id/redhairbow"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/tealhairbow"
+		    	android:background="@drawable/acc_red_hairbow"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    /> 
+		    
+		     <ImageButton
+		        android:id="@+id/yellowhairbow"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/redhairbow"
+		    	android:background="@drawable/acc_yellow_hairbow"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    /> 
+		    
+		     <ImageButton
+		        android:id="@+id/bluehairbow"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/yellowhairbow"
+		    	android:background="@drawable/acc_blue_hairbow"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    /> 
 		
 	    </RelativeLayout>
 	    </HorizontalScrollView> 
