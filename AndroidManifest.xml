@@ -44,8 +44,14 @@
             android:name="com.example.phonepet.RunawayActivity"
             android:label="@string/title_activity_runaway" >
         </activity>
-        <activity android:name="com.example.connect4.Connect4Activity"></activity>
-        <activity android:name="CleanActivity"></activity>
+        <activity android:name="com.example.connect4.Connect4Activity" >
+        </activity>
+        <activity
+            android:name="com.example.phonepet.CleanActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_clean"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
 </manifest>
