@@ -74,7 +74,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_black_tie);
+				layers[1] = getResources().getDrawable(R.drawable.acc_black_tie2);
 				updateView();
 			}
 		});
@@ -83,7 +83,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_red_tie);
+				layers[1] = getResources().getDrawable(R.drawable.acc_red_tie2);
 				updateView();
 			}
 		});
@@ -92,7 +92,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_blue_tie);
+				layers[1] = getResources().getDrawable(R.drawable.acc_blue_tie2);
 				updateView();
 			}
 		});
@@ -101,7 +101,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie);
+				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie2);
 				updateView();
 			}
 		});
@@ -110,7 +110,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_unicorn_horn);
+				layers[2] = getResources().getDrawable(R.drawable.acc_unicorn_horn2);
 				updateView();
 			}
 		});
@@ -121,7 +121,7 @@ public class AccessorizeActivity extends Activity {
 			{
 				//Bitmap b = ((BitmapDrawable)getResources().getDrawable(R.drawable.acc_top_hat)).getBitmap();
 				//b= Bitmap.createScaledBitmap(b, pet.getWidth()/4, pet.getHeight()/4, true);
-				layers[2] = getResources().getDrawable(R.drawable.acc_top_hat);//new BitmapDrawable(getResources(), b);
+				layers[2] = getResources().getDrawable(R.drawable.acc_top_hat2);//new BitmapDrawable(getResources(), b);
 				updateView();
 			}
 		});
@@ -130,7 +130,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[3] = getResources().getDrawable(R.drawable.acc_glasses);
+				layers[3] = getResources().getDrawable(R.drawable.acc_glasses3);
 				updateView();
 			}
 		});
@@ -139,7 +139,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_party_hat);
+				layers[2] = getResources().getDrawable(R.drawable.acc_party_hat2);
 				updateView();
 			}
 		});
@@ -148,7 +148,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[4] = getResources().getDrawable(R.drawable.acc_mustache);
+				layers[4] = getResources().getDrawable(R.drawable.acc_mustache2);
 				updateView();
 			}
 		});
@@ -166,7 +166,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[3] = getResources().getDrawable(R.drawable.acc_monocle);
+				layers[3] = getResources().getDrawable(R.drawable.acc_monocle3);
 				updateView();
 			}
 		});
@@ -184,7 +184,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_teal_hairbow);
+				layers[2] = getResources().getDrawable(R.drawable.acc_teal_hairbow2);
 				updateView();
 			}
 		});
@@ -202,7 +202,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_yellow_hairbow);
+				layers[2] = getResources().getDrawable(R.drawable.acc_yellow_hairbow2);
 				updateView();
 			}
 		});
@@ -211,7 +211,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_blue_hairbow);
+				layers[2] = getResources().getDrawable(R.drawable.acc_blue_hairbow2);
 				updateView();
 			}
 		});
@@ -220,7 +220,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_purple_hairbow);
+				layers[2] = getResources().getDrawable(R.drawable.acc_purple_hairbow2);
 				updateView();
 			}
 		});
@@ -301,13 +301,19 @@ public class AccessorizeActivity extends Activity {
 		// TODO: Set location of each layer when we have good pet images
 		// Set location of each layer.
 		// Layer 1: tie
-		layerDrawable.setLayerInset(1, 0, pet.getHeight()+pet.getHeight()/10, pet.getHeight()/10, pet.getHeight()/6); //pet.getWidth()/2, pet.getHeight()+pet.getHeight()/10, 0, pet.getHeight()/8);
+		layerDrawable.setLayerInset(1, 0, pet.getHeight()+pet.getHeight()/4, pet.getHeight()/10, pet.getHeight()/6); //pet.getWidth()/2, pet.getHeight()+pet.getHeight()/10, 0, pet.getHeight()/8);
 		
 		// Layer 2: hat
-		layerDrawable.setLayerInset(2, 0, -pet.getHeight(), 0, pet.getHeight());
+		//layerDrawable.setLayerInset(2, 0, -pet.getHeight(), 0, pet.getHeight());
+		layerDrawable.setLayerInset(2, 0, -pet.getHeight() + (pet.getHeight()), 0, pet.getHeight());
 		
 		// Layer 3: glasses
-		layerDrawable.setLayerInset(3, pet.getWidth()/4, 30, pet.getWidth()/2,  pet.getHeight());
+		//layerDrawable.setLayerInset(3, pet.getWidth()/4, 30, pet.getWidth()/2,  pet.getHeight());
+		//layerDrawable.setLayerInset(3, 0, -pet.getHeight()/8, 0, pet.getWidth()); //works but pictures are placed stupidly.
+		layerDrawable.setLayerInset(3, 0, pet.getHeight()/2, 0, pet.getWidth());
+		
+		// Layer 4: mustache
+		layerDrawable.setLayerInset(4, 0, -pet.getHeight()/2, 0, pet.getWidth());
 		
 		petImage.setImageDrawable(layerDrawable);
 		
@@ -320,7 +326,7 @@ public class AccessorizeActivity extends Activity {
 		if (type == 1)
 		{
 			// Pet is a fox
-			return R.drawable.fox_sized;
+			return R.drawable.testfox;
 		}
 		else if (type == 2)
 		{

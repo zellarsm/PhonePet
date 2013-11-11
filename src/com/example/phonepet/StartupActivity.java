@@ -8,8 +8,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 
-public class StartupActivity extends Activity
-{
+public class StartupActivity extends Activity {
 	boolean checkForPreviousPet(){return true;};
 	
 	@Override
