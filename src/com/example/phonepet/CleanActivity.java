@@ -64,7 +64,7 @@ public class CleanActivity extends Activity {
 					// Cached values.
 					int mControlsHeight;
 					int mShortAnimTime;
-
+					
 					@Override
 					@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 					public void onVisibilityChange(boolean visible) {
