@@ -85,7 +85,7 @@
  		    	android:layout_width="50dp"
 		    	android:layout_height="match_parent"
 		    	android:layout_centerVertical="true"
- 		    	android:background="@drawable/acc_top_hat2"
+ 		    	android:background="@drawable/acc_top_hat"
  		    	android:layout_marginLeft="2dp"
  		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
@@ -99,7 +99,7 @@
 		    	android:layout_height="match_parent"
 		    	android:layout_centerVertical="true"
  		    	android:layout_toRightOf="@id/topHat"
- 		    	android:background="@drawable/acc_unicorn_horn2"
+ 		    	android:background="@drawable/acc_unicorn_horn"
  		    	android:layout_marginLeft="2dp"
  		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
@@ -220,12 +220,26 @@
 		    />
 		     
 		     <ImageButton
-		        android:id="@+id/monocle"
+		        android:id="@+id/black_monocle"
 		    	android:layout_width="wrap_content"
 		    	android:layout_height="match_parent"
 		    	android:layout_centerVertical="true"
 		    	android:layout_toRightOf="@id/pikachu"
-		    	android:background="@drawable/acc_monocle"
+		    	android:background="@drawable/acc_black_monocle"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="centerInside"
+		    	android:contentDescription="@string/access_desc"
+		    	
+		    />
+		     
+		     <ImageButton
+		        android:id="@+id/gold_monocle"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="match_parent"
+		    	android:layout_centerVertical="true"
+		    	android:layout_toRightOf="@id/black_monocle"
+		    	android:background="@drawable/acc_gold_monocle1"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
@@ -238,7 +252,7 @@
 		    	android:layout_width="wrap_content"
 		    	android:layout_height="match_parent"
 		    	android:layout_centerVertical="true"
-		    	android:layout_toRightOf="@id/monocle"
+		    	android:layout_toRightOf="@id/gold_monocle"
 		    	android:background="@drawable/acc_clown_nose"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"

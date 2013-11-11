@@ -58,7 +58,8 @@ public class AccessorizeActivity extends Activity {
 		ImageButton mustacheButton = (ImageButton)findViewById(R.id.mustache);
 		ImageButton partyhatButton = (ImageButton)findViewById(R.id.partyhat);
 		ImageButton pikachuHatButton = (ImageButton)findViewById(R.id.pikachu);
-		ImageButton monocleButton = (ImageButton)findViewById(R.id.monocle);
+		ImageButton blackMonocleButton = (ImageButton)findViewById(R.id.black_monocle);
+		ImageButton goldMonocleButton = (ImageButton)findViewById(R.id.gold_monocle);
 		ImageButton clownNoseButton = (ImageButton)findViewById(R.id.clownNose);
 		ImageButton tealHairbowButton = (ImageButton)findViewById(R.id.tealhairbow);
 		ImageButton redHairbowButton = (ImageButton)findViewById(R.id.redhairbow);
@@ -69,6 +70,27 @@ public class AccessorizeActivity extends Activity {
 		Button saveButton = (Button)findViewById(R.id.saveButton);
 		Button clearButton = (Button)findViewById(R.id.clearButton);
 
+
+		topHatButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				//Bitmap b = ((BitmapDrawable)getResources().getDrawable(R.drawable.acc_top_hat)).getBitmap();
+				//b= Bitmap.createScaledBitmap(b, pet.getWidth()/4, pet.getHeight()/4, true);
+				layers[2] = getResources().getDrawable(R.drawable.acc_top_hat);//new BitmapDrawable(getResources(), b);
+				updateView();
+			}
+		});
+		unicornButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_unicorn_horn);
+				updateView();
+			}
+		});
 		blackTieButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -101,27 +123,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie2);
-				updateView();
-			}
-		});
-		unicornButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_unicorn_horn2);
-				updateView();
-			}
-		});
-		topHatButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				//Bitmap b = ((BitmapDrawable)getResources().getDrawable(R.drawable.acc_top_hat)).getBitmap();
-				//b= Bitmap.createScaledBitmap(b, pet.getWidth()/4, pet.getHeight()/4, true);
-				layers[2] = getResources().getDrawable(R.drawable.acc_top_hat2);//new BitmapDrawable(getResources(), b);
+				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie3);
 				updateView();
 			}
 		});
@@ -157,11 +159,11 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_pikachu_headband);
+				layers[2] = getResources().getDrawable(R.drawable.acc_pikachu_headband2);
 				updateView();
 			}
 		});
-		monocleButton.setOnClickListener(new View.OnClickListener()
+		blackMonocleButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
@@ -170,12 +172,21 @@ public class AccessorizeActivity extends Activity {
 				updateView();
 			}
 		});
+		goldMonocleButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[3] = getResources().getDrawable(R.drawable.acc_gold_monocle2);
+				updateView();
+			}
+		});
 		clownNoseButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				layers[4] = getResources().getDrawable(R.drawable.acc_clown_nose);
+				layers[4] = getResources().getDrawable(R.drawable.acc_clown_nose2);
 				updateView();
 			}
 		});
@@ -326,17 +337,17 @@ public class AccessorizeActivity extends Activity {
 		if (type == 1)
 		{
 			// Pet is a fox
-			return R.drawable.testfox;
+			return R.drawable.acc_fox;
 		}
 		else if (type == 2)
 		{
 			// Pet is a panda
-			return R.drawable.panda;
+			return R.drawable.acc_panda;
 		}
 		else if (type == 3)
 		{
 			// Pet is a dog
-			return R.drawable.dog;
+			return R.drawable.acc_dog;
 		}
 		
 		return 0;

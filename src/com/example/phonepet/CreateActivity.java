@@ -40,8 +40,8 @@ public class CreateActivity extends Activity {
 		int screenHeight = metrics.heightPixels;
 		int backgroundWidth = screenWidth;
 		int backgroundHeight = screenHeight * 8/10;	
-		int petWidth = backgroundWidth/10;
-		int petHeight = screenHeight/10;
+		int petWidth = backgroundWidth/6;
+		int petHeight = screenHeight/6;
 		boolean poopExists = true;
 		
 		// User creates pet
@@ -52,7 +52,7 @@ public class CreateActivity extends Activity {
 		editor.putInt("screenHeight", screenHeight);
 		editor.putInt("backgroundWidth", backgroundWidth);
 		editor.putInt("backgroundHeight", backgroundHeight);
-		editor.putInt("petType", 1); // Pet is a fox
+		editor.putInt("petType", 3); // Pet is a fox
 		editor.putInt("petWidth", petWidth);
 		editor.putInt("petHeight", petHeight);
 		editor.putInt("petX", (backgroundWidth/2)-(petWidth/2));
@@ -62,7 +62,7 @@ public class CreateActivity extends Activity {
 		editor.commit();
 		
 		// Create the bitmap of the pet the user chose and save it to sd card.
-		Bitmap petBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.testfox);
+		Bitmap petBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fox_sized);
 		storeImage(petBitmap);
 
 		// Go to Home activity
