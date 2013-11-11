@@ -62,7 +62,8 @@ public class CreateActivity extends Activity {
 		editor.commit();
 		
 		// Create the bitmap of the pet the user chose and save it to sd card.
-		Bitmap petBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.foxx);
+		Bitmap petBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fox_sized);
+		// need function to switch between pets?? -CL
 		storeImage(petBitmap);
 
 		// Go to Home activity

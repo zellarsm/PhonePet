@@ -34,8 +34,8 @@ public class AccessorizeActivity extends Activity {
 	
 	// Layer 0: Original pet bitmap
 	// Layer 1: Tie region
-	// Layer 2: glasses region
-	// Layer 3: hat region
+	// Layer 2: hat region
+	// Layer 3: glasses region
 	// Layer 4: mustache region
 	Drawable[] layers = new Drawable[5];
 	Drawable transparentDrawable = new ColorDrawable(Color.TRANSPARENT); // Use for placeholder for non-used layers
@@ -54,64 +54,178 @@ public class AccessorizeActivity extends Activity {
 		ImageButton redTieButton = (ImageButton)findViewById(R.id.redTie);
 		ImageButton blueTieButton = (ImageButton)findViewById(R.id.blueTie);
 		ImageButton bowTieButton = (ImageButton)findViewById(R.id.bowtie);
+		
+		ImageButton mustacheButton = (ImageButton)findViewById(R.id.mustache);
+		ImageButton partyhatButton = (ImageButton)findViewById(R.id.partyhat);
+		ImageButton pikachuHatButton = (ImageButton)findViewById(R.id.pikachu);
+		ImageButton monocleButton = (ImageButton)findViewById(R.id.monocle);
+		ImageButton clownNoseButton = (ImageButton)findViewById(R.id.clownNose);
+		ImageButton tealHairbowButton = (ImageButton)findViewById(R.id.tealhairbow);
+		ImageButton redHairbowButton = (ImageButton)findViewById(R.id.redhairbow);
+		ImageButton yellowHairbowButton = (ImageButton)findViewById(R.id.yellowhairbow);
+		ImageButton blueHairbowButton = (ImageButton)findViewById(R.id.bluehairbow);
+		ImageButton purpleHairbowButton = (ImageButton)findViewById(R.id.purplehairbow);
+		
 		Button saveButton = (Button)findViewById(R.id.saveButton);
 		Button clearButton = (Button)findViewById(R.id.clearButton);
 
-		blackTieButton.setOnClickListener(new View.OnClickListener() {
+		blackTieButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				layers[1] = getResources().getDrawable(R.drawable.acc_black_tie);
 				updateView();
 			}
 		});
-		redTieButton.setOnClickListener(new View.OnClickListener() {
+		redTieButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				layers[1] = getResources().getDrawable(R.drawable.acc_red_tie);
 				updateView();
 			}
 		});
-		blueTieButton.setOnClickListener(new View.OnClickListener() {
+		blueTieButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				layers[1] = getResources().getDrawable(R.drawable.acc_blue_tie);
 				updateView();
 			}
 		});
-		bowTieButton.setOnClickListener(new View.OnClickListener() {
+		bowTieButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie);
 				updateView();
 			}
 		});
-		
-		unicornButton.setOnClickListener(new View.OnClickListener() {
+		unicornButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				layers[2] = getResources().getDrawable(R.drawable.acc_unicorn_horn);
 				updateView();
 			}
 		});
-		
-		topHatButton.setOnClickListener(new View.OnClickListener() {
+		topHatButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				//Bitmap b = ((BitmapDrawable)getResources().getDrawable(R.drawable.acc_top_hat)).getBitmap();
 				//b= Bitmap.createScaledBitmap(b, pet.getWidth()/4, pet.getHeight()/4, true);
 				layers[2] = getResources().getDrawable(R.drawable.acc_top_hat);//new BitmapDrawable(getResources(), b);
 				updateView();
 			}
 		});
-		
-		glassesButton.setOnClickListener(new View.OnClickListener() {
+		glassesButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				layers[3] = getResources().getDrawable(R.drawable.acc_glasses);
 				updateView();
 			}
 		});
-		saveButton.setOnClickListener(new View.OnClickListener() {
+		partyhatButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_party_hat);
+				updateView();
+			}
+		});
+		mustacheButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[4] = getResources().getDrawable(R.drawable.acc_mustache);
+				updateView();
+			}
+		});
+		pikachuHatButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_pikachu_headband);
+				updateView();
+			}
+		});
+		monocleButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[3] = getResources().getDrawable(R.drawable.acc_monocle);
+				updateView();
+			}
+		});
+		clownNoseButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[4] = getResources().getDrawable(R.drawable.acc_clown_nose);
+				updateView();
+			}
+		});
+		tealHairbowButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_teal_hairbow);
+				updateView();
+			}
+		});
+		redHairbowButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_red_hairbow2);
+				updateView();
+			}
+		});
+		yellowHairbowButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_yellow_hairbow);
+				updateView();
+			}
+		});
+		blueHairbowButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_blue_hairbow);
+				updateView();
+			}
+		});
+		purpleHairbowButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_purple_hairbow);
+				updateView();
+			}
+		});
+		saveButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
 			public void onClick(View v) {
 				Log.v("goite", " ");
@@ -200,15 +314,23 @@ public class AccessorizeActivity extends Activity {
 	}
 	
 
-	private int getPetDrawableInt() {
+	private int getPetDrawableInt()
+	{
 		int type = pet.getPetType();
-		if (type == 1) {
+		if (type == 1)
+		{
 			// Pet is a fox
-			return R.drawable.foxx;
+			return R.drawable.fox_sized;
 		}
-		else if (type == 2) {
+		else if (type == 2)
+		{
 			// Pet is a panda
-			
+			return R.drawable.panda;
+		}
+		else if (type == 3)
+		{
+			// Pet is a dog
+			return R.drawable.dog;
 		}
 		
 		return 0;

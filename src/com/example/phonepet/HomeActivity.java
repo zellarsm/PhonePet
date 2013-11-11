@@ -458,7 +458,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		AlertDialog alertDialog = dialogBuilder.create();
 		alertDialog.show();
 	}
-	
+
 	/*
 	public void isPetClicked(float userX, float userY) {
 		

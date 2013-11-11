@@ -56,63 +56,65 @@
        
 	<ScrollView 
 	    android:id="@+id/inner_scroll_layout" 
-	    android:layout_height="wrap_content"     
-	    android:scrollbars="horizontal" 
-	    android:layout_width="match_parent"     
-	    android:layout_marginTop="5dp"     
-	    android:scrollbarStyle="outsideInset"
-	    android:fillViewport="true"
+	    android:layout_height="75dp"
+	    android:scrollbars="horizontal"
+	    android:layout_width="match_parent"
+	    android:scrollbarStyle="outsideOverlay"
+	    
 	> 
 	<!-- android:layout_alignParentBottom="true" -->
 		<HorizontalScrollView 
 		    android:id="@+id/horizontalScrollView" 
 		    android:layout_height="wrap_content"     
-		    android:scrollbars="horizontal" 
-		    android:layout_width="wrap_content"     
-		    android:layout_marginTop="5dp"
+		    android:scrollbars="horizontal"
+		    android:scrollbarSize="50dp"
+		    android:isScrollContainer="true"
+		    android:layout_width="wrap_content"
+		    android:measureAllChildren="true"
+		    
 		>
 	
 		<RelativeLayout
 		    android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="fill_parent"
+            android:gravity="fill_vertical"
+            android:clipChildren="false"
+		    android:layoutMode="opticalBounds"
         >
 		    
 			<ImageButton
 		        android:id="@+id/topHat"
 		    	android:layout_width="50dp"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
+		    	android:layout_alignStart="@id/topHat"
 		    	android:background="@drawable/acc_top_hat"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    />
 			
 			<ImageButton
 		        android:id="@+id/unicornHorn"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/topHat"
 		    	android:background="@drawable/acc_unicorn_horn"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    />
 		    
 		    <ImageButton
 		        android:id="@+id/glasses"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/unicornHorn"
 		    	android:background="@drawable/acc_glasses"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -120,26 +122,24 @@
 		    <ImageButton
 		        android:id="@+id/blackTie"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/glasses"
 		    	android:background="@drawable/acc_black_tie"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    />
 	
 		    <ImageButton
 		        android:id="@+id/redTie"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/blackTie"
 		    	android:background="@drawable/acc_red_tie"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -147,13 +147,12 @@
 		    <ImageButton
 		        android:id="@+id/blueTie"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/redTie"
 		    	android:background="@drawable/acc_blue_tie"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -161,13 +160,12 @@
 		    <ImageButton
 		        android:id="@+id/bowtie"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/blueTie"
 		    	android:background="@drawable/acc_black_bowtie"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -175,13 +173,12 @@
 		     <ImageButton
 		        android:id="@+id/mustache"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/bowtie"
 		    	android:background="@drawable/acc_mustache"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -189,13 +186,12 @@
 		    <ImageButton
 		        android:id="@+id/partyhat"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/mustache"
-		    	android:background="@drawable/acc_party_hat"
+		    	android:background="@drawable/acc_party_hat2"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -203,13 +199,12 @@
 		    <ImageButton
 		        android:id="@+id/pikachu"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/partyhat"
 		    	android:background="@drawable/acc_pikachu_headband"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -217,27 +212,25 @@
 		     <ImageButton
 		        android:id="@+id/monocle"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/pikachu"
 		    	android:background="@drawable/acc_monocle"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
 		      
 		     <ImageButton
-		        android:id="@+id/clownnose"
+		        android:id="@+id/clownNose"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/monocle"
 		    	android:background="@drawable/acc_clown_nose"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -245,13 +238,12 @@
 		     <ImageButton
 		        android:id="@+id/tealhairbow"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
-		    	android:layout_toRightOf="@id/clownnose"
+		    	android:layout_height="fill_parent"
+		    	android:layout_toRightOf="@id/clownNose"
 		    	android:background="@drawable/acc_teal_hairbow"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    />
@@ -259,13 +251,12 @@
 		     <ImageButton
 		        android:id="@+id/redhairbow"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/tealhairbow"
-		    	android:background="@drawable/acc_red_hairbow"
+		    	android:background="@drawable/acc_red_hairbow2"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    /> 
@@ -273,13 +264,12 @@
 		     <ImageButton
 		        android:id="@+id/yellowhairbow"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/redhairbow"
 		    	android:background="@drawable/acc_yellow_hairbow"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
 		    	
 		    /> 
@@ -287,15 +277,25 @@
 		     <ImageButton
 		        android:id="@+id/bluehairbow"
 		    	android:layout_width="wrap_content"
-		    	android:layout_height="match_parent"
-		    	android:layout_centerVertical="true"
+		    	android:layout_height="fill_parent"
 		    	android:layout_toRightOf="@id/yellowhairbow"
 		    	android:background="@drawable/acc_blue_hairbow"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
-		    	android:scaleType="centerInside"
+		    	android:scaleType="fitXY"
 		    	android:contentDescription="@string/access_desc"
-		    	
+		    /> 
+		    
+		     <ImageButton
+		        android:id="@+id/purplehairbow"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="fill_parent"
+		    	android:layout_toRightOf="@id/bluehairbow"
+		    	android:background="@drawable/acc_purple_hairbow"
+		    	android:layout_marginLeft="2dp"
+		    	android:layout_marginRight="2dp"
+		    	android:scaleType="fitXY"
+		    	android:contentDescription="@string/access_desc"
 		    /> 
 		
 	    </RelativeLayout>

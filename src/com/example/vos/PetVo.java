@@ -25,7 +25,8 @@ public class PetVo extends SimpleObservable<PetVo> {
 	
 	/* Pet type
 	 * fox = 1
- 	 * panda = 2 */
+ 	 * panda = 2 
+ 	 * dog = 3 */
 	private int petType;
 	private boolean petIsHome;
 	/* Pet color
