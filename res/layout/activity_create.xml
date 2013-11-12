@@ -8,6 +8,7 @@
         <TextView
             android:id="@+id/create_text"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -19,8 +20,9 @@
             android:id="@+id/view_flipper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:gravity="center"
+            android:background="@color/dark_teal"
             android:layout_below="@id/create_text" >
             
         <!--  The child Views/Layouts to flip -->
@@ -52,7 +54,7 @@
                         android:id="@+id/fox_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="35dp"
+                        android:padding="30dp"
                         android:textSize="20sp"
                         android:text="@string/txt_fox" />
 
@@ -60,7 +62,7 @@
 	                    android:id="@+id/panda_button"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
-	                    android:padding="35dp"
+	                    android:padding="30dp"
 	                    android:textSize="20sp"
 	                    android:text="@string/txt_panda" />
 	                
@@ -68,7 +70,7 @@
 	                    android:id="@+id/dog_button"
 	                    android:layout_width="match_parent"
 	                    android:layout_height="wrap_content"
-	                    android:padding="35dp"
+	                    android:padding="30dp"
 	                    android:textSize="20sp"
 	                    android:text="@string/txt_dog" /> 
                 </LinearLayout>
@@ -77,16 +79,16 @@
             
              <!--  Layout 2 for 2nd Screen -->
             
-            <RelativeLayout
-            	android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center" >
+            	<LinearLayout
+				    android:layout_width="fill_parent"
+		            android:layout_height="fill_parent"
+		            android:gravity="center"
+		            android:orientation="vertical" >
                  
                     <TextView
                         android:id="@+id/txt_pick_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:layout_marginBottom="20dp"
                         android:text="@string/pick_color"
                         android:textColor="#191975"
@@ -96,7 +98,6 @@
 					<LinearLayout 
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
-					    android:layout_below="@id/txt_pick_color"
 					    android:orientation="vertical" >
 		                <LinearLayout 
 						    android:layout_width="wrap_content"
@@ -195,7 +196,7 @@
 		                        android:text="@string/color_button_txt" />
 						</LinearLayout>
 					</LinearLayout>
-       </RelativeLayout>
+       </LinearLayout>
        
        <!-- Layout 3 -->
 		<LinearLayout

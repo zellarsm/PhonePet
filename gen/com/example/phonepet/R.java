@@ -29,9 +29,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int black_overlay=0x7f050000;
         public static final int blue=0x7f050003;
         public static final int brown=0x7f050005;
-        public static final int color_popup=0x7f05000b;
-        public static final int color_popup_outer_window=0x7f05000d;
-        public static final int color_popup_window=0x7f05000c;
+        public static final int color_popup=0x7f05000c;
+        public static final int color_popup_outer_window=0x7f05000e;
+        public static final int color_popup_window=0x7f05000d;
+        public static final int dark_teal=0x7f05000b;
         public static final int green=0x7f050002;
         public static final int orange=0x7f050004;
         public static final int purple=0x7f050009;

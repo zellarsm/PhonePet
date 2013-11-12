@@ -132,21 +132,21 @@ public class CreateActivity extends Activity {
         yellowButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				colorSelection = 8;
+				colorSelection = 7;
 				viewFlipper.showNext();
 			}
 		});
         blackButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				colorSelection = 9;
+				colorSelection = 8;
 				viewFlipper.showNext();
 			}
 		});
         purpleButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				colorSelection = 10;
+				colorSelection = 9;
 				viewFlipper.showNext();
 			}
 		});

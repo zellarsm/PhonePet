@@ -43,6 +43,7 @@
     <color name="black">#000000</color>
     <color name="purple">#A349A4</color>
     <color name="teal">#7092BE</color>
+    <color name="dark_teal">#557AB0</color>
 
     <!-- Strings related to AccessorizeActivity -->
     <string name="save_button">Save Changes</string>
