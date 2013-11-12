@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.example.utils.RunawayCountdownTimer;
 import com.example.phonepet.AccessorizeActivity;
@@ -363,17 +364,12 @@ public class PetController extends Controller {
 	}
 
 	private void clean() {
+		
+		int cleanState = 1;
 		// Testing: put pet in house door
 		model.setXYCoord(CENTER_HOUSE_X - model.getWidth()/2, BOTTOM_HOUSE_Y - model.getHeight());
-		// Pet is leaving Home to go to new activity.
-		// Pet is leaving Home to go to new activity.
-				//model.setPetIsHome(false);
-				
-				// Launch AccessorizeActivity.
-				//Intent myIntent = new Intent(getHomeContext(), CleanActivity.class);
-				//myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				//PetController.this.homeContext.startActivity(myIntent);	
 		
+
 	}
 
 	private void feed() {

@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
+import android.text.format.Time;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,7 @@ import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-	private Bitmap mBackground, mPet, mCloud, mPoop;
+	private Bitmap mBackground, mPet, mCloud, mPoop, mSponge;
 	private Point petPoint = null;
 	private String fileName = "preferences";
 	private SharedPreferences sharedPref;
@@ -30,6 +31,7 @@ public class HomeView extends View {
 	private int cloud1X, cloud2X;
 	private List<Poop> myList = null;
 	private boolean poopExists;
+	private boolean cleaningPet;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -50,6 +52,7 @@ public class HomeView extends View {
 		cloud1X = backgroundWidth / 2;
 		cloud2X = 10;
 		poopExists = false;
+		cleaningPet = false;
 		
 		// Load bitmaps
 		loadBitmaps();
@@ -93,6 +96,12 @@ public class HomeView extends View {
 			for(Poop e: myList) {
 				canvas.drawBitmap(mPoop, e.getX(), e.getY(), null);
 			}
+		}
+		
+		if(cleaningPet){
+			//canvas.drawBitmap(R.drawable.sponge, 100.0, 100.0, null);
+			//Log.v("currently cleaning pet", Boolean.toString(cleaningPet));
+			canvas.drawBitmap(mSponge, (float) (backgroundWidth/2.0), (float) (backgroundHeight/2.0), null);
 		}
 	}
 	
@@ -163,6 +172,8 @@ public class HomeView extends View {
 				
 		// Default mCloud to cloud image
 		mCloud = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
+		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
+		
 		
 		// Scale the bitmaps
 		mBackground = Bitmap.createScaledBitmap(mBackground, backgroundWidth, backgroundHeight, true); // Environment
@@ -171,6 +182,7 @@ public class HomeView extends View {
 		mPoop = Bitmap.createScaledBitmap(mPoop, petWidth/2, petHeight/2, true);
 		
 	}
+	
 
 	public void drawPoop(List<Poop> list) {
 		
@@ -198,6 +210,18 @@ public class HomeView extends View {
 		this.invalidate();
 		
 	}
+	
+	public void cleaning(){
+		cleaningPet = !cleaningPet;
+		Time cleanTime = new Time();
+		int start = cleanTime.second;
+		//clean for 60 seconds
+		/*while(cleanTime.second < start+60){
+			
+		}
+		cleaningPet = false;*/
+	}
+
 	
 	public int getBackgroundWidth() {
 		return backgroundWidth;

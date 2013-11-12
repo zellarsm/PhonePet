@@ -53,7 +53,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private int menuWidth;
 	private int menuHeight;
 	
-	// The ‘active pointer’ is the one currently moving our object.
+	// The ï¿½active pointerï¿½ is the one currently moving our object.
 	private int mActivePointerId = INVALID_POINTER_ID;
 	private float mLastTouchX = 0;
 	private float mLastTouchY = 0;
@@ -64,13 +64,15 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	DatabaseHelper db;
 	private boolean testButtonJustHeld = false;
 	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
 		// Instantiate pet model and set the HomeActivity as an observer.
-		// Now anytime the model changes, the onChange method gets called. 
+		// Now any time the model changes, the onChange method gets called. 
 		pet = PetVo.getInstance();
 		pet.addListener(this);
 		
@@ -148,7 +150,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		cleanButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(PetController.MESSAGE_CLEAN);
+				controller.handleMessage(PetController.MESSAGE_CLEAN);				
+				
+				
+				hView.cleaning();
+				
 				
 			}
 		});
