@@ -33,7 +33,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	 * orange = 1
 	 * red = 2 */
 	private int petColor;
-	
+	private int drawableNum; // The integer of the pet's drawable png
 	// Pet size and location
 	private int width;
 	private int height;
@@ -78,17 +78,17 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 
 	// Pet has been initially loaded, notify the view.
-	public void loadPet(int width, int height, int xCoord, int yCoord, int petType) {
-		// Remember that width and height is NOT the center of the pet bitmap, it's the top left.
-		this.width = width;
-		this.height = height;
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
-		this.petType = petType;
-		
-		// Pet is loaded.
-		notifyObservers(this);
-	}
+		public void loadPet(int width, int height, int xCoord, int yCoord, int petType, int drawable) {
+			// Remember that width and height is NOT the center of the pet bitmap, it's the top left.
+			this.width = width;
+			this.height = height;
+			this.xCoord = xCoord;
+			this.yCoord = yCoord;
+			this.petType = petType;
+			this.drawableNum = drawable;
+			// Pet is loaded.
+			notifyObservers(this);
+		}
 	
 	public void setPetIsHome(boolean bool) {
 		this.petIsHome = bool;
@@ -183,6 +183,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	
 	public void justDraw() {
 		notifyObservers(this);
+	}
+	public int getPetDrawable() {
+		return this.drawableNum;
 	}
 
 }
