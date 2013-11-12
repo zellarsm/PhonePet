@@ -337,17 +337,17 @@ public class AccessorizeActivity extends Activity {
 		if (type == 1)
 		{
 			// Pet is a fox
-			//return R.drawable.acc_fox;
+			return R.drawable.acc_fox;
 		}
 		else if (type == 2)
 		{
 			// Pet is a panda
-			//return R.drawable.acc_panda;
+			return R.drawable.acc_panda;
 		}
 		else if (type == 3)
 		{
 			// Pet is a dog
-			//return R.drawable.acc_dog;
+			return R.drawable.acc_dog;
 		}
 		
 		return 0;
