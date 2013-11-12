@@ -19,11 +19,6 @@
     </style>
 
     <!-- Animations -->
-    <style name="PopupWindowAnimation" parent="android:Animation">
-        <item name="@android:windowEnterAnimation">@anim/popup_show</item>
-        <item name="@android:windowExitAnimation">@anim/popup_hide</item>
-    </style>
-
     <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@null</item>

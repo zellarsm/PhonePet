@@ -18,8 +18,31 @@
     <string name="test_button">Dev</string>
 
     <!-- Strings related to CreateActivity -->
-    <string name="pick_egg">Pick an egg!</string>
+    <string name="default_name">Mike</string>
+    <string name="pick_animal">Pick an animal</string>
+    <string name="pick_color">Pick a color</string>
     <string name="img_green_egg">Green egg</string>
+    <string name="create_pet">Create Your Pet!</string>
+    <string name="txt_fox">Fox</string>
+    <string name="txt_panda">Panda</string>
+    <string name="txt_dog">Dog</string>
+    <string name="color_button_txt">No Color</string>
+    <string name="continue_btn_txt">Continue</string>
+    <string name="txt_pick_gender">Pick a gender</string>
+    <string name="txt_pick_name">Pick a name</string>
+    <string name="txt_finish">Done!</string>
+    <string name="txt_male">Male</string>
+    <string name="txt_female">Female</string>
+    <color name="red">#FF0000</color>
+    <color name="green">#22B14C</color>
+    <color name="blue">#3F48CC</color>
+    <color name="orange">#FF7F27</color>
+    <color name="brown">#B97A57</color>
+    <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFF200</color>
+    <color name="black">#000000</color>
+    <color name="purple">#A349A4</color>
+    <color name="teal">#7092BE</color>
 
     <!-- Strings related to AccessorizeActivity -->
     <string name="save_button">Save Changes</string>

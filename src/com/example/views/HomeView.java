@@ -14,6 +14,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Environment;
 import android.text.format.Time;
 import android.util.AttributeSet;
@@ -29,9 +32,12 @@ public class HomeView extends View {
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight;
 	private int cloud1X, cloud2X;
+	private int nameX;
 	private List<Poop> myList = null;
 	private boolean poopExists;
 	private boolean cleaningPet;
+	private String petName;
+	private Paint paint;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -54,23 +60,22 @@ public class HomeView extends View {
 		poopExists = false;
 		cleaningPet = false;
 		
+		// Load pet name and format it
+		paint = new Paint();
+		paint.setColor(Color.BLACK);
+		paint.setTextSize(20);
+		//Typeface tf = Typeface.create("Mistral", Typeface.BOLD);
+		//paint.setTypeface(tf);	
+		petName = sharedPref.getString("petName", " ");
+		nameX = getXCoordOfName(petName, paint);
+				
 		// Load bitmaps
 		loadBitmaps();
 		
 		// Start a thread that simulates cloud movement.
 		Thread moveThread = new MoveClouds();
 		moveThread.start();
-		
-//		Log.v("hvscreenWidth", Integer.toString(sharedPref.getInt("screenWidth", 10)));
-//		Log.v("hvscreenHeight", Integer.toString(sharedPref.getInt("screenHeight", 10)));
-//		Log.v("hvmenuWidth", Integer.toString(sharedPref.getInt("menuWidth", 10)));
-//		Log.v("hvmenuHeight", Integer.toString(sharedPref.getInt("menuHeight", 10)));
-//		Log.v("hvplaygroundWidth", Integer.toString(sharedPref.getInt("playgroundWidth", 10)));
-//		Log.v("hvplaygroundHeight", Integer.toString(sharedPref.getInt("playgroundHeight", 10)));
-//		Log.v("hvpetWidth", Integer.toString(sharedPref.getInt("petWidth", 10)));
-//		Log.v("hvpetHeight", Integer.toString(sharedPref.getInt("petHeight", 10)));
-		//Log.v("hvpetWidth", Integer.toString(sharedPref.getInt("petWidth", 10)));
-		//Log.v("hvpetHeight", Integer.toString(sharedPref.getInt("petHeight", 10)));
+
 	}
 
 	@SuppressLint("DrawAllocation")
@@ -81,13 +86,16 @@ public class HomeView extends View {
 		// Set the layout parameters
 		this.setLayoutParams(new LinearLayout.LayoutParams(backgroundWidth, backgroundHeight));
 		
-		// Draw enviroment
+		// Draw environment
 		canvas.drawBitmap(mBackground, 0, 0, null);
 
 		// Draw clouds.
 		canvas.drawBitmap(mCloud, cloud1X, 10, null);
 		canvas.drawBitmap(mCloud, cloud2X, 30, null);
 		
+		// Draw pet name
+		canvas.drawText(petName, nameX, backgroundHeight/2, paint);
+				
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, null);
 		
@@ -161,6 +169,23 @@ public class HomeView extends View {
 		this.invalidate();
 	}
 	
+	// Returns the x coordinate at which the pet's name should be placed on the screen.
+	// Props to whoever understands this math ;)
+	public int getXCoordOfName(String text, Paint paint) {
+		// First determine width of Painted name
+		Rect bounds = new Rect();
+		paint.getTextBounds(text, 0, text.length(), bounds);
+		int nameWidth = bounds.left + bounds.width();
+		
+		// Min x coord of pet sign placement is (38/65)bg width.
+		// Max x coord of pet sign placement is (53/65)bg width.
+		int minX = (int)(backgroundWidth * (38f/65f));
+		int maxX = (int)(backgroundWidth * (53f/65f));
+		int signWidth = maxX - minX;
+		
+		return (minX + ((signWidth - nameWidth))/2);
+	}
+	
 	// Load pet bitmap from file
 	public void loadBitmaps() {
 		// Get pet image from sd card.
@@ -222,7 +247,6 @@ public class HomeView extends View {
 		cleaningPet = false;*/
 	}
 
-	
 	public int getBackgroundWidth() {
 		return backgroundWidth;
 	}

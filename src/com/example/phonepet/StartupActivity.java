@@ -21,7 +21,10 @@ public class StartupActivity extends Activity {
 		
 		// Check if a pet exists on the user's phone
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.clear();
+		editor.commit(); // Clear for development purposes
+		
 		Boolean petExists = sharedPref.getBoolean("pet_exists", false);
 		
 		if (petExists)

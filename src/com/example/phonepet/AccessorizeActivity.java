@@ -276,7 +276,7 @@ public class AccessorizeActivity extends Activity {
 		// Get the original bitmap image
 		layers[0] = new BitmapDrawable(
 						getResources(),
-						Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), getPetDrawableInt()),
+						Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), pet.getPetDrawable()),
 						pet.getWidth() * 2,
 						pet.getHeight() * 2,
 						true));
@@ -328,29 +328,6 @@ public class AccessorizeActivity extends Activity {
 		
 		petImage.setImageDrawable(layerDrawable);
 		
-	}
-	
-
-	private int getPetDrawableInt()
-	{
-		int type = pet.getPetType();
-		if (type == 1)
-		{
-			// Pet is a fox
-			return R.drawable.acc_fox;
-		}
-		else if (type == 2)
-		{
-			// Pet is a panda
-			return R.drawable.acc_panda;
-		}
-		else if (type == 3)
-		{
-			// Pet is a dog
-			return R.drawable.acc_dog;
-		}
-		
-		return 0;
 	}
 	
 	/**
