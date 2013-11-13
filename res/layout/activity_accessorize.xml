@@ -90,9 +90,7 @@
  		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 				android:contentDescription="@string/access_desc"
-
 		    />
-			
 			<ImageButton
 		        android:id="@+id/unicornHorn"
  		    	android:layout_width="wrap_content"
@@ -104,10 +102,7 @@
  		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 				android:contentDescription="@string/access_desc"
-
-
 		    />
-		    
 		    <ImageButton
 		        android:id="@+id/glasses"
 		    	android:layout_width="wrap_content"
@@ -119,9 +114,7 @@
  		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 				android:contentDescription="@string/access_desc"
-		    	
 		    />
-		    
 		    <ImageButton
 		        android:id="@+id/blackTie"
 		    	android:layout_width="wrap_content"
@@ -134,7 +127,6 @@
 		    	android:scaleType="centerInside"
 				android:contentDescription="@string/access_desc"
 		    />
-	
 		    <ImageButton
 		        android:id="@+id/redTie"
 		    	android:layout_width="wrap_content"
@@ -146,9 +138,7 @@
  		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 				android:contentDescription="@string/access_desc"
-		    	
 		    />
-		    
 		    <ImageButton
 		        android:id="@+id/blueTie"
 		    	android:layout_width="wrap_content"
@@ -160,9 +150,7 @@
  		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 				android:contentDescription="@string/access_desc"
-		    	
 		    />
-		    
 		    <ImageButton
 		        android:id="@+id/bowtie"
 		    	android:layout_width="wrap_content"
@@ -174,9 +162,7 @@
  		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 				android:contentDescription="@string/access_desc"
-		    	
 		    />
-		    
 		     <ImageButton
 		        android:id="@+id/mustache"
 		    	android:layout_width="wrap_content"
@@ -188,9 +174,7 @@
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
 		    />
-		     
 		    <ImageButton
 		        android:id="@+id/partyhat"
 		    	android:layout_width="wrap_content"
@@ -202,9 +186,7 @@
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
 		    />
-		     
 		    <ImageButton
 		        android:id="@+id/pikachu"
 		    	android:layout_width="wrap_content"
@@ -216,9 +198,7 @@
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
 		    />
-		     
 		     <ImageButton
 		        android:id="@+id/black_monocle"
 		    	android:layout_width="wrap_content"
@@ -230,23 +210,19 @@
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
 		    />
-		     
 		     <ImageButton
 		        android:id="@+id/gold_monocle"
 		    	android:layout_width="wrap_content"
 		    	android:layout_height="match_parent"
 		    	android:layout_centerVertical="true"
 		    	android:layout_toRightOf="@id/black_monocle"
-		    	android:background="@drawable/acc_gold_monocle1"
+		    	android:background="@drawable/acc_gold_monocle"
 		    	android:layout_marginLeft="2dp"
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
 		    />
-		      
 		     <ImageButton
 		        android:id="@+id/clownNose"
 		    	android:layout_width="wrap_content"
@@ -258,9 +234,7 @@
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
 		    />
-		     
 		     <ImageButton
 		        android:id="@+id/tealhairbow"
 		    	android:layout_width="wrap_content"
@@ -272,9 +246,7 @@
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
 		    />
-		     
 		     <ImageButton
 		        android:id="@+id/redhairbow"
 		    	android:layout_width="wrap_content"
@@ -286,9 +258,7 @@
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
 		    /> 
-		    
 		     <ImageButton
 		        android:id="@+id/yellowhairbow"
 		    	android:layout_width="wrap_content"
@@ -300,9 +270,7 @@
 		    	android:layout_marginRight="2dp"
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
-		    	
-		    /> 
-		    
+		    />
 		     <ImageButton
 		        android:id="@+id/bluehairbow"
 		    	android:layout_width="wrap_content"
@@ -315,7 +283,6 @@
 		    	android:scaleType="centerInside"
 		    	android:contentDescription="@string/access_desc"
 		    />
-		     
 		     <ImageButton
 		        android:id="@+id/purplehairbow"
 		    	android:layout_width="wrap_content"

@@ -87,7 +87,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		ImageButton poopButton = (ImageButton)findViewById(R.id.Poop);
 		ImageButton feedButton = (ImageButton)findViewById(R.id.Feed);
 		ImageButton cleanButton = (ImageButton)findViewById(R.id.Sponge);
-		Button testButton = (Button)findViewById(R.id.TestButton);
+		//Button testButton = (Button)findViewById(R.id.TestButton);
 		
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -162,7 +162,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	/**
 	 * Run a test when clicked and run a test when held
 	 */
-		testButton.setOnClickListener(new View.OnClickListener() {
+		/*testButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (!testButtonJustHeld) // Prevents running both hold test and click test
@@ -181,7 +181,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				testButtonJustHeld = controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_HELD);
 				return false;
 			}
-		});
+		});*/
 		
 		// Load pet information.
 		controller.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());

@@ -192,8 +192,8 @@ public class CreateActivity extends Activity {
 				int screenHeight = metrics.heightPixels;
 				int backgroundWidth = screenWidth;
 				int backgroundHeight = screenHeight * 8/10;	
-				int petWidth = backgroundWidth/10;
-				int petHeight = screenHeight/10;
+				int petWidth = backgroundWidth/6;
+				int petHeight = screenHeight/6;
 				
 				// Pet has been created. Save all new information
 				editor.putBoolean("pet_exists", true);
@@ -237,65 +237,65 @@ public class CreateActivity extends Activity {
 		// Fox
 		if (animalSelection == 1) {
 			if (colorSelection == 1)
-				return R.drawable.red_fox;
+				return R.drawable.acc_fox_red;
 			else if (colorSelection == 2)
-				return R.drawable.green_fox;
+				return R.drawable.acc_fox_green;
 			else if (colorSelection == 3)
-				return R.drawable.blue_fox;
+				return R.drawable.acc_fox_blue;
 			else if (colorSelection == 4)
-				return R.drawable.orange_fox;
+				return R.drawable.acc_fox_orange;
 			else if (colorSelection == 5)
-				return R.drawable.brown_fox;
+				return R.drawable.acc_fox_brown;
 			else if (colorSelection == 6)
-				return R.drawable.white_fox;
+				return R.drawable.acc_fox_white;
 			else if (colorSelection == 7)
-				return R.drawable.yellow_fox;
+				return R.drawable.acc_fox_yellow;
 			else if (colorSelection == 8)
-				return R.drawable.black_fox;
+				return R.drawable.acc_fox_black;
 			else
-				return R.drawable.purple_fox;			
+				return R.drawable.acc_fox_purple;
 		}
 		// Panda
 		else if (animalSelection == 2) {
 			if (colorSelection == 1)
-				return R.drawable.red_panda;
+				return R.drawable.acc_panda_red;
 			else if (colorSelection == 2)
-				return R.drawable.green_panda;
+				return R.drawable.acc_panda_green;
 			else if (colorSelection == 3)
-				return R.drawable.blue_panda;
+				return R.drawable.acc_panda_blue;
 			else if (colorSelection == 4)
-				return R.drawable.orange_panda;
+				return R.drawable.acc_panda_orange;
 			else if (colorSelection == 5)
-				return R.drawable.brown_panda;
+				return R.drawable.acc_panda_brown;
 			else if (colorSelection == 6)
-				return R.drawable.bw_panda;
+				return R.drawable.acc_panda;
 			else if (colorSelection == 7)
-				return R.drawable.yellow_panda;
+				return R.drawable.acc_panda_yellow;
 			else if (colorSelection == 8)
-				return R.drawable.bw_panda;
+				return R.drawable.acc_panda;
 			else
-				return R.drawable.purple_panda;	
+				return R.drawable.acc_panda_purple;
 		}
 		// Dog
 		else {
 			if (colorSelection == 1)
-				return R.drawable.red_dog;
+				return R.drawable.acc_dog_red;
 			else if (colorSelection == 2)
-				return R.drawable.green_dog;
+				return R.drawable.acc_dog_green;
 			else if (colorSelection == 3)
-				return R.drawable.blue_dog;
+				return R.drawable.acc_dog_blue;
 			else if (colorSelection == 4)
-				return R.drawable.orange_dog;
+				return R.drawable.acc_dog_orange;
 			else if (colorSelection == 5)
-				return R.drawable.brown_dog;
+				return R.drawable.acc_dog_brown;
 			else if (colorSelection == 6)
-				return R.drawable.white_dog;
+				return R.drawable.acc_dog_white;
 			else if (colorSelection == 7)
-				return R.drawable.yellow_dog;
+				return R.drawable.acc_dog_yellow;
 			else if (colorSelection == 8)
-				return R.drawable.black_dog;
+				return R.drawable.acc_dog_black;
 			else
-				return R.drawable.purple_dog;
+				return R.drawable.acc_dog_purple;
 		}
 	}
 	

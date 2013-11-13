@@ -91,6 +91,15 @@ public class AccessorizeActivity extends Activity {
 				updateView();
 			}
 		});
+		glassesButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[3] = getResources().getDrawable(R.drawable.acc_glasses2);
+				updateView();
+			}
+		});
 		blackTieButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -123,25 +132,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie3);
-				updateView();
-			}
-		});
-		glassesButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[3] = getResources().getDrawable(R.drawable.acc_glasses3);
-				updateView();
-			}
-		});
-		partyhatButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[2] = getResources().getDrawable(R.drawable.acc_party_hat2);
+				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie2);
 				updateView();
 			}
 		});
@@ -151,6 +142,15 @@ public class AccessorizeActivity extends Activity {
 			public void onClick(View v)
 			{
 				layers[4] = getResources().getDrawable(R.drawable.acc_mustache2);
+				updateView();
+			}
+		});
+		partyhatButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_party_hat2);
 				updateView();
 			}
 		});
@@ -168,7 +168,7 @@ public class AccessorizeActivity extends Activity {
 			@Override
 			public void onClick(View v)
 			{
-				layers[3] = getResources().getDrawable(R.drawable.acc_monocle3);
+				layers[3] = getResources().getDrawable(R.drawable.acc_black_monocle2);
 				updateView();
 			}
 		});
