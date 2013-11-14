@@ -6,6 +6,7 @@ import com.example.connect4.Connect4Activity;
 import com.example.controllers.PetController;
 import com.example.utils.DatabaseHelper;
 import com.example.views.HomeView;
+import com.example.vos.Food;
 import com.example.vos.OnChangeListener;
 import com.example.vos.PetVo;
 import com.example.vos.Poop;
@@ -125,29 +126,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			@Override
 			public void onClick(View v) {
 				
-				int numPoop = (int)(Math.random() * 3) + 1;
-				int tempX, tempY;
-				Poop poop;
-				int width, height;
-				
-				width = hView.getBackgroundWidth() - hView.getPetWidth();
-				height = hView.getBackgroundHeight();
-				
-				for(int i = 0; i < numPoop; i ++){
-					
-					tempX = (int)(Math.random() * width);
-					tempY = (int)(Math.random() * (height/2) + (height/2));
-					
-					if(tempY > height - pet.getHeight()) {
-						tempY = tempY - height/12;
-					}
-					poop = new Poop(tempX, tempY);
-					db.addPoop(poop);
-					
-				}
-		        list = db.getAllPoop();			
-				hView.drawPoop(list);
-				
+				drawFood();
+				drawPoop();
 			}
 		});
 		
@@ -166,7 +146,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	/**
 	 * Run a test when clicked and run a test when held
 	 */
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //		testButton.setOnClickListener(new View.OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -187,7 +167,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 //				return false;
 //			}
 //		});
-=======
+//=======
 		/*testButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -208,11 +188,70 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				return false;
 			}
 		});*/
->>>>>>> a3123c0b93a7e9249f79e5d2d317c3bccd9098b3
+//>>>>>>> a3123c0b93a7e9249f79e5d2d317c3bccd9098b3
 		
 		// Load pet information.
 		controller.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
+	}// End method onCreate
+	
+	
+	public void drawFood()
+	{
+		Food food;
+		int tempX, tempY;
+		int width, height;
+		
+		width = hView.getBackgroundWidth() - hView.getPetWidth();
+		height = hView.getBackgroundHeight();
+		
+		do
+		{
+			tempX = (int)(Math.random() * width);
+			tempY = (int)(Math.random() * (height/2) + (height/2));
+			
+			if(tempY > height - pet.getHeight())
+			{
+				tempY = tempY - height/12;
+			}
+		}
+		while(controller.isOnHouse(tempX, tempY));
+		
+		food = new Food(tempX, tempY);       
+		hView.drawFood(food);
+		
+		controller.handleMessage(PetController.MESSAGE_FEED, food);
+
+	} // End method drawFood
+	
+	public void drawPoop()
+	{
+		// This needs to be put in a thread and slept.
+		int numPoop = (int)(Math.random() * 3) + 1;
+		int tempX, tempY;
+		Poop poop;
+		int width, height;
+		
+		width = hView.getBackgroundWidth() - hView.getPetWidth();
+		height = hView.getBackgroundHeight();
+		
+		for(int i = 0; i < numPoop; i ++)
+		{
+			
+			tempX = (int)(Math.random() * width);
+			tempY = (int)(Math.random() * (height/2) + (height/2));
+			
+			if(tempY > height - pet.getHeight()) {
+				tempY = tempY - height/12;
+			}
+			poop = new Poop(tempX, tempY);
+			db.addPoop(poop);
+		}
+		
+		List<Poop> myList = db.getAllPoop();
+		hView.drawPoop(myList);
 	}
+	
+	
 	/*
 	 * Simply delegate the logic to the controller by sending a message asking it to handle the
 	 * KeyEvent for us.  Our controller returns a boolean indicating whether or not the message
@@ -271,7 +310,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        	temp.setY((int)userY);
 			        	temp.setID(id);
 			        	list.add(temp);
-			        	hView.dragPoop(list);	        	
+			        	//hView.dragPoop(list);	        	
 			        }
 			        
 			        // Remember this touch position for the next move event

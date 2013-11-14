@@ -13,6 +13,7 @@ import com.example.phonepet.CleanActivity;
 import com.example.phonepet.R;
 import com.example.phonepet.RunawayActivity;
 import com.example.views.HomeView;
+import com.example.vos.Food;
 import com.example.vos.PetVo;
 
 /*
@@ -74,7 +75,7 @@ public class PetController extends Controller {
 	private Context homeContext;
 	private SharedPreferences sharedPref;
 	
-	
+	private boolean isMovingToFood = false;
 	
 	private RunawayCountdownTimer countDownTimer;
 	
@@ -131,7 +132,7 @@ public class PetController extends Controller {
 			return true;
 		case MESSAGE_FEED:
 			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
-			feed();
+			movePetToFood((Food)data);
 			return true;
 		case MESSAGE_CLEAN:
 			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
@@ -221,6 +222,39 @@ public class PetController extends Controller {
 	}
 
 
+	public boolean isOnHouse(int x, int y)
+	{
+		if((x > LEFT_HOUSE_X) || (x < RIGHT_HOUSE_X))
+		{
+			// Within x coordinates of house, check height.
+			if(y < BOTTOM_HOUSE_Y)
+			{
+				// Is on house, return true
+				return true;
+			}
+		}
+		
+		// Below house, return false.
+		return false;
+	}
+	
+	private void movePetToFood(Food food)
+	{
+		int currentPetX, currentPetY;
+		
+		// Get current pet location
+		currentPetX = model.getXCoord();
+		currentPetY = model.getYCoord();
+		
+		// Get food location
+		//food object.
+		
+		// If locations are not the same, alternate moving vertical / horizontal until pet is next to food.
+		
+		// Delete food.
+	}
+	
+	
 	/**
 	 * Make the pet move in a specified direction. A complete movement
 	 * takes 20 frames.
@@ -454,6 +488,11 @@ public class PetController extends Controller {
 					yield();
 				}
 				
+//				if(isMovingToFood)
+//				{
+//					movementEnabled = false;
+//					//movePetToFood();
+//				}
 				if (movementEnabled)
 				{
 					// Move pet

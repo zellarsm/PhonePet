@@ -6,20 +6,20 @@ public class Poop {
 	private int poopY;
 	private int ID;
 	
-	public Poop(int id, int x, int y) {
-		
-		ID = id;
-		poopX = x;
-		poopY = y;	
+	public Poop() {
 	}
 	
-	public Poop() {
+	public Poop(int id, int x, int y) {
+		
+		this.ID = id;
+		this.poopX = x;
+		this.poopY = y;	
 	}
 	
 	public Poop(int x, int y) {
 		
-		poopX = x;
-		poopY = y;
+		this.poopX = x;
+		this.poopY = y;
 	}
 
 	public int getX() {
