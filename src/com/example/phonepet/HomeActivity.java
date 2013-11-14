@@ -166,6 +166,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	/**
 	 * Run a test when clicked and run a test when held
 	 */
+<<<<<<< HEAD
 //		testButton.setOnClickListener(new View.OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -186,6 +187,28 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 //				return false;
 //			}
 //		});
+=======
+		/*testButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!testButtonJustHeld) // Prevents running both hold test and click test
+					// Will return false when test is complete
+					controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_CLICKED);
+				
+				testButtonJustHeld = false;
+			}
+		});
+		// Hold button for about 1.5 seconds
+		testButton.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// Will return true when test is complete
+				testButtonJustHeld = controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_HELD);
+				return false;
+			}
+		});*/
+>>>>>>> a3123c0b93a7e9249f79e5d2d317c3bccd9098b3
 		
 		// Load pet information.
 		controller.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
