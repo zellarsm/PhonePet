@@ -6,6 +6,7 @@ import com.example.connect4.Connect4Activity;
 import com.example.controllers.PetController;
 import com.example.utils.DatabaseHelper;
 import com.example.views.HomeView;
+import com.example.vos.Food;
 import com.example.vos.OnChangeListener;
 import com.example.vos.PetVo;
 import com.example.vos.Poop;
@@ -147,7 +148,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				}
 		        list = db.getAllPoop();			
 				hView.drawPoop(list);
-			  
+				drawFood();
 			}
 		});
 		
@@ -219,6 +220,36 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	 * KeyEvent for us.  Our controller returns a boolean indicating whether or not the message
 	 * handled. 
 	 */
+	
+		public void drawFood()
+		{
+			Food food;
+			int tempX, tempY;
+			int width, height;
+			
+			width = hView.getBackgroundWidth() - hView.getPetWidth();
+			height = hView.getBackgroundHeight();
+			
+			do
+			{
+				tempX = (int)(Math.random() * width);
+				tempY = (int)(Math.random() * (height/2) + (height/2));
+				
+				if(tempY > height - pet.getHeight())
+				{
+					tempY = tempY - height/12;
+				}
+			}
+			while(controller.isOnHouse(tempX, tempY));
+			
+			food = new Food(tempX, tempY);       
+			hView.drawFood(food);
+			
+			controller.handleMessage(PetController.MESSAGE_FEED, food);
+	
+		} // End method drawFood
+
+	
 	public void poopCleaner() {
 		
 		hView.setOnTouchListener(new OnTouchListener() {

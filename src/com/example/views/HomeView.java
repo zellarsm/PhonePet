@@ -220,7 +220,7 @@ public class HomeView extends View {
 		mBackground = Bitmap.createScaledBitmap(mBackground, backgroundWidth, backgroundHeight, true); // Environment
 		mCloud = Bitmap.createScaledBitmap(mCloud, backgroundWidth/4, backgroundHeight/10, true); // Cloud
 		mPet = Bitmap.createScaledBitmap(mPet, petWidth, petHeight, true); // Pet
-		mPoop = Bitmap.createScaledBitmap(mPoop, petWidth/2, petHeight/2, true);
+		mPoop = Bitmap.createScaledBitmap(mPoop, petWidth/3, petHeight/3, true);
 		
 	}
 	
@@ -245,12 +245,6 @@ public class HomeView extends View {
 		
 	}
 	
-	public void dragPoop(int poop1x,int poop1y, int poop2x, int poop2y, int poop3x, int poop3y) {
-		
-		poopExists = false;
-		this.invalidate();
-		
-	}
 	
 	// Food functionality
 	public void drawFood(Food f)
