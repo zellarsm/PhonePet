@@ -135,19 +135,19 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				
 				for(int i = 0; i < numPoop; i ++){
 					
-					tempX = (int)(Math.random() * width);
-					tempY = (int)(Math.random() * (height/2) + (height/2));
-					
-					if(tempY > height - pet.getHeight()) {
-						tempY = tempY - height/12;
-					}
-					poop = new Poop(tempX, tempY);
-					db.addPoop(poop);
-					
+						tempX = (int)(Math.random() * width);
+						tempY = (int)(Math.random() * (height/2) + (height/2));
+						
+						if(tempY > height - pet.getHeight()) {
+							tempY = tempY - height/12;
+						}
+						poop = new Poop(tempX, tempY);
+						db.addPoop(poop);
+						
 				}
 		        list = db.getAllPoop();			
 				hView.drawPoop(list);
-				
+			  
 			}
 		});
 		
@@ -166,6 +166,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	/**
 	 * Run a test when clicked and run a test when held
 	 */
+		/*
 <<<<<<< HEAD
 //		testButton.setOnClickListener(new View.OnClickListener() {
 //			@Override
@@ -208,7 +209,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				return false;
 			}
 		});*/
->>>>>>> a3123c0b93a7e9249f79e5d2d317c3bccd9098b3
+
 		
 		// Load pet information.
 		controller.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
@@ -260,7 +261,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 			       mPosX += dx;
 			       mPosY += dy;
-			       
+			       list = db.getAllPoop();
 			      
 			        // Invalidate
 			        if (poopIsClicked && id != -1) {
