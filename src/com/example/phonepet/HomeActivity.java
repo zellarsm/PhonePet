@@ -267,10 +267,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        if (poopIsClicked && id != -1) {
 			        
 			        	temp = list.get(id);  
-			        	list.remove(temp.getID());
+			        	list.remove(id);
 			        	temp.setX((int)userX);
 			        	temp.setY((int)userY);
-			        	temp.setID(id);
+			        	temp.setID(id+1);
 			        	list.add(temp);
 			        	hView.dragPoop(list);	        	
 			        }

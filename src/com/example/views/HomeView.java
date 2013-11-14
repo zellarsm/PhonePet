@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.phonepet.R;
 import com.example.utils.DatabaseHelper;
 import com.example.utils.Point;
+import com.example.vos.Food;
 import com.example.vos.Poop;
 
 
@@ -27,7 +28,7 @@ import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-	private Bitmap mBackground, mPet, mCloud, mPoop, mSponge;
+	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge;
 	private Point petPoint = null;
 	private String fileName = "preferences";
 	private SharedPreferences sharedPref;
@@ -36,6 +37,8 @@ public class HomeView extends View {
 	private int nameX;
 	private List<Poop> myList = null;
 	private boolean poopExists;
+	Food currentFood = null;
+	private boolean foodExists;
 	private boolean cleaningPet;
 	private String petName;
 	private Paint paint;
@@ -59,6 +62,7 @@ public class HomeView extends View {
 		cloud1X = backgroundWidth / 2;
 		cloud2X = 10;
 		poopExists = false;
+		foodExists = false;
 		cleaningPet = false;
 		
 		// Load pet name and format it
@@ -105,6 +109,12 @@ public class HomeView extends View {
 			for(Poop e: myList) {
 				canvas.drawBitmap(mPoop, e.getX(), e.getY(), null);
 			}
+		}
+		
+		// Draw food on the screen if there is food.
+		if(foodExists)
+		{
+			canvas.drawBitmap(mFood, currentFood.getX(), currentFood.getY(), null);
 		}
 		
 		if(cleaningPet){
@@ -192,7 +202,12 @@ public class HomeView extends View {
 		// Get pet image from sd card.
 		String imageInSD = Environment.getExternalStorageDirectory() + "/PhonePet/petBitmap/pet";
 		mPet = BitmapFactory.decodeFile(imageInSD);
+
+		// Get poop image.
 		mPoop = BitmapFactory.decodeResource(getResources(), R.drawable.poop);
+		// Get food image.
+		mFood = BitmapFactory.decodeResource(getResources(), R.drawable.food);
+
 		// Default mBoard to the background image.
 		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.templatebackground);
 				
@@ -236,6 +251,25 @@ public class HomeView extends View {
 		this.invalidate();
 		
 	}
+	
+	// Food functionality
+	public void drawFood(Food f)
+	{
+		// Only draw if the old food was eaten.
+		if(!foodExists)
+		{
+			currentFood = f;
+			foodExists = true;
+			this.invalidate();
+		}
+	}
+	
+	public void removeFood() // eat food??
+	{	
+		foodExists = false;
+		this.invalidate();	
+	}
+	// End food functionality
 	
 	public void cleaning(){
 		cleaningPet = !cleaningPet;
