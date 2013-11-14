@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.phonepet.R;
+import com.example.utils.DatabaseHelper;
 import com.example.utils.Point;
 import com.example.vos.Poop;
 
@@ -261,5 +262,12 @@ public class HomeView extends View {
 	
 	public int getPetHeight() {
 		return petHeight;
+	}
+
+	public void dragPoop(List<Poop> list) {
+		
+		myList = list;
+		this.invalidate();
+		
 	}
 }

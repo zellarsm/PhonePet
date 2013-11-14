@@ -63,8 +63,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private String fileName = "preferences";
 	DatabaseHelper db;
 	private boolean testButtonJustHeld = false;
-	
-	
+	private boolean poopIsClicked;
+	private int id;
+	private Poop temp, temp2;
+	List<Poop> list;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		ImageButton poopButton = (ImageButton)findViewById(R.id.Poop);
 		ImageButton feedButton = (ImageButton)findViewById(R.id.Feed);
 		ImageButton cleanButton = (ImageButton)findViewById(R.id.Sponge);
-		Button testButton = (Button)findViewById(R.id.TestButton);
+		//Button testButton = (Button)findViewById(R.id.TestButton);
 		
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -111,8 +113,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			@Override
 			public void onClick(View v) {
 				
-				db.deleteDatabse();
-				hView.removePoop();
+				  
+				poopCleaner();
+				//db.deleteDatabse();
+				
+				//hView.removePoop();
 			}
 		});
 		
@@ -123,7 +128,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				int numPoop = (int)(Math.random() * 3) + 1;
 				int tempX, tempY;
 				Poop poop;
-				int width, height, height2;
+				int width, height;
 				
 				width = hView.getBackgroundWidth() - hView.getPetWidth();
 				height = hView.getBackgroundHeight();
@@ -138,11 +143,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					}
 					poop = new Poop(tempX, tempY);
 					db.addPoop(poop);
+					
 				}
-				
-				List<Poop> myList = db.getAllPoop();       
-		        			
-				hView.drawPoop(myList);
+		        list = db.getAllPoop();			
+				hView.drawPoop(list);
 				
 			}
 		});
@@ -162,31 +166,38 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	/**
 	 * Run a test when clicked and run a test when held
 	 */
-		testButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!testButtonJustHeld) // Prevents running both hold test and click test
-					// Will return false when test is complete
-					controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_CLICKED);
-				
-				testButtonJustHeld = false;
-			}
-		});
-		// Hold button for about 1.5 seconds
-		testButton.setOnLongClickListener(new View.OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				// Will return true when test is complete
-				testButtonJustHeld = controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_HELD);
-				return false;
-			}
-		});
+//		testButton.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				if (!testButtonJustHeld) // Prevents running both hold test and click test
+//					// Will return false when test is complete
+//					controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_CLICKED);
+//				
+//				testButtonJustHeld = false;
+//			}
+//		});
+//		// Hold button for about 1.5 seconds
+//		testButton.setOnLongClickListener(new View.OnLongClickListener() {
+//			
+//			@Override
+//			public boolean onLongClick(View v) {
+//				// Will return true when test is complete
+//				testButtonJustHeld = controller.handleMessage(PetController.MESSAGE_TEST_BUTTON_HELD);
+//				return false;
+//			}
+//		});
 		
 		// Load pet information.
 		controller.handleMessage(PetController.MESSAGE_LOAD, getApplicationContext());
+	}
+	/*
+	 * Simply delegate the logic to the controller by sending a message asking it to handle the
+	 * KeyEvent for us.  Our controller returns a boolean indicating whether or not the message
+	 * handled. 
+	 */
+	public void poopCleaner() {
 		
-		homeview.setOnTouchListener(new OnTouchListener() {
+		hView.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				
 			final int action = MotionEventCompat.getActionMasked(event); 
@@ -197,94 +208,102 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        final float userX = MotionEventCompat.getX(event, pointerIndex); 
 			        final float userY = MotionEventCompat.getY(event, pointerIndex); 
 			            
-//			        // Check if something is clicked.
-//			       isPoopClicked(userX, userY);
-//			        //Log.v("petIsClicked, down", Boolean.toString(petIsClicked));
-//			        
-//			        // Remember where we started (for dragging)
-//			        mLastTouchX = userX;
-//			        mLastTouchY = userY;
-//			        
-//			        // Save the ID of this pointer (for dragging)
-//			       mActivePointerId = MotionEventCompat.getPointerId(event, 0);
-//			        break;
-//					
-//				} // End case MotionEvent.ACTION_DOWN
-//				
-//				case MotionEvent.ACTION_MOVE: {
-//			        // Find the index of the active pointer and fetch its position
-//			        final int pointerIndex = 
-//			                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
-//			            
-//			        final float userX = MotionEventCompat.getX(event, pointerIndex);
-//			        final float userY = MotionEventCompat.getY(event, pointerIndex);
-//			            
-//			        // Calculate the distance moved
-//			       final float dx = userX - mLastTouchX;
-//			       final float dy = userY - mLastTouchY;
-//
-//			       mPosX += dx;
-//			       mPosY += dy;
-//			        
-//			        // Invalidate
-//			        if (petIsClicked)
-//			        {
-//			        	if((userX > 0) && (userX < (windowWidth - pet.width)) 
-//			        			&& (userY > 0) && (userY < (windowHeight - pet.height - menuHeight))) 
-//			        	{
-//			        		homeview.dragPet(userX, userY);
-//			        		pet.xCoordinate = userX;
-//			        		pet.yCoordinate = userY;
-//			        	}
-//			        }
-//			        
-//			        // Remember this touch position for the next move event
-//			       mLastTouchX = userX;
-//		           mLastTouchY = userY;
-//
-//			        break;
-//				}
-				
-			//	case MotionEvent.ACTION_UP: {
-			//        mActivePointerId = INVALID_POINTER_ID;
-			//        break;
-			//    }
-			            
-			//    case MotionEvent.ACTION_CANCEL: {
-			//        mActivePointerId = INVALID_POINTER_ID;
-			//        break;
-			//    }
+			        // Check if something is clicked.
+		       id = isPoopClicked(userX, userY);
+		       
+			        //Log.v("petIsClicked, down", Boolean.toString(petIsClicked));
 			        
-			//    case MotionEvent.ACTION_POINTER_UP: {
+			        // Remember where we started (for dragging)
+			        mLastTouchX = userX;
+			        mLastTouchY = userY;
+		        
+			        // Save the ID of this pointer (for dragging)
+		       mActivePointerId = MotionEventCompat.getPointerId(event, 0);
+		        break;
+					
+				} // End case MotionEvent.ACTION_DOWN
+				
+			case MotionEvent.ACTION_MOVE: {
+			        // Find the index of the active pointer and fetch its position
+			        final int pointerIndex = 
+			                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
 			            
-			//        final int pointerIndex = MotionEventCompat.getActionIndex(event); 
-			//        final int pointerId = MotionEventCompat.getPointerId(event, pointerIndex); 
+			        final float userX = MotionEventCompat.getX(event, pointerIndex);
+			        final float userY = MotionEventCompat.getY(event, pointerIndex);
+			            
+			        // Calculate the distance moved
+			       final float dx = userX - mLastTouchX;
+			       final float dy = userY - mLastTouchY;
 
-			//        if (pointerId == mActivePointerId) {
+			       mPosX += dx;
+			       mPosY += dy;
+			       
+			      
+			        // Invalidate
+			        if (poopIsClicked && id != -1) {
+			        
+			        	temp = list.get(id);  
+			        	list.remove(temp.getID());
+			        	temp.setX((int)userX);
+			        	temp.setY((int)userY);
+			        	temp.setID(id);
+			        	list.add(temp);
+			        	hView.dragPoop(list);	        	
+			        }
+			        
+			        // Remember this touch position for the next move event
+			       mLastTouchX = userX;
+		           mLastTouchY = userY;
+
+			        break;
+				}
+				
+				case MotionEvent.ACTION_UP: {
+					
+					db.deleteDatabse();
+					for(Poop e: list) {
+						db.addPoop(e);
+						
+					}
+			        mActivePointerId = INVALID_POINTER_ID;
+			        break;
+				}	
+			            
+			    case MotionEvent.ACTION_CANCEL: {
+			        mActivePointerId = INVALID_POINTER_ID;
+			        break;
+			    }
+			        
+			    case MotionEvent.ACTION_POINTER_UP: {
+			           
+			        final int pointerIndex = MotionEventCompat.getActionIndex(event); 
+			        final int pointerId = MotionEventCompat.getPointerId(event, pointerIndex); 
+			        if (pointerId == mActivePointerId) {
 			            // This was our active pointer going up. Choose a new
 			            // active pointer and adjust accordingly.
-			//            final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-			//            mLastTouchX = MotionEventCompat.getX(event, newPointerIndex); 
-			//            mLastTouchY = MotionEventCompat.getY(event, newPointerIndex); 
-			//            mActivePointerId = MotionEventCompat.getPointerId(event, newPointerIndex);
-			//        }
-			 //       break;
+			            final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+			            mLastTouchX = MotionEventCompat.getX(event, newPointerIndex); 
+			            mLastTouchY = MotionEventCompat.getY(event, newPointerIndex); 
+			            mActivePointerId = MotionEventCompat.getPointerId(event, newPointerIndex);
+			        }
+			       break;
 			    }
-					
-				} // End switch
 			
+					
+				}
 				return true;
-				
-			} // End function onTouch
 
-		}); // Set onTouchListener
+			
+			
+			}	
+			}); // End function onTouch
+		
+		 // Set onTouchListener
+	
+
+		
 	}
 	
-	/*
-	 * Simply delegate the logic to the controller by sending a message asking it to handle the
-	 * KeyEvent for us.  Our controller returns a boolean indicating whether or not the message
-	 * handled. 
-	 */
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		boolean handled = controller.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
@@ -327,6 +346,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	protected void onStop() {
 		super.onStop();
 		
+		
+		for(Poop e: list) {
+			db.addPoop(e);
+		}
 		///*
 		// Get current time
 		Time currTime = new Time();
@@ -408,6 +431,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		this.hView.loadBitmaps();
 		
 		updateView();
+		list = db.getAllPoop();
+		hView.drawPoop(list);
 	}
 	
 	@Override
@@ -465,28 +490,40 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		alertDialog.show();
 	}
 	
-	/*
-	public void isPetClicked(float userX, float userY) {
+	
+	public int isPoopClicked(float userX, float userY) {
 		
-		// Is click within pet image X-range
-		if ((userX >= pet.xCoordinate)
-				&& (userX <= pet.xCoordinate + pet.width)) 
-		{
-		    // Is click within pet image Y-range
-			if ((userY >= pet.yCoordinate) 
-					&& (userY <= pet.yCoordinate + pet.height))
-			{
-				// Pet has been selected
-				petIsClicked = true;
-				return;
+		int x, y, count = 0;
+		List<Poop> myList = db.getAllPoop(); 
+		for(Poop e: myList) {
+			x = e.getX();
+			y = e.getY();
+			
+			// Is click within pet image X-range
+			if ((userX >= x)
+					&& (userX <= x + hView.getPetWidth()/2)) {
+				Log.v("userx", Float.toString(userX));
+				Log.v("x", Integer.toString(x));
+			
+			    // Is click within pet image Y-range
+				if ((userY >= y) 
+						&& (userY <= y + hView.getPetHeight())) {
+				
+					// Pet has been selected
+					Log.v("userY", Float.toString(userY));
+					Log.v("y", Integer.toString(y));
+					poopIsClicked = true;
+					return count;
+				}
 			}
+			count++;
 		}
 		
-		// Pet not clicked
-		petIsClicked = false;
+		poopIsClicked = false;
+		return -1;
 		
-	} // End method isPetClicked
-	*/
+	} // End method 
+	
 	//void feedPet() {};
 	//void bathePet() {};
 	//void removePoop() {};

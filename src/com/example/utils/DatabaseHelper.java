@@ -112,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getCount();
     }
     
-    public int updateContact(Poop poop) {
+    public int updatePoop(Poop poop) {
         SQLiteDatabase db = this.getWritableDatabase();
      
         ContentValues values = new ContentValues();
@@ -128,6 +128,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(POOP_TABLE, KEY_ID + " = ?",
                 new String[] { String.valueOf(poop.getID()) });
+        db.close();
+    }
+    
+    public void deleteById(String rowId) {
+    	SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(POOP_TABLE, KEY_ID + "=" + rowId, null);
         db.close();
     }
     
