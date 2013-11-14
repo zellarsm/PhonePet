@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge;
+	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash;
 	private Point petPoint = null;
 	private String fileName = "preferences";
 	private SharedPreferences sharedPref;
@@ -38,7 +38,7 @@ public class HomeView extends View {
 	private List<Poop> myList = null;
 	private boolean poopExists;
 	Food currentFood = null;
-	private boolean foodExists;
+	private boolean foodExists, trashcanNeeded;
 	private boolean cleaningPet;
 	private String petName;
 	private Paint paint;
@@ -64,6 +64,7 @@ public class HomeView extends View {
 		poopExists = false;
 		foodExists = false;
 		cleaningPet = false;
+		trashcanNeeded = false;
 		
 		// Load pet name and format it
 		paint = new Paint();
@@ -121,6 +122,10 @@ public class HomeView extends View {
 			//canvas.drawBitmap(R.drawable.sponge, 100.0, 100.0, null);
 			//Log.v("currently cleaning pet", Boolean.toString(cleaningPet));
 			canvas.drawBitmap(mSponge, (float) (backgroundWidth/2.0), (float) (backgroundHeight/2.0), null);
+		}
+		
+		if(trashcanNeeded) {
+			canvas.drawBitmap(mTrash, backgroundWidth/10, backgroundHeight/4 + backgroundHeight/2, null);
 		}
 	}
 	
@@ -205,6 +210,8 @@ public class HomeView extends View {
 
 		// Get poop image.
 		mPoop = BitmapFactory.decodeResource(getResources(), R.drawable.poop);
+		//get trashcan image
+		mTrash = BitmapFactory.decodeResource(getResources(), R.drawable.trashcan);
 		// Get food image.
 		mFood = BitmapFactory.decodeResource(getResources(), R.drawable.food);
 
@@ -221,7 +228,7 @@ public class HomeView extends View {
 		mCloud = Bitmap.createScaledBitmap(mCloud, backgroundWidth/4, backgroundHeight/10, true); // Cloud
 		mPet = Bitmap.createScaledBitmap(mPet, petWidth, petHeight, true); // Pet
 		mPoop = Bitmap.createScaledBitmap(mPoop, petWidth/3, petHeight/3, true);
-		
+		mTrash = Bitmap.createScaledBitmap(mTrash, petWidth, petHeight, true);
 	}
 	
 
@@ -237,15 +244,7 @@ public class HomeView extends View {
 		
 		this.invalidate();
 	}
-	
-	public void removePoop() {
-				
-		poopExists = false;
-		this.invalidate();
 		
-	}
-	
-	
 	// Food functionality
 	public void drawFood(Food f)
 	{
@@ -297,5 +296,10 @@ public class HomeView extends View {
 		myList = list;
 		this.invalidate();
 		
+	}
+
+	public void setTrash(boolean need) {
+		trashcanNeeded = need;
+		this.invalidate();
 	}
 }

@@ -64,7 +64,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private String fileName = "preferences";
 	DatabaseHelper db;
 	private boolean testButtonJustHeld = false;
-	private boolean poopIsClicked;
+	private boolean poopIsClicked, need;
 	private int id;
 	private Poop temp, temp2;
 	List<Poop> list;
@@ -82,7 +82,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		db = new DatabaseHelper(this);
 		final HomeView homeview = (HomeView)findViewById(R.id.HomeView);
 		this.hView = homeview;
-		
+		need = false;
 		controller = new PetController(pet, getApplicationContext());
 		
 		ImageButton playButton = (ImageButton)findViewById(R.id.Play);
@@ -114,7 +114,14 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			@Override
 			public void onClick(View v) {
 				
-				  
+				
+				if(need == false) {
+					need = true;
+					hView.setTrash(true);  
+				}
+				else
+					need = false;
+				hView.setEnabled(need);
 				poopCleaner();
 				//db.deleteDatabse();
 				
@@ -252,112 +259,125 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	
 	public void poopCleaner() {
 		
-		hView.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-				
-			final int action = MotionEventCompat.getActionMasked(event); 
-				
-				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN: {
-					final int pointerIndex = MotionEventCompat.getActionIndex(event); 
-			        final float userX = MotionEventCompat.getX(event, pointerIndex); 
-			        final float userY = MotionEventCompat.getY(event, pointerIndex); 
-			            
-			        // Check if something is clicked.
-		       id = isPoopClicked(userX, userY);
-		       
-			        //Log.v("petIsClicked, down", Boolean.toString(petIsClicked));
-			        
-			        // Remember where we started (for dragging)
-			        mLastTouchX = userX;
-			        mLastTouchY = userY;
-		        
-			        // Save the ID of this pointer (for dragging)
-		       mActivePointerId = MotionEventCompat.getPointerId(event, 0);
-		        break;
+		
+			hView.setOnTouchListener(new OnTouchListener() {
+				public boolean onTouch(View v, MotionEvent event) {
 					
-				} // End case MotionEvent.ACTION_DOWN
-				
-			case MotionEvent.ACTION_MOVE: {
-			        // Find the index of the active pointer and fetch its position
-			        final int pointerIndex = 
-			                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
-			            
-			        final float userX = MotionEventCompat.getX(event, pointerIndex);
-			        final float userY = MotionEventCompat.getY(event, pointerIndex);
-			            
-			        // Calculate the distance moved
-			       final float dx = userX - mLastTouchX;
-			       final float dy = userY - mLastTouchY;
-
-			       mPosX += dx;
-			       mPosY += dy;
-			       list = db.getAllPoop();
-			      
-			        // Invalidate
-			        if (poopIsClicked && id != -1) {
-			        
-			        	temp = list.get(id);  
-			        	list.remove(id);
-			        	temp.setX((int)userX);
-			        	temp.setY((int)userY);
-			        	temp.setID(id+1);
-			        	list.add(temp);
-			        	hView.dragPoop(list);	        	
-			        }
-			        
-			        // Remember this touch position for the next move event
-			       mLastTouchX = userX;
-		           mLastTouchY = userY;
-
-			        break;
-				}
-				
-				case MotionEvent.ACTION_UP: {
+				final int action = MotionEventCompat.getActionMasked(event); 
 					
-					db.deleteDatabse();
-					for(Poop e: list) {
-						db.addPoop(e);
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN: {
+						final int pointerIndex = MotionEventCompat.getActionIndex(event); 
+				        final float userX = MotionEventCompat.getX(event, pointerIndex); 
+				        final float userY = MotionEventCompat.getY(event, pointerIndex); 
+				            
+				        // Check if something is clicked.
+				        id = isPoopClicked(userX, userY);
+			       
+				        //Log.v("petIsClicked, down", Boolean.toString(petIsClicked));
+				        
+				        // Remember where we started (for dragging)
+				    	mLastTouchX = userX;
+				        mLastTouchY = userY;
+				      
+				        // Save the ID of this pointer (for dragging)
+				        mActivePointerId = MotionEventCompat.getPointerId(event, 0);
+				        break;
+						
+					} // End case MotionEvent.ACTION_DOWN
+					
+				case MotionEvent.ACTION_MOVE: {
+				        // Find the index of the active pointer and fetch its position
+				        final int pointerIndex = 
+				                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
+				            
+				        final float userX = MotionEventCompat.getX(event, pointerIndex);
+				        final float userY = MotionEventCompat.getY(event, pointerIndex);
+				            
+				        // Calculate the distance moved
+				       final float dx = userX - mLastTouchX;
+				       final float dy = userY - mLastTouchY;
+				       hView.setTrash(true);
+				       mPosX += dx;
+				       mPosY += dy;
+				       list = db.getAllPoop();
+				      
+				        // Invalidate
+				        if (poopIsClicked && id != -1) {
+				        
+				        	temp = list.get(id);  
+				        	list.remove(id);
+				        	temp.setX((int)userX);
+				        	temp.setY((int)userY);
+				        	temp.setID(id+1);
+				        	
+				        	if(temp.getX() > hView.getBackgroundWidth()/10 
+				        		&& temp.getX() < hView.getBackgroundWidth()/10 + hView.getPetWidth()) {
+				        		
+				        		if(temp.getY() >  hView.getBackgroundHeight()/4 
+				        			&& temp.getY() < hView.getBackgroundHeight()/4 + hView.getPetHeight()) {
+				        			list.remove(temp);
+				        			
+				        		}
+				        	}
+				        	else {
+				        		list.add(temp);
+				        	}
+				        	
+				        	hView.dragPoop(list);	        	
+				        }
+				
+				        // Remember this touch position for the next move event
+				       mLastTouchX = userX;
+			           mLastTouchY = userY;
+	
+				        break;
+					}
+					
+					case MotionEvent.ACTION_UP: {
+						
+						hView.setTrash(false);
+						db.deleteDatabse();
+						for(Poop e: list) {
+							db.addPoop(e);
+							
+						}
+				        mActivePointerId = INVALID_POINTER_ID;
+				        break;
+					}	
+				            
+				    case MotionEvent.ACTION_CANCEL: {
+				        mActivePointerId = INVALID_POINTER_ID;
+				        break;
+				    }
+				        
+				    case MotionEvent.ACTION_POINTER_UP: {
+				           
+				        final int pointerIndex = MotionEventCompat.getActionIndex(event); 
+				        final int pointerId = MotionEventCompat.getPointerId(event, pointerIndex); 
+				        if (pointerId == mActivePointerId) {
+				            // This was our active pointer going up. Choose a new
+				            // active pointer and adjust accordingly.
+				            final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+				            mLastTouchX = MotionEventCompat.getX(event, newPointerIndex); 
+				            mLastTouchY = MotionEventCompat.getY(event, newPointerIndex); 
+				            mActivePointerId = MotionEventCompat.getPointerId(event, newPointerIndex);
+				        }
+				       break;
+				    }
+				
 						
 					}
-			        mActivePointerId = INVALID_POINTER_ID;
-			        break;
+					return true;
+	
+				
+				
 				}	
-			            
-			    case MotionEvent.ACTION_CANCEL: {
-			        mActivePointerId = INVALID_POINTER_ID;
-			        break;
-			    }
-			        
-			    case MotionEvent.ACTION_POINTER_UP: {
-			           
-			        final int pointerIndex = MotionEventCompat.getActionIndex(event); 
-			        final int pointerId = MotionEventCompat.getPointerId(event, pointerIndex); 
-			        if (pointerId == mActivePointerId) {
-			            // This was our active pointer going up. Choose a new
-			            // active pointer and adjust accordingly.
-			            final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-			            mLastTouchX = MotionEventCompat.getX(event, newPointerIndex); 
-			            mLastTouchY = MotionEventCompat.getY(event, newPointerIndex); 
-			            mActivePointerId = MotionEventCompat.getPointerId(event, newPointerIndex);
-			        }
-			       break;
-			    }
 			
-					
-				}
-				return true;
-
-			
-			
-			}	
 			}); // End function onTouch
-		
+		}
 		 // Set onTouchListener
 	
-
-		
-	}
 	
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {

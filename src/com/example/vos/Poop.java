@@ -1,10 +1,13 @@
 package com.example.vos;
 
+import com.example.utils.Speed;
+
 public class Poop {
 
 	private int poopX;
 	private int poopY;
 	private int ID;
+	private Speed speed;
 	
 	public Poop() {
 	}
@@ -14,12 +17,14 @@ public class Poop {
 		this.ID = id;
 		this.poopX = x;
 		this.poopY = y;	
+		this.speed = new Speed();
 	}
 	
 	public Poop(int x, int y) {
 		
 		this.poopX = x;
 		this.poopY = y;
+		this.speed = new Speed();
 	}
 
 	public int getX() {
@@ -44,5 +49,18 @@ public class Poop {
 	
 	public void setID(int id) {
 		ID = id;
+	}
+	
+	public Speed getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(Speed speed) {
+		this.speed = speed;
+	}
+
+	public void update() {
+		poopX += (poopX * speed.getxDirection()); 
+		poopY += (poopX * speed.getyDirection());
 	}
 }
