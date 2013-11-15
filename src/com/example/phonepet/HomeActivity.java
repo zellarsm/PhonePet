@@ -134,18 +134,12 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				// Scoop poop was already happening. Deactivate scoop poop mode.
 				if (whatIsHappening == 1) {
 					whatIsHappening = 0; // Nothing is happening
-					// Change to unpressed button image
-					poopButton.setImageResource(R.drawable.pooper_scooper);
-					
 					hView.setOnTouchListener(new DefaultListener());
 				}
 				// Scoop poop was not already happening. Activate scoop poop mode.
 				else {
 					whatIsHappening = 1; // Scoop poop mode
-					// Change to pressed button image
-					cleanButton.setImageResource(R.drawable.sponge);
-					poopButton.setImageResource(R.drawable.pooper_scooper_pressed);
-
+					hView.setOnTouchListener(new ScoopPoopListener());
 
 					if(need == false) {
 						need = true;
@@ -153,8 +147,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					}
 					else
 						need = false;
-						hView.setEnabled(need);
-						hView.setOnTouchListener(new ScoopPoopListener());
+					hView.setEnabled(need);
+					poopCleaner();
 					//db.deleteDatabse();
 					
 					//hView.removePoop();
@@ -169,18 +163,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				// Cleaning was already happening. Deactivate cleaning mode.
 				if (whatIsHappening == 2) {
 					whatIsHappening = 0; // Nothing is happening
-					// Change to unpressed button image
-					cleanButton.setImageResource(R.drawable.sponge);
-					
 					hView.setOnTouchListener(new DefaultListener());
 				}
 				// Cleaning was not already happening.  Activate cleaning mode.
 				else {
 					whatIsHappening = 2; // Cleaning mode
-					// Change to unpressed button image
-					poopButton.setImageResource(R.drawable.pooper_scooper);
-					cleanButton.setImageResource(R.drawable.sponge_pressed);
-					
 					hView.setOnTouchListener(new CleanListener());
 					
 					controller.handleMessage(PetController.MESSAGE_CLEAN);				
@@ -269,16 +256,25 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	}
 
 
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		boolean handled = controller.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
-		if (!handled) {
-			// If the controller didn't handle the KeyEvent the method calls its super.
-			return super.dispatchKeyEvent(event);
-		}
-		return handled;
+	public void poopCleaner() {
 		
-	}
+		
+			hView.setOnTouchListener(new ScoopPoopListener());
+				
+		}
+		 // Set onTouchListener
+	
+
+	//@Override
+	//public boolean dispatchKeyEvent(KeyEvent event) {
+	//	boolean handled = controller.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
+	//	if (!handled) {
+			// If the controller didn't handle the KeyEvent the method calls its super.
+	//		return super.dispatchKeyEvent(event);
+	//	}
+	//	return handled;
+		
+	//}
 	
 	/**
 	 * Once the model notifies the view of a change, we just update the views on the UI thread.
