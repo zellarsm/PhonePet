@@ -131,8 +131,10 @@ public class PetController extends Controller {
 			scoopPoop();
 			return true;
 		case MESSAGE_FEED:
+			
+			Log.v("message feed", " call move pet to food");
 			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
-			movePetToFood((Food)data);
+			//movePetToFood((Food)data);
 			return true;
 		case MESSAGE_CLEAN:
 			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
@@ -240,18 +242,84 @@ public class PetController extends Controller {
 	
 	private void movePetToFood(Food food)
 	{
-		int currentPetX, currentPetY;
+		Log.v("move pet to food function", "top");
+		//sleepThread(2000); // 10 seconds
+		
+		int currentPetX, currentPetY, currentFoodX, currentFoodY;
+		int horiz_dx, vert_dy;
+		int jumpDistance = BACKGROUND_WIDTH/10;
+		int numHorizJumps, numVertJumps;
 		
 		// Get current pet location
 		currentPetX = model.getXCoord();
 		currentPetY = model.getYCoord();
 		
 		// Get food location
-		//food object.
+		currentFoodX = food.getX();
+		currentFoodY = food.getY();
 		
 		// If locations are not the same, alternate moving vertical / horizontal until pet is next to food.
+		horiz_dx = currentPetX - currentFoodX;
+		vert_dy = currentPetY - currentFoodY;
+		
+		// If vert_dy is positive, pet needs to move up. If negative, pet needs to move down.
+		if(vert_dy != 0)
+		{
+			numVertJumps = vert_dy / jumpDistance;
+		}
+		else
+		{
+			// Pet is already on the same horizontal axis as the food.
+			numVertJumps = 0;
+		}
+		
+		// If horix_dx is positive, pet needs to move left. If negative, pet needs to move right.
+		if(horiz_dx != 0)
+		{
+			numHorizJumps = horiz_dx / jumpDistance;
+		}
+		else
+		{
+			// Pet is already on the same vertical axis as the food.
+			numHorizJumps = 0;
+		}
+		
+		// Now move
+		if(numVertJumps > 0)
+		{
+			for(int k=0; k<numVertJumps; k++)
+			{
+				move(3); // Move up
+			}
+		}
+		else if(numVertJumps < 0)
+		{
+			numVertJumps *= -1; // Make number positive
+			for(int k=0; k<numVertJumps; k++)
+			{
+				move(4); // Move down
+			}
+		}
+		
+		if(numHorizJumps > 0)
+		{
+			for(int k=0; k<numHorizJumps; k++)
+			{
+				move(1); // Move left
+			}
+		}
+		else if(numHorizJumps < 0)
+		{
+			numHorizJumps *= -1; // Make number positive
+			for(int k=0; k<numHorizJumps; k++)
+			{
+				move(2); // Move right
+			}
+		}
 		
 		// Delete food.
+		Log.v("movetofood", "should be at food nao");
+		
 	}
 	
 	

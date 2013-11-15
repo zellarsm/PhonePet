@@ -133,6 +133,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			@Override
 			public void onClick(View v) {
 				
+				// Spawn food.
+				drawFood();
+				
+				// Spawn poop
 				int numPoop = (int)(Math.random() * 3) + 1;
 				int tempX, tempY;
 				Poop poop;
@@ -155,7 +159,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				}
 		        list = db.getAllPoop();			
 				hView.drawPoop(list);
-				drawFood();
 			}
 		});
 		

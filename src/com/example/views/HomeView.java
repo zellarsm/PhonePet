@@ -257,7 +257,7 @@ public class HomeView extends View {
 		}
 	}
 	
-	public void removeFood() // eat food??
+	public void removeFood()
 	{	
 		foodExists = false;
 		this.invalidate();	
