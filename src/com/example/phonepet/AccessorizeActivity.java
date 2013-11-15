@@ -47,30 +47,42 @@ public class AccessorizeActivity extends Activity {
 
 		pet = PetVo.getInstance();
 		
+		// Hat buttons
 		ImageButton topHatButton = (ImageButton)findViewById(R.id.topHat);
 		ImageButton unicornButton = (ImageButton)findViewById(R.id.unicornHorn);
-		ImageButton glassesButton = (ImageButton)findViewById(R.id.glasses);
-		ImageButton blackTieButton = (ImageButton)findViewById(R.id.blackTie);
-		ImageButton redTieButton = (ImageButton)findViewById(R.id.redTie);
-		ImageButton blueTieButton = (ImageButton)findViewById(R.id.blueTie);
-		ImageButton bowTieButton = (ImageButton)findViewById(R.id.bowtie);
-		
-		ImageButton mustacheButton = (ImageButton)findViewById(R.id.mustache);
 		ImageButton partyhatButton = (ImageButton)findViewById(R.id.partyhat);
 		ImageButton pikachuHatButton = (ImageButton)findViewById(R.id.pikachu);
-		ImageButton blackMonocleButton = (ImageButton)findViewById(R.id.black_monocle);
-		ImageButton goldMonocleButton = (ImageButton)findViewById(R.id.gold_monocle);
-		ImageButton clownNoseButton = (ImageButton)findViewById(R.id.clownNose);
 		ImageButton tealHairbowButton = (ImageButton)findViewById(R.id.tealhairbow);
 		ImageButton redHairbowButton = (ImageButton)findViewById(R.id.redhairbow);
 		ImageButton yellowHairbowButton = (ImageButton)findViewById(R.id.yellowhairbow);
 		ImageButton blueHairbowButton = (ImageButton)findViewById(R.id.bluehairbow);
 		ImageButton purpleHairbowButton = (ImageButton)findViewById(R.id.purplehairbow);
+		ImageButton greenCapButton = (ImageButton)findViewById(R.id.greencap);
+		ImageButton redCapButton = (ImageButton)findViewById(R.id.redcap);
+		ImageButton yellowCapButton = (ImageButton)findViewById(R.id.yellowcap);
+		ImageButton blueCapButton = (ImageButton)findViewById(R.id.bluecap);
+		ImageButton purpleCapButton = (ImageButton)findViewById(R.id.purplecap);
+		
+		// Glasses buttons
+		ImageButton glassesButton = (ImageButton)findViewById(R.id.glasses);
+		ImageButton blackMonocleButton = (ImageButton)findViewById(R.id.black_monocle);
+		ImageButton goldMonocleButton = (ImageButton)findViewById(R.id.gold_monocle);
+		
+		// Nose buttons
+		ImageButton mustacheButton = (ImageButton)findViewById(R.id.mustache);
+		ImageButton clownNoseButton = (ImageButton)findViewById(R.id.clownNose);
+		
+		// Neck buttons
+		ImageButton bowTieButton = (ImageButton)findViewById(R.id.bowtie);
+		ImageButton blackTieButton = (ImageButton)findViewById(R.id.blackTie);
+		ImageButton redTieButton = (ImageButton)findViewById(R.id.redTie);
+		ImageButton blueTieButton = (ImageButton)findViewById(R.id.blueTie);
 		
 		Button saveButton = (Button)findViewById(R.id.saveButton);
 		Button clearButton = (Button)findViewById(R.id.clearButton);
 
 
+		/** Hats */
 		topHatButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -91,60 +103,6 @@ public class AccessorizeActivity extends Activity {
 				updateView();
 			}
 		});
-		glassesButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[3] = getResources().getDrawable(R.drawable.acc_glasses2);
-				updateView();
-			}
-		});
-		blackTieButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_black_tie2);
-				updateView();
-			}
-		});
-		redTieButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_red_tie2);
-				updateView();
-			}
-		});
-		blueTieButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_blue_tie2);
-				updateView();
-			}
-		});
-		bowTieButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie2);
-				updateView();
-			}
-		});
-		mustacheButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[4] = getResources().getDrawable(R.drawable.acc_mustache2);
-				updateView();
-			}
-		});
 		partyhatButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -160,33 +118,6 @@ public class AccessorizeActivity extends Activity {
 			public void onClick(View v)
 			{
 				layers[2] = getResources().getDrawable(R.drawable.acc_pikachu_headband2);
-				updateView();
-			}
-		});
-		blackMonocleButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[3] = getResources().getDrawable(R.drawable.acc_black_monocle2);
-				updateView();
-			}
-		});
-		goldMonocleButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[3] = getResources().getDrawable(R.drawable.acc_gold_monocle2);
-				updateView();
-			}
-		});
-		clownNoseButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				layers[4] = getResources().getDrawable(R.drawable.acc_clown_nose2);
 				updateView();
 			}
 		});
@@ -235,6 +166,140 @@ public class AccessorizeActivity extends Activity {
 				updateView();
 			}
 		});
+		greenCapButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_green_cap2);
+				updateView();
+			}
+		});
+		redCapButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_red_cap2);
+				updateView();
+			}
+		});
+		yellowCapButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_yellow_cap2);
+				updateView();
+			}
+		});
+		blueCapButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_blue_cap2);
+				updateView();
+			}
+		});
+		purpleCapButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[2] = getResources().getDrawable(R.drawable.acc_purple_cap2);
+				updateView();
+			}
+		});
+		
+		/** Eyes */
+		glassesButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[3] = getResources().getDrawable(R.drawable.acc_glasses2);
+				updateView();
+			}
+		});
+		blackMonocleButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[3] = getResources().getDrawable(R.drawable.acc_black_monocle2);
+				updateView();
+			}
+		});
+		goldMonocleButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[3] = getResources().getDrawable(R.drawable.acc_gold_monocle2);
+				updateView();
+			}
+		});
+		
+		/** Nose */
+		mustacheButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[4] = getResources().getDrawable(R.drawable.acc_mustache2);
+				updateView();
+			}
+		});
+		clownNoseButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[4] = getResources().getDrawable(R.drawable.acc_clown_nose2);
+				updateView();
+			}
+		});
+		
+		/** Neck */
+		bowTieButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[1] = getResources().getDrawable(R.drawable.acc_black_bowtie2);
+				updateView();
+			}
+		});
+		blackTieButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[1] = getResources().getDrawable(R.drawable.acc_black_tie2);
+				updateView();
+			}
+		});
+		redTieButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[1] = getResources().getDrawable(R.drawable.acc_red_tie2);
+				updateView();
+			}
+		});
+		blueTieButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				layers[1] = getResources().getDrawable(R.drawable.acc_blue_tie2);
+				updateView();
+			}
+		});
+		
+		// Save button
 		saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -253,6 +318,7 @@ public class AccessorizeActivity extends Activity {
 			}
 		});
 		
+		// Clear button
 		clearButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
