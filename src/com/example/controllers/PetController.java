@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.example.utils.Point;
 import com.example.utils.RunawayCountdownTimer;
 import com.example.phonepet.AccessorizeActivity;
 import com.example.phonepet.CleanActivity;
@@ -153,39 +154,26 @@ public class PetController extends Controller {
 		case MESSAGE_PET_RUNAWAY:
 			runaway();
 			return true;
-		case MESSAGE_TEST_BUTTON_CLICKED:
-			runTest(1);
-			return false; // false means click test just completed
-		case MESSAGE_TEST_BUTTON_HELD:
-			runTest(2);
-			return true; // true means hold test just completed
 		}
 		return false;
 	}
 
-	/**
-	 * Runs tests when Dev button is clicked and when it's held.
-	 * Change and use this method for whatever you'd like
-	 */
-	private void runTest(int which) {
-		// On button click
-		if (which == 1) {
-			// move pet up
-			move(3);
-			move(3);
-			move(1);
-		}
-		// On button held for about 1.5 seconds
-		else if (which == 2) {
-			// move pet down
-			move(4);
-		}
-		
-		
-	}
 
 	private void handleTap(Object data) {
 		// Determine what the user tapped.
+		Point point = (Point)data;
+
+		// Check if user tapped pet.
+		if (point.x >= model.getXCoord() && point.x <= model.getXCoord() + model.getWidth()
+				&& (point.y >= model.getXCoord() && point.y <= model.getYCoord() + model.getHeight())) {
+			// User touched pet, make him move in random direction.
+			boolean moved = false;
+			// Repeat until move successful.
+			while(!moved) {
+				int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
+				moved = move(direction);
+			}
+		}
 	}
 
 	// Get pet's information
@@ -465,8 +453,7 @@ public class PetController extends Controller {
 	}
 
 	private void clean() {
-		// Testing: put pet in house door
-		model.setXYCoord(CENTER_HOUSE_X - model.getWidth()/2, BOTTOM_HOUSE_Y - model.getHeight());
+
 		// Pet is leaving Home to go to new activity.
 		// Pet is leaving Home to go to new activity.
 				//model.setPetIsHome(false);

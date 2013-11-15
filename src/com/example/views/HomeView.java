@@ -47,7 +47,7 @@ public class HomeView extends View {
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
-		petPoint = new Point();
+		petPoint = new Point(0,0);
 		
 		// Get preferences file
 		sharedPref = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
