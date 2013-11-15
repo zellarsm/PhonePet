@@ -36,6 +36,7 @@ public class HomeView extends View {
 	private int cloud1X, cloud2X;
 	private int nameX;
 	private List<Poop> myList = null;
+	private float spongeX, spongeY;
 	private boolean poopExists;
 	Food currentFood = null;
 	private boolean foodExists, trashcanNeeded;
@@ -121,7 +122,7 @@ public class HomeView extends View {
 		if(cleaningPet){
 			//canvas.drawBitmap(R.drawable.sponge, 100.0, 100.0, null);
 			//Log.v("currently cleaning pet", Boolean.toString(cleaningPet));
-			canvas.drawBitmap(mSponge, (float) (backgroundWidth/2.0), (float) (backgroundHeight/2.0), null);
+			canvas.drawBitmap(mSponge, spongeX, spongeY, null);
 		}
 		
 		if(trashcanNeeded) {
@@ -177,6 +178,7 @@ public class HomeView extends View {
 	}
 
 
+
 	// Update the pet on the bitmap if it's moved.
 	public void dragPet(int x, int y) {
 		petPoint.x = x;
@@ -185,6 +187,13 @@ public class HomeView extends View {
 		this.invalidate();
 	}
 	
+	public void drawSponge(float x, float y){
+		spongeX = x;
+		spongeY = y;
+
+		this.invalidate();
+	}
+
 	// Returns the x coordinate at which the pet's name should be placed on the screen.
 	// Props to whoever understands this math ;)
 	public int getXCoordOfName(String text, Paint paint) {
@@ -257,6 +266,8 @@ public class HomeView extends View {
 		}
 	}
 	
+
+
 	public void removeFood()
 	{	
 		foodExists = false;
@@ -265,14 +276,11 @@ public class HomeView extends View {
 	// End food functionality
 	
 	public void cleaning(){
-		cleaningPet = !cleaningPet;
-		Time cleanTime = new Time();
-		int start = cleanTime.second;
-		//clean for 60 seconds
-		/*while(cleanTime.second < start+60){
-			
-		}
-		cleaningPet = false;*/
+		
+		spongeX = (float) (backgroundWidth/2.0);
+		spongeY = (float) (backgroundHeight/2.0);
+		cleaningPet = true;
+		
 	}
 
 	public int getBackgroundWidth() {
