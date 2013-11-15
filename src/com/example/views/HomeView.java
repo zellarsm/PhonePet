@@ -246,7 +246,7 @@ public class HomeView extends View {
 		myList = list;
 		for (Poop cn : myList) {
             String log = "Id: "+cn.getID()+" ,x: " + cn.getX() + " ,y: " + cn.getY();
-            Log.d("Name: ", log);
+           
         }	
 		        
 		poopExists = true;		
