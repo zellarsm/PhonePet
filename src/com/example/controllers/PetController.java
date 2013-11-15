@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -166,14 +167,14 @@ public class PetController extends Controller {
 		// Check if user tapped pet.
 		if (point.x >= model.getXCoord() && point.x <= model.getXCoord() + model.getWidth()
 				&& (point.y >= model.getXCoord() && point.y <= model.getYCoord() + model.getHeight())) {
-			// User touched pet, make him move in random direction.
-			boolean moved = false;
-			// Repeat until move successful.
-			while(!moved) {
+			
 				int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
-				moved = move(direction);
+				
+				life.petMove = direction;
+				synchronized(life) {
+					life.notify();
+				}
 			}
-		}
 	}
 
 	// Get pet's information
@@ -277,7 +278,7 @@ public class PetController extends Controller {
 		{
 			for(int k=0; k<numVertJumps; k++)
 			{
-				move(3); // Move up
+				life.petMove = 3; // Move up
 			}
 		}
 		else if(numVertJumps < 0)
@@ -285,7 +286,7 @@ public class PetController extends Controller {
 			numVertJumps *= -1; // Make number positive
 			for(int k=0; k<numVertJumps; k++)
 			{
-				move(4); // Move down
+				life.petMove = 4; // Move down
 			}
 		}
 		
@@ -293,7 +294,7 @@ public class PetController extends Controller {
 		{
 			for(int k=0; k<numHorizJumps; k++)
 			{
-				move(1); // Move left
+				life.petMove = 1; // Move left
 			}
 		}
 		else if(numHorizJumps < 0)
@@ -301,7 +302,7 @@ public class PetController extends Controller {
 			numHorizJumps *= -1; // Make number positive
 			for(int k=0; k<numHorizJumps; k++)
 			{
-				move(2); // Move right
+				life.petMove = 2; // Move right
 			}
 		}
 		
@@ -524,19 +525,22 @@ public class PetController extends Controller {
 	private class PetLife extends Thread {
 		int petMove = 0;
 		boolean movementEnabled = true;
+		//ArrayList<Integer> moveSequence = new ArrayList<Integer>();
 		
 		public void run()
 		{
 			while(true)
 			{
-				// Sleep
+				// Wait. Wake up after 2 seconds or when main thread commands it.
 				try {
-					sleep(2000);
+					synchronized(this) {
+						wait(2000);
+					}
 					
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
+
 				// Stay here if user working with pet in another activity.
 				while (!model.getPetIsHome())
 				{
@@ -548,6 +552,11 @@ public class PetController extends Controller {
 //					movementEnabled = false;
 //					//movePetToFood();
 //				}
+				if (petMove > 0) {
+					// Perform move
+					move(petMove);
+					petMove = 0;		
+				}
 				if (movementEnabled)
 				{
 					// Move pet
