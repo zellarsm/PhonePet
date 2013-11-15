@@ -139,28 +139,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				drawFood();
 				
 				// Spawn poop
-				int numPoop = (int)(Math.random() * 3) + 1;
-				int tempX, tempY;
-				Poop poop;
-				int width, height;
+				drawPoop();
 				
-				width = hView.getBackgroundWidth() - hView.getPetWidth();
-				height = hView.getBackgroundHeight();
-				
-				for(int i = 0; i < numPoop; i ++){
-					
-						tempX = (int)(Math.random() * width);
-						tempY = (int)(Math.random() * (height/2) + (height/2));
-						
-						if(tempY > height - pet.getHeight()) {
-							tempY = tempY - height/12;
-						}
-						poop = new Poop(tempX, tempY);
-						db.addPoop(poop);
-						
-				}
-		        list = db.getAllPoop();			
-				hView.drawPoop(list);
 			}
 		});
 		
@@ -252,7 +232,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					tempY = tempY - height/12;
 				}
 			}
-			while(controller.isOnHouse(tempX, tempY));
+			while(!controller.isWithinPlayground(tempX, tempY));
 			
 			food = new Food(tempX, tempY);       
 			hView.drawFood(food);
@@ -260,6 +240,36 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			controller.handleMessage(PetController.MESSAGE_FEED, food);
 	
 		} // End method drawFood
+		
+		public void drawPoop()
+		{
+			int numPoop = (int)(Math.random()) + 1;
+			int tempX, tempY;
+			Poop poop;
+			int width, height;
+			
+			width = hView.getBackgroundWidth() - hView.getPetWidth();
+			height = hView.getBackgroundHeight();
+			
+			for(int i = 0; i < numPoop; i ++){
+				
+				do
+				{
+					tempX = (int)(Math.random() * width);
+					tempY = (int)(Math.random() * (height/2) + (height/2));
+					
+					if(tempY > height - pet.getHeight()) {
+						tempY = tempY - height/12;
+					}
+					poop = new Poop(tempX, tempY);
+				}
+				while(!controller.isWithinPlayground(tempX, tempY));
+				db.addPoop(poop);
+			}
+	        list = db.getAllPoop();			
+			hView.drawPoop(list);
+			
+		} // End method drawPoop
 
 	public void spongeBath(){
 		hView.setOnTouchListener(

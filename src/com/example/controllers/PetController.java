@@ -224,20 +224,20 @@ public class PetController extends Controller {
 	}
 
 
-	public boolean isOnHouse(int x, int y)
+	public boolean isWithinPlayground(int x, int y)
 	{
 		if((x > LEFT_HOUSE_X) || (x < RIGHT_HOUSE_X))
 		{
 			// Within x coordinates of house, check height.
 			if(y < BOTTOM_HOUSE_Y)
 			{
-				// Is on house, return true
-				return true;
+				// Is on house, return false.
+				return false;
 			}
 		}
 		
-		// Below house, return false.
-		return false;
+		// In playground, return true.
+		return true;
 	}
 	
 	private void movePetToFood(Food food)
