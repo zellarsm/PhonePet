@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-
+import com.example.phonepet.SleepActivity;
 import com.example.utils.Point;
 import com.example.utils.RunawayCountdownTimer;
 import com.example.phonepet.AccessorizeActivity;
@@ -46,6 +46,7 @@ public class PetController extends Controller {
 	public static final int MESSAGE_PET_RUNAWAY = 12;
 	public static final int MESSAGE_TEST_BUTTON_CLICKED = 13;
 	public static final int MESSAGE_TEST_BUTTON_HELD = 14;
+	public static final int MESSAGE_SET_SLEEP_TIMER = 15;
 	
 	public static final long DEFAULT_RUNAWAY_TIME_START = 60*60*24*3 * 1000; //3days //20*1000; // 60 seconds
 	public static final long CURRENT_TIME_BUFFER = 10*1000; // 10 seconds
@@ -79,7 +80,7 @@ public class PetController extends Controller {
 	
 	private boolean isMovingToFood = false;
 	
-	private RunawayCountdownTimer countDownTimer;
+	private RunawayCountdownTimer countDownTimer, sleepTimer;
 	
 	public PetController(PetVo model, Context hActivityContext)
 	{
@@ -155,6 +156,9 @@ public class PetController extends Controller {
 		case MESSAGE_PET_RUNAWAY:
 			runaway();
 			return true;
+		case MESSAGE_SET_SLEEP_TIMER:
+			setSleepTimer();
+			return true;
 		}
 		return false;
 	}
@@ -228,6 +232,31 @@ public class PetController extends Controller {
 		// In playground, return true.
 		return true;
 	}
+	
+		// Create and start the sleep timer.
+		public void setSleepTimer()
+		{
+			sleepTimer = new RunawayCountdownTimer(model.TIME_UNITL_NEXT_SLEEP, 1000)
+			{
+				public void onFinish()
+				{
+					handleSleeping();
+				}
+			};
+			sleepTimer.start();
+		}
+		
+		// Launch the sleep activity. Pet will sleep for four hours.
+		private void handleSleeping()
+		{
+			// Pet is leaving Home to go to new activity.
+			model.setPetIsHome(false);
+			
+			// Launch SleepActivity.
+			Intent myIntent = new Intent(getHomeContext(), SleepActivity.class);
+			myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			PetController.this.homeContext.startActivity(myIntent);
+		}
 	
 	private void movePetToFood(Food food)
 	{

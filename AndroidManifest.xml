@@ -52,6 +52,10 @@
             android:label="@string/title_activity_clean"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity
+            android:name="com.example.phonepet.SleepActivity"
+            android:label="@string/title_activity_sleep" >
+        </activity>
     </application>
 
 </manifest>

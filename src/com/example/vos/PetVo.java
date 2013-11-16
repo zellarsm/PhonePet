@@ -56,6 +56,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private Time lastCountDownTime;
 	private long timeLeftBeforeRunaway;
 	
+	public final int TIME_UNITL_NEXT_SLEEP = 10 * 60 * 1000; // Pet sleeps every ten hours.
+	public final int SLEEP_DURATION = 4 * 60 * 1000; // Pet sleeps for four hours.
+	
+	
 	// We only want one instance of pet through the entire project. This is known as a Singleton.
 	// A private constructor prevents any other class from instantiating PetVo.
 	private PetVo() {}

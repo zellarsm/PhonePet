@@ -263,8 +263,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_home=0x7f030004;
         public static final int activity_play=0x7f030005;
         public static final int activity_runaway=0x7f030006;
-        public static final int activity_startup=0x7f030007;
-        public static final int popup_layout=0x7f030008;
+        public static final int activity_sleep=0x7f030007;
+        public static final int activity_startup=0x7f030008;
+        public static final int popup_layout=0x7f030009;
     }
     public static final class menu {
         public static final int accessorize=0x7f090000;
@@ -273,7 +274,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int home=0x7f090003;
         public static final int play=0x7f090004;
         public static final int runaway=0x7f090005;
-        public static final int startup=0x7f090006;
+        public static final int sleep=0x7f090006;
+        public static final int startup=0x7f090007;
     }
     public static final class string {
         public static final int access_desc=0x7f070022;
@@ -306,6 +308,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /**  Strings related to HomeActivity Menu buttons 
          */
         public static final int shirt_button=0x7f070007;
+        public static final int sleep_string=0x7f070028;
         public static final int sponge_button=0x7f07000b;
         public static final int test_button=0x7f07000c;
         public static final int title_activity_accessorize=0x7f070021;
@@ -314,6 +317,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title_activity_home=0x7f070003;
         public static final int title_activity_play=0x7f070020;
         public static final int title_activity_runaway=0x7f070023;
+        public static final int title_activity_sleep=0x7f070027;
         public static final int txt_dog=0x7f070014;
         public static final int txt_female=0x7f07001b;
         public static final int txt_finish=0x7f070019;

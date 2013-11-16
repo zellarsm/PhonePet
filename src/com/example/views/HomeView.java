@@ -126,7 +126,7 @@ public class HomeView extends View {
 		}
 		
 		if(trashcanNeeded) {
-			canvas.drawBitmap(mTrash, backgroundWidth/10, backgroundHeight/4 + backgroundHeight/2, null);
+			canvas.drawBitmap(mTrash, backgroundWidth/10, backgroundHeight/6 + backgroundHeight/3, null);
 		}
 	}
 	
