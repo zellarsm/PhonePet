@@ -457,11 +457,25 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	}
 	public int isSpongeClicked(float userX, float userY){
 		
-		int margin = 90;
+		int margin = hView.getBackgroundWidth()/10;
 		if(userX >= spongeX - margin && userX <= spongeX + margin){
 			if(userY >= spongeY - margin && userY <= spongeY+margin){
 				spongeClicked = true;
-				Log.v("spongeClicked", Boolean.toString(spongeClicked));
+				
+				return 1;
+			}
+			return -1;
+		}
+		return -1;
+	}
+
+	public int isSpongeOnPet(float userX, float userY){
+		float petX = hView.petX();
+		float petY = hView.petY();
+		float margin = (float)hView.getPetWidth();
+		if(userX >= petX-margin && userX <= petX+margin){
+			if(userY >= petY-margin && userY <= petY+margin){
+				hView.notCleaning();
 				return 1;
 			}
 			return -1;
@@ -646,8 +660,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 						final int pointerIndex = MotionEventCompat.getActionIndex(event);
 						final float userX = MotionEventCompat.getX(event, pointerIndex);
 						final float userY =  MotionEventCompat.getY(event, pointerIndex);
-						Log.v("USER X", Float.toString(userX));
+						/*Log.v("USER X", Float.toString(userX));
 						Log.v("USER Y", Float.toString(userY));
+						Log.v("isSpongeClicked", Integer.toString(isSpongeClicked(userX,userY)));*/
+						Log.v("isSpongeOnPet", Integer.toString(isSpongeOnPet(userX,userY)));
 						spongeX = userX;
 						spongeY = userY;
 						

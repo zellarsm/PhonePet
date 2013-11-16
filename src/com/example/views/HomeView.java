@@ -177,7 +177,13 @@ public class HomeView extends View {
 		this.invalidate();
 	}
 
+	public float petX(){
+		return petPoint.x;
+	}
 
+	public float petY(){
+		return petPoint.y;
+	}
 
 	// Update the pet on the bitmap if it's moved.
 	public void dragPet(int x, int y) {
@@ -280,6 +286,10 @@ public class HomeView extends View {
 		spongeY = (float) (backgroundHeight/2.0);
 		cleaningPet = true;
 		
+	}
+
+	public void notCleaning(){
+		cleaningPet = false;
 	}
 
 	public int getBackgroundWidth() {
