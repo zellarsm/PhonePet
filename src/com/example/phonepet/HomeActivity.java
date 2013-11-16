@@ -13,6 +13,7 @@ import com.example.vos.PetVo;
 import com.example.vos.Poop;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Settings.System;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -122,9 +123,9 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				// Spawn food.
 				drawFood();
 				
-				// Spawn poop
-				drawPoop();
-				
+				//wait to spawn poop
+				waitTimer();
+			
 			}
 		});
 		
@@ -135,24 +136,16 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				if (whatIsHappening == 1) {
 					whatIsHappening = 0; // Nothing is happening
 					hView.setOnTouchListener(new DefaultListener());
+					hView.setTrash(false);  
 				}
 				// Scoop poop was not already happening. Activate scoop poop mode.
 				else {
 					whatIsHappening = 1; // Scoop poop mode
 					hView.setOnTouchListener(new ScoopPoopListener());
-
-					if(need == false) {
-						need = true;
-						hView.setTrash(true);  
-					}
-					else
-						need = false;
-					hView.setEnabled(need);
+					hView.setTrash(true); 
 					poopCleaner();
-					//db.deleteDatabse();
-					
-					//hView.removePoop();
 				}
+					
 			}
 		});
 		
@@ -171,7 +164,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					hView.setOnTouchListener(new CleanListener());
 					
 					controller.handleMessage(PetController.MESSAGE_CLEAN);				
-				
 				
 					hView.cleaning();
 					spongeBath();
@@ -222,15 +214,13 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		public void drawPoop()
 		{
-			int numPoop = (int)(Math.random()) + 1;
+
 			int tempX, tempY;
 			Poop poop;
 			int width, height;
 			
 			width = hView.getBackgroundWidth() - hView.getPetWidth();
 			height = hView.getBackgroundHeight();
-			
-			for(int i = 0; i < numPoop; i ++){
 				
 				do
 				{
@@ -244,7 +234,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				}
 				while(!controller.isWithinPlayground(tempX, tempY));
 				db.addPoop(poop);
-			}
+			
 	        list = db.getAllPoop();			
 			hView.drawPoop(list);
 			
@@ -451,7 +441,20 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		alertDialog.show();
 	}
 	
-	
+	public void waitTimer() {
+		
+		new CountDownTimer(8000, 1000) {
+
+		     public void onTick(long millisUntilFinished) {
+		     }
+
+		     public void onFinish() {
+		    	// Spawn poop
+				drawPoop();
+			}
+		  }.start();
+		 
+	}
 	public int isSpongeClicked(float userX, float userY){
 		
 		int margin = 90;
@@ -571,14 +574,13 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        	temp.setY((int)userY);
 			        	temp.setID(id+1);
 			        	
-			        	if(temp.getX() > hView.getBackgroundWidth()/10 
-			        		&& temp.getX() < hView.getBackgroundWidth()/10 + hView.getPetWidth()) {
-			        		
-			        		if(temp.getY() >  hView.getBackgroundHeight()/4 
-			        			&& temp.getY() < hView.getBackgroundHeight()/4 + hView.getPetHeight()) {
-			        			list.remove(temp);
+			        	if((temp.getX() > hView.getBackgroundWidth()/10 
+			        		&& temp.getX() < hView.getBackgroundWidth()/10 + hView.getPetWidth())
+			        		&& (temp.getY() >  + hView.getBackgroundHeight()/6
+			        		&& temp.getY() < hView.getBackgroundHeight()/6 + hView.getBackgroundHeight()/3 + hView.getPetHeight())) {
 			        			
-			        		}
+			        		list.remove(temp);
+		        		
 			        	}
 			        	else {
 			        		list.add(temp);
@@ -596,7 +598,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				
 				case MotionEvent.ACTION_UP: {
 					
-					hView.setTrash(false);
 					db.deleteDatabse();
 					for(Poop e: list) {
 						db.addPoop(e);
