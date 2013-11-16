@@ -1,18 +1,15 @@
 package com.example.phonepet;
 
-import com.example.controllers.PetController;
-import com.example.utils.RunawayCountdownTimer;
 import com.example.vos.PetVo;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 
 public class SleepActivity extends Activity {
 
-	RunawayCountdownTimer sleepTimer;
+	CountDownTimer sleepTimer;
 	private PetVo pet; // Pet
 	
 	@Override
@@ -25,12 +22,16 @@ public class SleepActivity extends Activity {
 		
 		
 		// Duration of four hours, tick every minute.
-		sleepTimer = new RunawayCountdownTimer(pet.SLEEP_DURATION, 1000)
+		sleepTimer = new CountDownTimer(pet.SLEEP_DURATION, 1000)
 		{
 			public void onFinish()
 			{
+				pet.setPetIsSleeping(false);
 		        finish();
 			}
+
+			@Override
+			public void onTick(long arg0){}
 		};
 		sleepTimer.start();
 

@@ -29,6 +29,7 @@ public class PetVo extends SimpleObservable<PetVo> {
  	 * dog = 3 */
 	private int petType;
 	private boolean petIsHome;
+	private boolean petIsSleeping;
 	/* Pet color
 	 * orange = 1
 	 * red = 2 */
@@ -58,6 +59,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	
 	public final int TIME_UNITL_NEXT_SLEEP = 10 * 60 * 1000; // Pet sleeps every ten hours.
 	public final int SLEEP_DURATION = 4 * 60 * 1000; // Pet sleeps for four hours.
+	public final long DEFAULT_RUNAWAY_TIME_START = (60*60*24* 1000)*7/2; //3.5days
 	
 	
 	// We only want one instance of pet through the entire project. This is known as a Singleton.
@@ -80,22 +82,28 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public boolean getPetIsHome() {
 		return this.petIsHome;
 	}
-
+	public boolean getPetIsSleeping() {
+		return this.petIsSleeping;
+	}
+	
 	// Pet has been initially loaded, notify the view.
-		public void loadPet(int width, int height, int xCoord, int yCoord, int petType, int drawable) {
-			// Remember that width and height is NOT the center of the pet bitmap, it's the top left.
-			this.width = width;
-			this.height = height;
-			this.xCoord = xCoord;
-			this.yCoord = yCoord;
-			this.petType = petType;
-			this.drawableNum = drawable;
-			// Pet is loaded.
-			notifyObservers(this);
-		}
+	public void loadPet(int width, int height, int xCoord, int yCoord, int petType, int drawable) {
+		// Remember that width and height is NOT the center of the pet bitmap, it's the top left.
+		this.width = width;
+		this.height = height;
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+		this.petType = petType;
+		this.drawableNum = drawable;
+		// Pet is loaded.
+		notifyObservers(this);
+	}
 	
 	public void setPetIsHome(boolean bool) {
 		this.petIsHome = bool;
+	}
+	public void setPetIsSleeping(boolean bool) {
+		this.petIsSleeping = bool;
 	}
 	public void setXCoord(int x) {
 		this.xCoord = x;

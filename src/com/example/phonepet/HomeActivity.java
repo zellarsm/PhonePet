@@ -301,7 +301,12 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		for(Poop e: list) {
 			db.addPoop(e);
 		}
-		///*
+		
+		
+	} // End method onStop
+	
+	public void writeTimers()
+	{
 		// Get current time
 		Time currTime = new Time();
 		currTime.setToNow();
@@ -312,17 +317,24 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		SharedPreferences.Editor editor = sharedPref.edit();
 		
 		// Put data into preferences file
-		//editor.putString("lastSavedTime", currTime.toString());
 		editor.putLong("lastSavedTimeMillis", currTime.toMillis(true)); // ignore daylight savings time
-		long t = controller.getCountdownTimeLeft();
-		Log.v("getTimeLeft", Long.toString(t));
-		editor.putLong("runawayTimeLeft", t);
-		//editor.putLong("runawayTimeLeft", controller.getCountdownTimeLeft());
+		try
+		{
+			long t = controller.getCountdownTimeLeft(1);
+			Log.v("getRunawayTimeLeft", Long.toString(t));
+			editor.putLong("runawayTimeLeft", t);
+		}
+		catch(NullPointerException e)
+		{
+			Log.v("assuming t was null", "put no time remaining");
+			editor.putLong("runawayTimeLeft", 0);
+		}
+		
+		// Currently don't keep track of sleep timer(s).
 		
 		editor.commit();
-		//*/
 		
-	}
+	} // End method writeTimers
 	
 	@Override
 	protected void onResume()
@@ -337,10 +349,31 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		controller.handleMessage(PetController.MESSAGE_SET_SLEEP_TIMER);
 		
+		Long time = determineRunaway();
+		// Reset countdown timer
+		if(time > 0)
+		{
+			// Update counter.
+			controller.handleMessage(PetController.MESSAGE_SET_RUNAWAY_TIMER, time);
+		}
+		
+		
+		controller.handleMessage(PetController.MESSAGE_PET_RETURNING);
+		// Redraw 
+		this.hView.loadBitmaps();
+		
+		updateView();
+		list = db.getAllPoop();
+		hView.drawPoop(list);
+	} // End method onResume
+	
+	
+	public long determineRunaway()
+	{
 		// Reset countdown timer
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		long lastTimeSaved = sharedPref.getLong("lastSavedTimeMillis", 0);
-		long timerRemaining = sharedPref.getLong("runawayTimeLeft", controller.DEFAULT_RUNAWAY_TIME_START);
+		long timerRemaining = sharedPref.getLong("runawayTimeLeft", pet.DEFAULT_RUNAWAY_TIME_START);
 		
 		// Get current time
 		Time currTime = new Time();
@@ -353,38 +386,34 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		Log.v("resume timeElapsed", Long.toString(timeElapsed));
 		Log.v("resume timerRemaining", Long.toString(timerRemaining));
 		
+		long updatedRunawayTimeLeft = -1;
+		
 		// If timeElapsed == currTime, there was no data in preferences file.
-		  // Do not change timer / runaway if you just created a brand new pet.
 		if(timeElapsed != currTime.toMillis(true)) 
 		{
 			// Pet ran away while the app was closed!
 			if(timeElapsed >= timerRemaining)
 			{
-				// GOTO RunawayActivity
-				//controller.handleMessage(controller.MESSAGE_PET_RUNAWAY);
 				// Launch RunawayActivity.
 				Intent myIntent = new Intent(getBaseContext(), RunawayActivity.class);
 				myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(myIntent);
-				return;
 			}
 			else
 			{
 				// Update counter to reflect time elapsed. Pet hasn't run away yet.
-				controller.continueCountdownTimer(timerRemaining - timeElapsed);
+				updatedRunawayTimeLeft = timerRemaining - timeElapsed;
 			}
-			
+		}
+		else
+		{
+			// Set the time left to the default time. (New pet)
+			updatedRunawayTimeLeft = pet.DEFAULT_RUNAWAY_TIME_START;
 		}
 		
-		
-		controller.handleMessage(PetController.MESSAGE_PET_RETURNING);
-		// Redraw 
-		this.hView.loadBitmaps();
-		
-		updateView();
-		list = db.getAllPoop();
-		hView.drawPoop(list);
-	}
+		return updatedRunawayTimeLeft;
+	} // End method determineRunaway
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

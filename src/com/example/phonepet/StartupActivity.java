@@ -23,7 +23,7 @@ public class StartupActivity extends Activity {
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.clear();
-		editor.commit(); // Clear for development purposes
+		//editor.commit(); // Clear for development purposes
 		
 		Boolean petExists = sharedPref.getBoolean("pet_exists", false);
 		

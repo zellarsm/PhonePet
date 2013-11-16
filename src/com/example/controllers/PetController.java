@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.CountDownTimer;
 import android.util.Log;
 import com.example.phonepet.SleepActivity;
 import com.example.utils.Point;
@@ -46,11 +47,8 @@ public class PetController extends Controller {
 	public static final int MESSAGE_PET_RUNAWAY = 12;
 	public static final int MESSAGE_TEST_BUTTON_CLICKED = 13;
 	public static final int MESSAGE_TEST_BUTTON_HELD = 14;
-	public static final int MESSAGE_SET_SLEEP_TIMER = 15;
-	
-	public static final long DEFAULT_RUNAWAY_TIME_START = 60*60*24*3 * 1000; //3days //20*1000; // 60 seconds
-	public static final long CURRENT_TIME_BUFFER = 10*1000; // 10 seconds
-	
+	public static final int MESSAGE_SET_RUNAWAY_TIMER = 15;
+	public static final int MESSAGE_SET_SLEEP_TIMER = 16;
 	
 	/*
 	 * Phone screen sizes are different, these constants are used to handle this.
@@ -80,18 +78,13 @@ public class PetController extends Controller {
 	
 	private boolean isMovingToFood = false;
 	
-	private RunawayCountdownTimer countDownTimer, sleepTimer;
+	private RunawayCountdownTimer runawayTimer, sleepTimer;
 	
 	public PetController(PetVo model, Context hActivityContext)
 	{
 		this.model = model;
 		homeContext = hActivityContext;
 		sharedPref = homeContext.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-		// Create timer and start it.
-		countDownTimer = new RunawayCountdownTimer(DEFAULT_RUNAWAY_TIME_START, 1000);
-		countDownTimer.start();
-		
-		
 	}
 	
 	public PetVo getModel()
@@ -104,12 +97,6 @@ public class PetController extends Controller {
 		return this.homeContext;
 	}
 	
-	public void continueCountdownTimer(long newTime)
-	{
-		countDownTimer.cancel();
-		countDownTimer = new RunawayCountdownTimer(newTime, 1000); // Overwrite old timer.
-		countDownTimer.start();
-	}
 	
 	/**
 	 * This is the message system used to communicate between view and controller. The view needs
@@ -126,25 +113,20 @@ public class PetController extends Controller {
 			loadPet();
 			return true;
 		case MESSAGE_ACCESSORIZE:
-			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			accessorize();
 			return true;
 		case MESSAGE_SCOOP_POOP:
-			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			scoopPoop();
 			return true;
 		case MESSAGE_FEED:
 			
 			Log.v("message feed", " call move pet to food");
-			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			//movePetToFood((Food)data);
 			return true;
 		case MESSAGE_CLEAN:
-			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			clean();
 			return true;
 		case MESSAGE_PLAY:
-			continueCountdownTimer(DEFAULT_RUNAWAY_TIME_START);
 			play();
 			return true;
 		case MESSAGE_TAPPED:
@@ -153,8 +135,8 @@ public class PetController extends Controller {
 		case MESSAGE_PET_RETURNING:
 			model.setPetIsHome(true);
 			return true;
-		case MESSAGE_PET_RUNAWAY:
-			runaway();
+		case MESSAGE_SET_RUNAWAY_TIMER:
+			setRunawayTimer((Long)data);
 			return true;
 		case MESSAGE_SET_SLEEP_TIMER:
 			setSleepTimer();
@@ -163,8 +145,8 @@ public class PetController extends Controller {
 		return false;
 	}
 
-
-	private void handleTap(Object data) {
+	private void handleTap(Object data)
+	{
 		// Determine what the user tapped.
 		Point point = (Point)data;
 
@@ -179,10 +161,11 @@ public class PetController extends Controller {
 					life.notify();
 				}
 			}
-	}
+	} // End method handleTap
 
 	// Get pet's information
-	private void loadPet() {
+	private void loadPet()
+	{
 		// Set constant values
 		BACKGROUND_WIDTH = sharedPref.getInt("backgroundWidth", 10);
 		BACKGROUND_HEIGHT = sharedPref.getInt("backgroundHeight", 10);
@@ -214,7 +197,8 @@ public class PetController extends Controller {
 		// Place the pet in the middle of the play area.
 		model.setXYCoord(BACKGROUND_WIDTH/2-(model.getWidth()/2), 		
 						(AREA_MIN_Y + (BACKGROUND_HEIGHT-AREA_MIN_Y)/2) - (model.getHeight()/2));
-	}
+	
+	} // End method loadPet
 
 
 	public boolean isWithinPlayground(int x, int y)
@@ -231,32 +215,8 @@ public class PetController extends Controller {
 		
 		// In playground, return true.
 		return true;
-	}
+	} // End method isWithinPlayground
 	
-		// Create and start the sleep timer.
-		public void setSleepTimer()
-		{
-			sleepTimer = new RunawayCountdownTimer(model.TIME_UNITL_NEXT_SLEEP, 1000)
-			{
-				public void onFinish()
-				{
-					handleSleeping();
-				}
-			};
-			sleepTimer.start();
-		}
-		
-		// Launch the sleep activity. Pet will sleep for four hours.
-		private void handleSleeping()
-		{
-			// Pet is leaving Home to go to new activity.
-			model.setPetIsHome(false);
-			
-			// Launch SleepActivity.
-			Intent myIntent = new Intent(getHomeContext(), SleepActivity.class);
-			myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			PetController.this.homeContext.startActivity(myIntent);
-		}
 	
 	private void movePetToFood(Food food)
 	{
@@ -525,6 +485,50 @@ public class PetController extends Controller {
 		PetController.this.homeContext.startActivity(myIntent);
 	}
 	
+	// Create and start the sleep timer.
+	public void setSleepTimer()
+	{
+		sleepTimer = new RunawayCountdownTimer(model.TIME_UNITL_NEXT_SLEEP, 1000)
+		{
+			public void onFinish()
+			{
+				handleSleeping();
+			}
+		};
+		sleepTimer.start();
+		
+	} // End method setSleepTimer
+	
+	
+	// Launch the sleep activity. Pet will sleep for four hours.
+	private void handleSleeping()
+	{
+		// Pet is leaving Home to go to new activity.
+		model.setPetIsHome(false);
+		model.setPetIsSleeping(true);
+		
+		// Launch SleepActivity.
+		Intent myIntent = new Intent(getHomeContext(), SleepActivity.class);
+		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PetController.this.homeContext.startActivity(myIntent);
+		
+	} // End method handleSleeping
+	
+	// Create and start the runaway timer.
+	public void setRunawayTimer(long time)
+	{
+		runawayTimer = new RunawayCountdownTimer(time, 1000)
+		{
+			public void onFinish()
+			{
+				runaway();
+			}
+		};
+		runawayTimer.start();
+		
+	} // End method setRunawayTimer
+	
+	// The pet is unhappy and is going to run away now :(
 	private void runaway()
 	{
 		// Pet is leaving Home to go to new activity.
@@ -533,20 +537,26 @@ public class PetController extends Controller {
 		// Launch RunawayActivity.
 		Intent myIntent = new Intent(getHomeContext(), RunawayActivity.class);
 		myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PetController.this.homeContext.startActivity(myIntent);
 	}
 	
-	///*
+	
 	// Need to be able to get time remaining in countdown
-	public long getCountdownTimeLeft()
+	public long getCountdownTimeLeft(int s)
 	{
-		return countDownTimer.getTimeLeft();
+		switch(s)
+		{
+		case 1:
+			// Runaway Timer
+			return runawayTimer.getTimeLeft();
+		case 2:
+			// Sleep Timer
+			return sleepTimer.getTimeLeft();
+		default:
+			return 0;
+		}
 	}
-	public void setCountdownTimeLeft(long t)
-	{
-		countDownTimer.cancel();
-		countDownTimer = new RunawayCountdownTimer(t, 1000);
-	}//*/
 
 	/**
 	 *  This thread is used to control the pet's actions and feelings. 
@@ -599,15 +609,15 @@ public class PetController extends Controller {
 					}
 				}
 				
-				// Runaway counter
-				if(countDownTimer.isTimerCompleted() && !countDownTimer.isRestartInitiated())
-				{
-					countDownTimer.setRestartInitiated();
-					// Pet runs away! Call Runaway Activity, ie reset.
-					Intent myIntent = new Intent(getHomeContext(), RunawayActivity.class);
-					myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					PetController.this.homeContext.startActivity(myIntent);
-				}
+//				// Runaway counter
+//				if(runawayTimer.isTimerCompleted() && !runawayTimer.isRestartInitiated())
+//				{
+//					runawayTimer.setRestartInitiated();
+//					// Pet runs away! Call Runaway Activity, ie reset.
+//					Intent myIntent = new Intent(getHomeContext(), RunawayActivity.class);
+//					myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//					PetController.this.homeContext.startActivity(myIntent);
+//				}
 				
 				// Redraw Home every thread loop.
 				model.justDraw();
