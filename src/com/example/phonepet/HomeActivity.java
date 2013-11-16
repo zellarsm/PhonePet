@@ -205,10 +205,12 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			}
 			while(!controller.isWithinPlayground(tempX, tempY));
 			
+			pet.setPetIsEating(true);
 			food = new Food(tempX, tempY);       
 			hView.drawFood(food);
 			
 			controller.handleMessage(PetController.MESSAGE_FEED, food);
+			Log.v("end of draw food", "is pet at food yet?");
 	
 		} // End method drawFood
 		
@@ -291,6 +293,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private void updateView() {
 		// Update pet on the screen.
 		this.hView.drawPet(pet.getXCoord(), pet.getYCoord());
+		if(!pet.getPetIsEating())
+		{
+			this.hView.removeFood();
+		}
 	}
 
 	@Override

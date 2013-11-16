@@ -119,9 +119,8 @@ public class PetController extends Controller {
 			scoopPoop();
 			return true;
 		case MESSAGE_FEED:
-			
 			Log.v("message feed", " call move pet to food");
-			//movePetToFood((Food)data);
+			movePetToFood((Food)data);
 			return true;
 		case MESSAGE_CLEAN:
 			clean();
@@ -265,38 +264,56 @@ public class PetController extends Controller {
 		// Now move
 		if(numVertJumps > 0)
 		{
+			numVertJumps++;
 			for(int k=0; k<numVertJumps; k++)
 			{
-				life.petMove = 3; // Move up
+				//life.petMove = 3; // Move up
+				life.moveSequence.add(3);
+				Log.v("add#3", "move up");
 			}
 		}
-		else if(numVertJumps < 0)
+		else if(numVertJumps <= 0)
 		{
 			numVertJumps *= -1; // Make number positive
+			numVertJumps++;
 			for(int k=0; k<numVertJumps; k++)
 			{
-				life.petMove = 4; // Move down
+				//life.petMove = 4; // Move down
+				life.moveSequence.add(4);
+				Log.v("add#4", "move down");
 			}
 		}
 		
 		if(numHorizJumps > 0)
 		{
+			numHorizJumps++;
 			for(int k=0; k<numHorizJumps; k++)
 			{
-				life.petMove = 1; // Move left
+				//life.petMove = 1; // Move left
+				life.moveSequence.add(1);
+				Log.v("add#1", "move left");
 			}
 		}
-		else if(numHorizJumps < 0)
+		else if(numHorizJumps <= 0)
 		{
 			numHorizJumps *= -1; // Make number positive
+			numHorizJumps++;
 			for(int k=0; k<numHorizJumps; k++)
 			{
-				life.petMove = 2; // Move right
+				//life.petMove = 2; // Move right
+				life.moveSequence.add(2);
+				Log.v("add#2", "move right");
 			}
 		}
 		
+		life.isMovingToFood = true;
+		life.movementEnabled = false;
+		synchronized(life)
+		{
+			life.notify();
+		}
+		//isMovingToFood = true;
 		// Delete food.
-		Log.v("movetofood", "should be at food nao");
 		
 	}
 	
@@ -437,44 +454,6 @@ public class PetController extends Controller {
 		
 	}
 
-	private void play()
-	{
-		
-	}
-
-	private void clean() {
-
-		// Pet is leaving Home to go to new activity.
-		// Pet is leaving Home to go to new activity.
-				//model.setPetIsHome(false);
-				
-				// Launch AccessorizeActivity.
-				//Intent myIntent = new Intent(getHomeContext(), CleanActivity.class);
-				//myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				//PetController.this.homeContext.startActivity(myIntent);	
-		
-	}
-
-	private void feed() {
-		
-//		int numPoop = (int)Math.random() * 5;
-//		Poop temp;
-//		
-//		for(int i = 0; i < numPoop; i ++) {
-//			
-//			temp = new Poop(this.getModel().getHeight(), this.getModel().getWidth(), (int)Math.random() * BACKGROUND_WIDTH, (int)Math.random() * 
-
-//BACKGROUND_HEIGHT);
-//			myList.add(temp);
-//			
-//		}
-		
-	}
-
-	private void scoopPoop() {
-		
-	}
-
 	private void accessorize() {
 		// Pet is leaving Home to go to new activity.
 		model.setPetIsHome(false);
@@ -563,8 +542,8 @@ public class PetController extends Controller {
 	 */
 	private class PetLife extends Thread {
 		int petMove = 0;
-		boolean movementEnabled = true;
-		//ArrayList<Integer> moveSequence = new ArrayList<Integer>();
+		boolean movementEnabled = true, isMovingToFood = false;
+		ArrayList<Integer> moveSequence = new ArrayList<Integer>();
 		
 		public void run()
 		{
@@ -586,12 +565,26 @@ public class PetController extends Controller {
 					yield();
 				}
 				
-//				if(isMovingToFood)
-//				{
-//					movementEnabled = false;
-//					//movePetToFood();
-//				}
-				if (petMove > 0) {
+				if(isMovingToFood)
+				{
+				
+					if(!moveSequence.isEmpty())
+					{
+							int temp = moveSequence.remove(0);
+							Log.v("moving pet direction =", Integer.toString(temp));
+							petMove = temp;
+					}
+					else
+					{
+						Log.v("movetofood", "should be at food nao");
+						isMovingToFood = false;
+						movementEnabled = true;
+						model.setPetIsEating(false);
+					}
+				}
+				
+				if (petMove > 0)
+				{
 					// Perform move
 					move(petMove);
 					petMove = 0;		
@@ -608,16 +601,6 @@ public class PetController extends Controller {
 						move(direction);
 					}
 				}
-				
-//				// Runaway counter
-//				if(runawayTimer.isTimerCompleted() && !runawayTimer.isRestartInitiated())
-//				{
-//					runawayTimer.setRestartInitiated();
-//					// Pet runs away! Call Runaway Activity, ie reset.
-//					Intent myIntent = new Intent(getHomeContext(), RunawayActivity.class);
-//					myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//					PetController.this.homeContext.startActivity(myIntent);
-//				}
 				
 				// Redraw Home every thread loop.
 				model.justDraw();
