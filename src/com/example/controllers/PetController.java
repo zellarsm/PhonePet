@@ -116,17 +116,14 @@ public class PetController extends Controller {
 			accessorize();
 			return true;
 		case MESSAGE_SCOOP_POOP:
-			scoopPoop();
 			return true;
 		case MESSAGE_FEED:
 			Log.v("message feed", " call move pet to food");
 			movePetToFood((Food)data);
 			return true;
 		case MESSAGE_CLEAN:
-			clean();
 			return true;
 		case MESSAGE_PLAY:
-			play();
 			return true;
 		case MESSAGE_TAPPED:
 			handleTap(data);
