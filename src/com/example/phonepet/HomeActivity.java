@@ -646,8 +646,9 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 						final float userX = MotionEventCompat.getX(event, pointerIndex);
 						final float userY =  MotionEventCompat.getY(event, pointerIndex);
 						Log.v("USER X", Float.toString(userX));
-						Log.v("USER Y", Float.toString(userX));
-
+						Log.v("USER Y", Float.toString(userY));
+						spongeX = userX;
+						spongeY = userY;
 						
 						id = isSpongeClicked(userX, userY);
 
@@ -658,6 +659,13 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 						//hView.drawSponge(userX, userY);
 						break;
 					}
+					case MotionEvent.ACTION_UP: {
+					
+					hView.setTrash(false);
+					
+			        mActivePointerId = INVALID_POINTER_ID;
+			        break;
+				}	
 					case MotionEvent.ACTION_POINTER_UP: {
 			           
 			        final int pointerIndex = MotionEventCompat.getActionIndex(event); 
