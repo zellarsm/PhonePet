@@ -335,7 +335,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		 * Need to lock this method??
 		 */
 		
-		
+		controller.handleMessage(PetController.MESSAGE_SET_SLEEP_TIMER);
 		
 		// Reset countdown timer
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
