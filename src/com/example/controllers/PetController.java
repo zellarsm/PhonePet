@@ -44,9 +44,9 @@ public class PetController extends Controller {
 	public static final int MESSAGE_STOP_LIFE = 9;
 	public static final int MESSAGE_RESUME_LIFE = 10;
 	public static final int MESSAGE_PET_RETURNING = 11;
-	public static final int MESSAGE_PET_RUNAWAY = 12;
-	public static final int MESSAGE_TEST_BUTTON_CLICKED = 13;
-	public static final int MESSAGE_TEST_BUTTON_HELD = 14;
+	public static final int MESSAGE_PET_UNHAPPY = 12;
+	public static final int MESSAGE_PET_HUNGRY = 13;
+	public static final int MESSAGE_PET_ENERGETIC = 14;
 	public static final int MESSAGE_SET_RUNAWAY_TIMER = 15;
 	public static final int MESSAGE_SET_SLEEP_TIMER = 16;
 	
@@ -79,6 +79,7 @@ public class PetController extends Controller {
 	private boolean isMovingToFood = false;
 	
 	private RunawayCountdownTimer runawayTimer, sleepTimer;
+	private CountDownTimer hungerLevel, happinessLevel, energyLevel;
 	
 	public PetController(PetVo model, Context hActivityContext)
 	{
@@ -130,6 +131,15 @@ public class PetController extends Controller {
 			return true;
 		case MESSAGE_PET_RETURNING:
 			model.setPetIsHome(true);
+			return true;
+		case MESSAGE_PET_UNHAPPY:
+			// TAKE CARE OF ME
+			return true;
+		case MESSAGE_PET_HUNGRY:
+			// FEED ME
+			return true;
+		case MESSAGE_PET_ENERGETIC:
+			// PLAY WITH ME
 			return true;
 		case MESSAGE_SET_RUNAWAY_TIMER:
 			setRunawayTimer((Long)data);
@@ -464,7 +474,7 @@ public class PetController extends Controller {
 	// Create and start the sleep timer.
 	public void setSleepTimer()
 	{
-		sleepTimer = new RunawayCountdownTimer(model.TIME_UNITL_NEXT_SLEEP, 1000)
+		sleepTimer = new RunawayCountdownTimer(model.getTimeUntilNextSleep(), 1000)
 		{
 			public void onFinish()
 			{

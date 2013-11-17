@@ -320,6 +320,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private void updateView() {
 		// Update pet on the screen.
 		this.hView.drawPet(pet.getXCoord(), pet.getYCoord());
+		
+		// Don't draw the food on the screen unless feeding is happening.
 		if(!pet.getPetIsEating())
 		{
 			this.hView.removeFood();
@@ -327,14 +329,15 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onStop()
+	{
 		super.onStop();
 		
-		
-		for(Poop e: list) {
+		writeTimers();
+		for(Poop e: list)
+		{
 			db.addPoop(e);
 		}
-		
 		
 	} // End method onStop
 	
@@ -373,26 +376,44 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	protected void onResume()
 	{
 		super.onResume();
-		Log.v("got here", "yay");
+		Log.v("on resume", "app is resuming.");
 		
-		/* Problems: close the app. On resume, a new petController is created, and this method
-		 * makes RunawayActivity start. Thus have two counters and an infinite loop of BADOWNER.
-		 * Need to lock this method??
-		 */
+		// Get the preferences file
+		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		
+		// Update pet status.
+		boolean brandNewPet = sharedPref.getBoolean("petCreation", false); // Default is that pet already exists.
+		if(brandNewPet)
+		{
+			// Delete variable from sharedpref, pet is no longer "brand new".
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.remove("petCreation");
+			editor.commit();
+			
+			// Pet was just created, every status is 50%.
+			pet.setPetHappiness(50);
+			pet.setPetHunger(50);
+			pet.setPetEnergy(50);
+		}
+		else
+		{
+			// Load pet status from file.
+		}
+		
+		// Set the sleep timer.
 		controller.handleMessage(PetController.MESSAGE_SET_SLEEP_TIMER);
-		
-		Long time = determineRunaway();
-		// Reset countdown timer
+
+		// Set runaway timer		
+		Long time = determineRunaway(sharedPref);
 		if(time > 0)
 		{
 			// Update counter.
 			controller.handleMessage(PetController.MESSAGE_SET_RUNAWAY_TIMER, time);
 		}
 		
-		
+		// Pet is home.
 		controller.handleMessage(PetController.MESSAGE_PET_RETURNING);
-		// Redraw 
+		// Redraw
 		this.hView.loadBitmaps();
 		
 		updateView();
@@ -401,12 +422,12 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	} // End method onResume
 	
 	
-	public long determineRunaway()
+	public long determineRunaway(SharedPreferences sharedP)
 	{
 		// Reset countdown timer
-		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-		long lastTimeSaved = sharedPref.getLong("lastSavedTimeMillis", 0);
-		long timerRemaining = sharedPref.getLong("runawayTimeLeft", pet.DEFAULT_RUNAWAY_TIME_START);
+		
+		long lastTimeSaved = sharedP.getLong("lastSavedTimeMillis", 0);
+		long timerRemaining = sharedP.getLong("runawayTimeLeft", pet.getDefaultRunawayTime());
 		
 		// Get current time
 		Time currTime = new Time();
@@ -441,7 +462,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		else
 		{
 			// Set the time left to the default time. (New pet)
-			updatedRunawayTimeLeft = pet.DEFAULT_RUNAWAY_TIME_START;
+			updatedRunawayTimeLeft = pet.getDefaultRunawayTime();
 		}
 		
 		return updatedRunawayTimeLeft;

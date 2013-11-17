@@ -28,14 +28,17 @@ public class PetVo extends SimpleObservable<PetVo> {
  	 * panda = 2 
  	 * dog = 3 */
 	private int petType;
+	
 	private boolean petIsHome;
 	private boolean petIsSleeping;
 	private boolean petIsEating;
+	
 	/* Pet color
 	 * orange = 1
 	 * red = 2 */
 	private int petColor;
 	private int drawableNum; // The integer of the pet's drawable png
+	
 	// Pet size and location
 	private int width;
 	private int height;
@@ -43,9 +46,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private int yCoord;
 	
 	// Pet status levels
-	private int hungerLevel;
-	private int energyLevel;
-	private int happinessLevel;
+	private int hungerLevel; // 100% hunger, pet is full.
+	private int energyLevel; // 100% energy, pet is rested (full of energy).
+	private int happinessLevel; // 100% happiness, pet is happy.
 	private int cleanliness;
 	private int age;
 	
@@ -58,9 +61,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private Time lastCountDownTime;
 	private long timeLeftBeforeRunaway;
 	
-	public final int TIME_UNITL_NEXT_SLEEP = 10 * 60 * 1000; // Pet sleeps every ten hours.
-	public final int SLEEP_DURATION = 4 * 60 * 1000; // Pet sleeps for four hours.
-	public final long DEFAULT_RUNAWAY_TIME_START = (60*60*24* 1000)*7/2; //3.5days
+	private final int TIME_UNITL_NEXT_SLEEP = 10 * 60 * 1000; // Pet sleeps every ten hours.
+	private final int SLEEP_DURATION = 4 * 60 * 1000; // Pet sleeps for four hours.
+	private final long DEFAULT_RUNAWAY_TIME_START = (60*60*24* 1000)*7/2; //3.5days
 	
 	
 	// We only want one instance of pet through the entire project. This is known as a Singleton.
@@ -167,6 +170,52 @@ public class PetVo extends SimpleObservable<PetVo> {
 	{
 		return this.timeLeftBeforeRunaway;
 	}
+	
+	/** Pet status getters */
+	public int getPetHappiness()
+	{
+		return this.happinessLevel;
+	}
+	public int getPetHunger()
+	{
+		return this.hungerLevel;
+	}
+	public int getPetEnergy()
+	{
+		return this.energyLevel;
+	}
+	
+	/** Pet status setters */
+	public void setPetHappiness(int ha)
+	{
+		this.happinessLevel = ha;
+	}
+	public void setPetHunger(int hu)
+	{
+		this.hungerLevel = hu;
+	}
+	public void setPetEnergy(int e)
+	{
+		this.energyLevel = e;
+	}
+
+	
+	/** Time getters */
+	public int getTimeUntilNextSleep()
+	{
+		return this.TIME_UNITL_NEXT_SLEEP;
+	}
+	public int getSleepDuration()
+	{
+		return this.SLEEP_DURATION;
+	}
+	public long getDefaultRunawayTime()
+	{
+		return this.DEFAULT_RUNAWAY_TIME_START;
+	}
+	
+	/** Time setters */
+	
 	
 	// Chow down
 	public void eatFood(int speed) {

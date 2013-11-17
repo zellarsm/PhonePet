@@ -30,23 +30,16 @@ import android.widget.LinearLayout;
 public class HomeView extends View {
 
 	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt, mBall;
-	private Point petPoint = null;
-	private String fileName = "preferences";
+	private String fileName = "preferences", petName;
 	private SharedPreferences sharedPref;
-	private int backgroundWidth, backgroundHeight, petWidth, petHeight;
-	private int cloud1X, cloud2X;
-	private int nameX;
-	private List<Poop> myList = null;
+	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt, maxDirt = 3;
 	private float spongeX, spongeY;
-	private boolean poopExists;
-	Food currentFood = null;
-	private boolean foodExists, trashcanNeeded;
-	private int petDirtAmt, maxDirt = 3;
-	private boolean cleaningPet;
-	private String petName;
+	private boolean poopExists, foodExists, trashcanNeeded, cleaningPet, ballInPlay, ballExists;
+	private Point petPoint = null;
+	private List<Poop> myList = null;
+	private Food currentFood = null;
 	private Paint paint;
-	private boolean ballInPlay, ballExists;
-	Ball currentBall = null;
+	private Ball currentBall = null;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
