@@ -65,5 +65,8 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_sleep">SleepActivity</string><string name="sleep_string">zzzzZZZZzzzzZZZZ</string>
+    <string name="happiness_text">Happiness: </string>
+    <string name="hunger_text">Hunger: </string>
+    <string name="energy_text">Energy: </string>
 
 </resources>

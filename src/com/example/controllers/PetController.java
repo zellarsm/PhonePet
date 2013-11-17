@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.text.format.Time;
 import android.util.Log;
 import com.example.phonepet.SleepActivity;
 import com.example.utils.Point;
 import com.example.utils.RunawayCountdownTimer;
+import com.example.utils.StatusCountdownTimer;
 import com.example.phonepet.AccessorizeActivity;
 import com.example.phonepet.CleanActivity;
 import com.example.phonepet.R;
@@ -44,11 +46,14 @@ public class PetController extends Controller {
 	public static final int MESSAGE_STOP_LIFE = 9;
 	public static final int MESSAGE_RESUME_LIFE = 10;
 	public static final int MESSAGE_PET_RETURNING = 11;
-	public static final int MESSAGE_PET_RUNAWAY = 12;
-	public static final int MESSAGE_TEST_BUTTON_CLICKED = 13;
-	public static final int MESSAGE_TEST_BUTTON_HELD = 14;
-	public static final int MESSAGE_SET_RUNAWAY_TIMER = 15;
-	public static final int MESSAGE_SET_SLEEP_TIMER = 16;
+	public static final int MESSAGE_PET_UNHAPPY = 12;
+	public static final int MESSAGE_PET_HUNGRY = 13;
+	public static final int MESSAGE_PET_ENERGETIC = 14;
+	public static final int MESSAGE_SET_HAPPINESS_TIMER = 15;
+	public static final int MESSAGE_SET_HUNGER_TIMER = 16;
+	public static final int MESSAGE_SET_ENERGY_TIMER = 17;
+	public static final int MESSAGE_SET_RUNAWAY_TIMER = 18;
+	public static final int MESSAGE_SET_SLEEP_TIMER = 19;
 	
 	/*
 	 * Phone screen sizes are different, these constants are used to handle this.
@@ -79,6 +84,7 @@ public class PetController extends Controller {
 	private boolean isMovingToFood = false;
 	
 	private RunawayCountdownTimer runawayTimer, sleepTimer;
+	private StatusCountdownTimer hungerLevel, happinessLevel, energyLevel;
 	
 	public PetController(PetVo model, Context hActivityContext)
 	{
@@ -124,12 +130,32 @@ public class PetController extends Controller {
 		case MESSAGE_CLEAN:
 			return true;
 		case MESSAGE_PLAY:
+			model.setLastTimePlayedWith(getCurrentTime());
 			return true;
 		case MESSAGE_TAPPED:
 			handleTap(data);
 			return true;
 		case MESSAGE_PET_RETURNING:
 			model.setPetIsHome(true);
+			return true;
+		case MESSAGE_PET_UNHAPPY:
+			// TAKE CARE OF ME
+			return true;
+		case MESSAGE_PET_HUNGRY:
+			// FEED ME
+			return true;
+		case MESSAGE_PET_ENERGETIC:
+			// PLAY WITH ME
+			return true;
+		case MESSAGE_SET_HAPPINESS_TIMER:
+			Log.v("setting happiness timer", "call setHappinessTimer");
+			setHappinessTimer((Long) data);
+			return true;
+		case MESSAGE_SET_HUNGER_TIMER:
+			setHungerTimer((Long) data);
+			return true;
+		case MESSAGE_SET_ENERGY_TIMER:
+			setEnergyTimer((Long) data);
 			return true;
 		case MESSAGE_SET_RUNAWAY_TIMER:
 			setRunawayTimer((Long)data);
@@ -139,6 +165,13 @@ public class PetController extends Controller {
 			return true;
 		}
 		return false;
+	}
+	
+	private long getCurrentTime()
+	{
+		Time currTime = new Time();
+		currTime.setToNow();
+		return currTime.toMillis(true);
 	}
 
 	private void handleTap(Object data)
@@ -460,14 +493,90 @@ public class PetController extends Controller {
 		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PetController.this.homeContext.startActivity(myIntent);
 	}
+
+	/** Status Timers */
+	// Create and start the happiness timer.
+	public void setHappinessTimer(long time)
+	{
+		Log.v("start timer ha", "starting happiness timer");
+		happinessLevel = new StatusCountdownTimer(time, model.getDefaultStatusTime(), 1000)
+		{
+			public void onFinish()
+			{
+				super.onFinish();
+				// Pet needs to be fed!!
+				Log.v("happitimer", "finished");
+			}
+			
+			public void onTick(long arg0)
+			{
+				super.onTick(arg0);
+				// What happens when values are where.
+				model.setPetHappiness(happinessLevel.calculatePercentage());
+				model.justDraw();
+			}
+		};
+		happinessLevel.start();
+		
+	} // End method setHappinessTimer
+	// Create and start the hunger timer.
+	public void setHungerTimer(long time)
+	{
+		Log.v("start timer hu", "starting hunger timer");
+		hungerLevel = new StatusCountdownTimer(time, model.getDefaultStatusTime(), 1000)
+		{
+			public void onFinish()
+			{
+				super.onFinish();
+				// Pet needs to be fed!!
+				Log.v("hungtimer", "finished");
+			}
+			
+			public void onTick(long arg0)
+			{
+				super.onTick(arg0);
+				// What happens when values are where.
+				model.setPetHunger(hungerLevel.calculatePercentage());
+				model.justDraw();
+			}
+		};
+		
+		hungerLevel.start();
+		
+	} // End method setHungerTimer
+	// Create and start the energy timer.
+	public void setEnergyTimer(long time)
+	{
+		Log.v("start timer e", "starting energy timer");
+		energyLevel = new StatusCountdownTimer(time, model.getDefaultStatusTime(), 1000)
+		{
+			public void onFinish()
+			{
+				super.onFinish();
+				// Pet needs to be fed!!
+				Log.v("energytimer", "finished");
+			}
+			
+			public void onTick(long arg0)
+			{
+				super.onTick(arg0);
+				// What happens when values are where.
+				model.setPetEnergy(energyLevel.calculatePercentage());
+				model.justDraw();
+			}
+		};
+		energyLevel.start();
+		
+	} // End method setEnergyTimer
 	
 	// Create and start the sleep timer.
 	public void setSleepTimer()
 	{
-		sleepTimer = new RunawayCountdownTimer(model.TIME_UNITL_NEXT_SLEEP, 1000)
+		sleepTimer = new RunawayCountdownTimer(model.getTimeUntilNextSleep(), 1000)
 		{
 			public void onFinish()
 			{
+				// Pet goes to sleep.
 				handleSleeping();
 			}
 		};
@@ -497,6 +606,7 @@ public class PetController extends Controller {
 		{
 			public void onFinish()
 			{
+				// Pet runs away.
 				runaway();
 			}
 		};
@@ -532,6 +642,15 @@ public class PetController extends Controller {
 		case 2:
 			// Sleep Timer
 			return sleepTimer.getTimeLeft();
+		case 3:
+			// Happiness Timer
+			return happinessLevel.getTimeLeft();
+		case 4:
+			// Hunger Timer
+			return hungerLevel.getTimeLeft();
+		case 5:
+			// Energy Timer
+			return energyLevel.getTimeLeft();
 		default:
 			return 0;
 		}
@@ -577,6 +696,7 @@ public class PetController extends Controller {
 					else
 					{
 						Log.v("movetofood", "should be at food nao");
+						model.setLastTimeAte(getCurrentTime());
 						isMovingToFood = false;
 						movementEnabled = true;
 						model.setPetIsEating(false);

@@ -211,6 +211,9 @@ public class CreateActivity extends Activity {
 				editor.putString("petName", nameSelection);
 				editor.putInt("petDrawable", getPetDrawable());
 				
+				// Pet status stuff.
+				editor.putBoolean("petCreation", true);
+				
 				editor.commit();
 				
 				// Create the bitmap of the pet the user chose and save it to SD card.

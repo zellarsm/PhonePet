@@ -1,5 +1,6 @@
 package com.example.phonepet;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import com.example.connect4.Connect4Activity;
@@ -34,6 +35,7 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
@@ -57,7 +59,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private int menuWidth;
 	private int menuHeight;
 	
-	// The �active pointer� is the one currently moving our object.
+	// The active pointer is the one currently moving our object.
 	private int mActivePointerId = INVALID_POINTER_ID;
 	private float mLastTouchX = 0;
 	private float mLastTouchY = 0;
@@ -76,6 +78,9 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	List<Poop> list;
 	ImageButton playButton, accessorizeButton, poopButton, feedButton, cleanButton;
 	
+	//TextView myTextView = (TextView) findViewById(R.id.mytextview); myTextView.setText("My double value is " + doubleValue);
+	TextView happinessValue, hungerValue, energyValue;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,12 +97,18 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		need = false;
 		controller = new PetController(pet, getApplicationContext());
 		
+		// Identify buttons
 		playButton = (ImageButton)findViewById(R.id.Play);
 		accessorizeButton = (ImageButton)findViewById(R.id.Accessorize);
 		poopButton = (ImageButton)findViewById(R.id.Poop);
 		feedButton = (ImageButton)findViewById(R.id.Feed);
 		cleanButton = (ImageButton)findViewById(R.id.Sponge);
-		//Button testButton = (Button)findViewById(R.id.TestButton);
+		
+		// Identify status variables
+		happinessValue = (TextView) findViewById(R.id.HappinessValue);
+		hungerValue = (TextView) findViewById(R.id.HungerValue);
+		energyValue = (TextView) findViewById(R.id.EnergyValue);
+		
 		
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -243,10 +254,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 		} // End method drawPoop
 
-/*<<<<<<< HEAD
-	public void spongeBath()
-	{
-=======*/
 		
 		public void drawBall()
 		{
@@ -275,7 +282,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		
 	public void spongeBath(){
-/*>>>>>>> c5449b877a48b9b3c88f491452a6ddf3e20463d2*/
 		hView.setOnTouchListener(new CleanListener());
 	}
 
@@ -325,6 +331,16 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private void updateView() {
 		// Update pet on the screen.
 		this.hView.drawPet(pet.getXCoord(), pet.getYCoord());
+		
+		NumberFormat formatter = NumberFormat.getNumberInstance();
+		formatter.setMinimumFractionDigits(2);
+		formatter.setMaximumFractionDigits(2);
+		// Update status levels
+		happinessValue.setText(formatter.format(pet.getPetHappiness()) + "%  ");
+		hungerValue.setText(formatter.format(pet.getPetHunger()) + "%  ");
+		energyValue.setText(formatter.format(pet.getPetEnergy()) + "%");
+		
+		// Don't draw the food on the screen unless feeding is happening.
 		if(!pet.getPetIsEating())
 		{
 			this.hView.removeFood();
@@ -332,14 +348,15 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onStop()
+	{
 		super.onStop();
 		
-		
-		for(Poop e: list) {
+		writeTimers();
+		for(Poop e: list)
+		{
 			db.addPoop(e);
 		}
-		
 		
 	} // End method onStop
 	
@@ -370,6 +387,39 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		// Currently don't keep track of sleep timer(s).
 		
+		// Status
+		editor.putFloat("happinessStatus", pet.getPetHappiness());
+		editor.putFloat("hungerStatus", pet.getPetHunger());
+		editor.putFloat("energyStatus", pet.getPetEnergy());
+		
+		try
+		{
+			editor.putLong("happinessTimeLeft", controller.getCountdownTimeLeft(3));
+		}
+		catch(NullPointerException e)
+		{
+			editor.putLong("happinessTimeLeft", 0);
+		}
+		try
+		{
+			editor.putLong("hungerTimeLeft", controller.getCountdownTimeLeft(4));
+		}
+		catch(NullPointerException e)
+		{
+			editor.putLong("hungerTimeLeft", 0);
+		}
+		try
+		{
+			editor.putLong("energyTimeLeft", controller.getCountdownTimeLeft(5));
+		}
+		catch(NullPointerException e)
+		{
+			editor.putLong("energyTimeLeft", 0);
+		}
+		
+		editor.putLong("lastTimeAte", pet.getLastTimeAte());
+		editor.putLong("lastTimePlayedWith", pet.getLastTimePlayedWith());
+		
 		editor.commit();
 		
 	} // End method writeTimers
@@ -378,26 +428,111 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	protected void onResume()
 	{
 		super.onResume();
-		Log.v("got here", "yay");
+		Log.v("on resume", "app is resuming.");
 		
-		/* Problems: close the app. On resume, a new petController is created, and this method
-		 * makes RunawayActivity start. Thus have two counters and an infinite loop of BADOWNER.
-		 * Need to lock this method??
-		 */
+		// Get the preferences file
+		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		
+		long lastTimeSaved = sharedPref.getLong("lastSavedTimeMillis", 0);
+		
+		// Get current time
+		Time currentTime = new Time();
+		currentTime.setToNow();
+		Log.v("resume current time", Long.toString(currentTime.toMillis(true)));
+		Log.v("resume last time saved", Long.toString(lastTimeSaved));
+		
+		// Calculate time elapsed
+		long timePassed = currentTime.toMillis(true) - lastTimeSaved;
+		Log.v("resume timeElapsed", Long.toString(timePassed));
+		
+		
+		// Update pet status.
+		boolean brandNewPet = sharedPref.getBoolean("petCreation", false); // Default is that pet already exists.
+		if(brandNewPet)
+		{
+			// Delete variable from sharedpref, pet is no longer "brand new".
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.remove("petCreation");
+			editor.commit();
+			
+			// Pet was just created, every status is 50%.
+			pet.setPetHappiness(50);
+			happinessValue.setText("50%  ");
+			pet.setPetHunger(50);
+			hungerValue.setText("50%  ");
+			pet.setPetEnergy(50);
+			energyValue.setText("50%");
+			
+			controller.handleMessage(PetController.MESSAGE_SET_HAPPINESS_TIMER, pet.getDefaultStatusTime()/2);
+			controller.handleMessage(PetController.MESSAGE_SET_HUNGER_TIMER, pet.getDefaultStatusTime()/2);
+			controller.handleMessage(PetController.MESSAGE_SET_ENERGY_TIMER, pet.getDefaultStatusTime()/2);
+		}
+		else
+		{
+			// Load pet status from file.
+			long getHappy = sharedPref.getLong("happinessTimeLeft", currentTime.toMillis(true));
+			if(getHappy != currentTime.toMillis(true) && ((getHappy - timePassed) > 0))
+			{
+				pet.setPetHappiness(sharedPref.getFloat("happinessStatus", 50));
+				happinessValue.setText(pet.getPetHappiness() + "%  ");
+				controller.handleMessage(PetController.MESSAGE_SET_HAPPINESS_TIMER, (getHappy - timePassed));
+			}
+			else
+			{
+				pet.setPetHappiness(0);
+				happinessValue.setText(pet.getPetHappiness() + "%  ");
+				controller.handleMessage(PetController.MESSAGE_PET_UNHAPPY);
+			}
+			
+			long getHungry = sharedPref.getLong("hungerTimeLeft", currentTime.toMillis(true));
+			if(getHungry != currentTime.toMillis(true) && ((getHungry - timePassed) > 0))
+			{
+				pet.setPetHunger(sharedPref.getFloat("hungerStatus", 50));
+				hungerValue.setText(pet.getPetHunger() + "%  ");
+				controller.handleMessage(PetController.MESSAGE_SET_HUNGER_TIMER, (getHungry - timePassed));
+			}
+			else
+			{
+				pet.setPetHunger(0);
+				happinessValue.setText(pet.getPetHunger() + "%  ");
+				controller.handleMessage(PetController.MESSAGE_PET_HUNGRY);
+			}
+			
+			long getEnergy = sharedPref.getLong("energyTimeLeft", currentTime.toMillis(true));
+			if(getEnergy != currentTime.toMillis(true) && ((getEnergy - timePassed) > 0))
+			{
+				pet.setPetEnergy(sharedPref.getFloat("energyStatus", 50));
+				energyValue.setText(pet.getPetEnergy() + "%  ");
+				controller.handleMessage(PetController.MESSAGE_SET_ENERGY_TIMER, (getEnergy - timePassed));
+			}
+			else
+			{
+				pet.setPetEnergy(0);
+				happinessValue.setText(pet.getPetEnergy() + "%  ");
+				controller.handleMessage(PetController.MESSAGE_PET_ENERGETIC);
+			}
+			
+			pet.setLastTimeAte(sharedPref.getLong("lastTimeAte", 0));
+			pet.setLastTimePlayedWith(sharedPref.getLong("lastTimePlayedWith", 0));
+			
+			
+			
+		}
+		
+		// Set the sleep timer.
 		controller.handleMessage(PetController.MESSAGE_SET_SLEEP_TIMER);
-		
-		Long time = determineRunaway();
-		// Reset countdown timer
+
+		// Set runaway timer		
+		Long time = determineRunaway(sharedPref, currentTime, timePassed);
 		if(time > 0)
 		{
 			// Update counter.
 			controller.handleMessage(PetController.MESSAGE_SET_RUNAWAY_TIMER, time);
 		}
 		
-		
+		// Pet is home.
 		controller.handleMessage(PetController.MESSAGE_PET_RETURNING);
-		// Redraw 
+		// Redraw
 		this.hView.loadBitmaps();
 		
 		updateView();
@@ -406,22 +541,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	} // End method onResume
 	
 	
-	public long determineRunaway()
+	public long determineRunaway(SharedPreferences sharedP, Time currTime, long timeElapsed)
 	{
 		// Reset countdown timer
-		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-		long lastTimeSaved = sharedPref.getLong("lastSavedTimeMillis", 0);
-		long timerRemaining = sharedPref.getLong("runawayTimeLeft", pet.DEFAULT_RUNAWAY_TIME_START);
-		
-		// Get current time
-		Time currTime = new Time();
-		currTime.setToNow();
-		Log.v("resume current time", Long.toString(currTime.toMillis(true)));
-		Log.v("resume last time saved", Long.toString(lastTimeSaved));
-		
-		// Calculate time elapsed
-		long timeElapsed = currTime.toMillis(true) - lastTimeSaved;
-		Log.v("resume timeElapsed", Long.toString(timeElapsed));
+		long timerRemaining = sharedP.getLong("runawayTimeLeft", pet.getDefaultRunawayTime());
 		Log.v("resume timerRemaining", Long.toString(timerRemaining));
 		
 		long updatedRunawayTimeLeft = -1;
@@ -446,7 +569,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		else
 		{
 			// Set the time left to the default time. (New pet)
-			updatedRunawayTimeLeft = pet.DEFAULT_RUNAWAY_TIME_START;
+			updatedRunawayTimeLeft = pet.getDefaultRunawayTime();
 		}
 		
 		return updatedRunawayTimeLeft;
