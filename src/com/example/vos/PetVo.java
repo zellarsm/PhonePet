@@ -30,6 +30,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private int petType;
 	private boolean petIsHome;
 	private boolean petIsSleeping;
+	private boolean petIsEating;
 	/* Pet color
 	 * orange = 1
 	 * red = 2 */
@@ -85,6 +86,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public boolean getPetIsSleeping() {
 		return this.petIsSleeping;
 	}
+	public boolean getPetIsEating() {
+		return this.petIsEating;
+	}
 	
 	// Pet has been initially loaded, notify the view.
 	public void loadPet(int width, int height, int xCoord, int yCoord, int petType, int drawable) {
@@ -95,6 +99,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 		this.yCoord = yCoord;
 		this.petType = petType;
 		this.drawableNum = drawable;
+		this.petIsEating = false;
 		// Pet is loaded.
 		notifyObservers(this);
 	}
@@ -104,6 +109,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 	public void setPetIsSleeping(boolean bool) {
 		this.petIsSleeping = bool;
+	}
+	public void setPetIsEating(boolean bool) {
+		this.petIsEating = bool;
 	}
 	public void setXCoord(int x) {
 		this.xCoord = x;
