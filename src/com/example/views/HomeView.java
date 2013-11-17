@@ -321,6 +321,11 @@ public class HomeView extends View {
 		}
 	}
 
+	public boolean isCleaning(){
+
+		return cleaningPet;
+	}
+
 	public void cleaning(){
 		cleaningPet = true;
 /*		makeDirty();

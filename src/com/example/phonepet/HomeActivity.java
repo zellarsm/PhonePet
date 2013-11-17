@@ -167,6 +167,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			public void onClick(View v) {
 				// Cleaning was already happening. Deactivate cleaning mode.
 				if (whatIsHappening == 2) {
+
+					hView.notCleaning();
 					whatIsHappening = 0; // Nothing is happening
 					hView.setOnTouchListener(new DefaultListener());
 				}
@@ -176,8 +178,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					hView.setOnTouchListener(new CleanListener());
 					
 					controller.handleMessage(PetController.MESSAGE_CLEAN);				
-				
+					
 					hView.cleaning();
+					spongeX = (float ) (hView.getBackgroundWidth()/2.0);
+					spongeY = (float) (hView.getBackgroundHeight()/2.0);
 					spongeBath();
 				}
 			}
@@ -867,15 +871,16 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 						/*Log.v("USER X", Float.toString(userX));
 						Log.v("USER Y", Float.toString(userY));
 						Log.v("isSpongeClicked", Integer.toString(isSpongeClicked(userX,userY)));*/
-						Log.v("isSpongeOnPet", Integer.toString(isSpongeOnPet(userX,userY)));
-						spongeX = userX;
-						spongeY = userY;
-						
-						id = isSpongeClicked(userX, userY);
-
-						mLastTouchX = userX;
-			        	mLastTouchY = userY;
+					/*	Log.v("isSpongeOnPet", Integer.toString(isSpongeOnPet(userX,userY)));*/
+					
 			        	if(isSpongeClicked(userX,userY) == 1){
+			        		spongeX = userX;
+							spongeY = userY;
+						
+							id = isSpongeClicked(userX, userY);
+
+							mLastTouchX = userX;
+			        		mLastTouchY = userY;
 			        		hView.drawSponge(userX, userY);
 			        	}	
 			        	mActivePointerId = MotionEventCompat.getPointerId(event, 0);
