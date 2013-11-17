@@ -242,7 +242,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 	public void spongeBath(){
 		hView.setOnTouchListener(new CleanListener());
-
 	}
 
 
@@ -503,7 +502,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		float petY = hView.petY();
 		float margin = (float)hView.getPetWidth();
 		if(userX >= petX-margin && userX <= petX+margin && userY >= petY-margin && userY <= petY+margin){
-			
+				hView.makeClean();
 				hView.notCleaning();
 				return 1;			
 		}

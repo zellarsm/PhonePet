@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash;
+	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt;
 	private Point petPoint = null;
 	private String fileName = "preferences";
 	private SharedPreferences sharedPref;
@@ -40,6 +40,7 @@ public class HomeView extends View {
 	private boolean poopExists;
 	Food currentFood = null;
 	private boolean foodExists, trashcanNeeded;
+	private int petDirtAmt, maxDirt = 3;
 	private boolean cleaningPet;
 	private String petName;
 	private Paint paint;
@@ -106,6 +107,10 @@ public class HomeView extends View {
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, null);
 		
+		if(petDirtAmt > 0){
+			canvas.drawBitmap(mDirt, petPoint.x, petPoint.y, null);
+		}
+
 		//canvas.drawBitmap(mPoop,e.getX(), e.getY(), null);
 		if(poopExists) {
 			for(Poop e: myList) {
@@ -230,12 +235,15 @@ public class HomeView extends View {
 		// Get food image.
 		mFood = BitmapFactory.decodeResource(getResources(), R.drawable.food);
 
+
+
 		// Default mBoard to the background image.
 		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.templatebackground);
 				
 		// Default mCloud to cloud image
 		mCloud = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
 		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
+		mDirt = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
 		
 		
 		// Scale the bitmaps
@@ -280,8 +288,21 @@ public class HomeView extends View {
 	}
 	// End food functionality
 	
+	public void makeDirty(){
+
+		if(petDirtAmt < maxDirt){
+			petDirtAmt++;		
+		}
+	}
+	public void makeClean(){
+		if(petDirtAmt > 0){
+			petDirtAmt--;
+		}
+	}
+
 	public void cleaning(){
-		
+		makeDirty();
+		makeDirty();
 		spongeX = (float) (backgroundWidth/2.0);
 		spongeY = (float) (backgroundHeight/2.0);
 		cleaningPet = true;
@@ -289,6 +310,7 @@ public class HomeView extends View {
 	}
 
 	public void notCleaning(){
+
 		cleaningPet = false;
 	}
 

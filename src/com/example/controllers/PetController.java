@@ -527,6 +527,9 @@ public class PetController extends Controller {
 		runawayTimer.start();
 		
 	} // End method setRunawayTimer
+
+	
+
 	
 	// The pet is unhappy and is going to run away now :(
 	private void runaway()
