@@ -53,10 +53,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private int age;
 	
 	// Pet last activities
-	private Time lastTimeAte;
+	private long lastTimeAte;
 	private Time lastTimeCleaned;
 	private Time lastTimeSlept;
-	private Time lastTimePlayedWith;
+	private long lastTimePlayedWith;
 	
 	private Time lastCountDownTime;
 	private long timeLeftBeforeRunaway;
@@ -218,9 +218,25 @@ public class PetVo extends SimpleObservable<PetVo> {
 	{
 		return this.DEFAULT_STATUS_TIMER_LENGTH;
 	}
+	public long getLastTimeAte()
+	{
+		return this.lastTimeAte;
+	}
+	public long getLastTimePlayedWith()
+	{
+		return this.lastTimePlayedWith;
+	}
+	
 	
 	/** Time setters */
-	
+	public void setLastTimeAte(long t)
+	{
+		this.lastTimeAte = t;
+	}
+	public void setLastTimePlayedWith(long t)
+	{
+		this.lastTimePlayedWith = t;
+	}
 	
 	// Chow down
 	public void eatFood(int speed) {

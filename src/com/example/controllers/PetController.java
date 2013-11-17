@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.text.format.Time;
 import android.util.Log;
 import com.example.phonepet.SleepActivity;
 import com.example.utils.Point;
@@ -129,6 +130,7 @@ public class PetController extends Controller {
 		case MESSAGE_CLEAN:
 			return true;
 		case MESSAGE_PLAY:
+			model.setLastTimePlayedWith(getCurrentTime());
 			return true;
 		case MESSAGE_TAPPED:
 			handleTap(data);
@@ -163,6 +165,13 @@ public class PetController extends Controller {
 			return true;
 		}
 		return false;
+	}
+	
+	private long getCurrentTime()
+	{
+		Time currTime = new Time();
+		currTime.setToNow();
+		return currTime.toMillis(true);
 	}
 
 	private void handleTap(Object data)
@@ -484,7 +493,7 @@ public class PetController extends Controller {
 		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PetController.this.homeContext.startActivity(myIntent);
 	}
-	
+
 	/** Status Timers */
 	// Create and start the happiness timer.
 	public void setHappinessTimer(long time)
@@ -633,6 +642,15 @@ public class PetController extends Controller {
 		case 2:
 			// Sleep Timer
 			return sleepTimer.getTimeLeft();
+		case 3:
+			// Happiness Timer
+			return happinessLevel.getTimeLeft();
+		case 4:
+			// Hunger Timer
+			return hungerLevel.getTimeLeft();
+		case 5:
+			// Energy Timer
+			return energyLevel.getTimeLeft();
 		default:
 			return 0;
 		}
@@ -678,6 +696,7 @@ public class PetController extends Controller {
 					else
 					{
 						Log.v("movetofood", "should be at food nao");
+						model.setLastTimeAte(getCurrentTime());
 						isMovingToFood = false;
 						movementEnabled = true;
 						model.setPetIsEating(false);

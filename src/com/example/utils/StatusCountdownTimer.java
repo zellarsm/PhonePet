@@ -66,10 +66,8 @@ public class StatusCountdownTimer extends CountDownTimer
 	
 	public float calculatePercentage()
 	{
-		Log.v("calc % timeL", Long.toString(this.timeLeft));
-		Log.v("calc % startT", Long.toString(this.defaultStartTime));
-		float temp = this.timeLeft * 100;// / this.defaultStartTime;
-		temp /= this.defaultStartTime;//*= 100;
+		float temp = this.timeLeft * 100;
+		temp /= this.defaultStartTime;
 		return temp;
 	}
 	
