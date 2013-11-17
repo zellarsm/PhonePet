@@ -168,15 +168,16 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int taco=0x7f020071;
         public static final int templatebackground=0x7f020072;
         public static final int tennisball=0x7f020073;
-        public static final int transbackground=0x7f020074;
-        public static final int trashcan=0x7f020075;
-        public static final int tshirt=0x7f020076;
-        public static final int tshirt2=0x7f020077;
-        public static final int white_dog=0x7f020078;
-        public static final int white_fox=0x7f020079;
-        public static final int yellow_dog=0x7f02007a;
-        public static final int yellow_fox=0x7f02007b;
-        public static final int yellow_panda=0x7f02007c;
+        public static final int tennisball2=0x7f020074;
+        public static final int transbackground=0x7f020075;
+        public static final int trashcan=0x7f020076;
+        public static final int tshirt=0x7f020077;
+        public static final int tshirt2=0x7f020078;
+        public static final int white_dog=0x7f020079;
+        public static final int white_fox=0x7f02007a;
+        public static final int yellow_dog=0x7f02007b;
+        public static final int yellow_fox=0x7f02007c;
+        public static final int yellow_panda=0x7f02007d;
     }
     public static final class id {
         public static final int Accessorize=0x7f0a0044;

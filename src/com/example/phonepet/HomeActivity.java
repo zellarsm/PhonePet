@@ -522,6 +522,19 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		  }.start();
 		 
 	}
+
+	public void dirtTimer(){
+		new CountDownTimer(8000, 1000){
+			public void onTick(long millisUntilFinished){
+
+			}
+			public void onFinish(){
+				hView.makeDirty();
+			}
+		}.start();
+
+
+	}
 	public int isSpongeClicked(float userX, float userY){
 		
 		int margin = hView.getBackgroundWidth()/10;
@@ -531,8 +544,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				
 				return 1;
 			}
+			spongeClicked = false;
 			return -1;
 		}
+		spongeClicked = false;
 		return -1;
 	}
 
@@ -781,6 +796,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        	}
 			        	
 			        	hView.dragPoop(list);*/	        	
+			        	hView.drawSponge(spongeX, spongeY);
 			        }
 			
 			        // Remember this touch position for the next move event

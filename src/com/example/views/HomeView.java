@@ -334,8 +334,8 @@ public class HomeView extends View {
 
 	public void cleaning(){
 		cleaningPet = true;
-		makeDirty();
-		makeDirty();
+/*		makeDirty();
+		makeDirty();*/
 		spongeX = (float) (backgroundWidth/2.0);
 		spongeY = (float) (backgroundHeight/2.0);
 		
