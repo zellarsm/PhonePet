@@ -242,7 +242,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 		} // End method drawPoop
 
-	public void spongeBath(){
+	public void spongeBath()
+	{
 		hView.setOnTouchListener(new CleanListener());
 	}
 
@@ -507,7 +508,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		float petX = hView.petX();
 		float petY = hView.petY();
 		float margin = (float)hView.getPetWidth();
-		if(userX >= petX-margin && userX <= petX+margin && userY >= petY-margin && userY <= petY+margin){
+		float ymargin = (float)hView.getPetHeight();
+		if(userX >= petX && userX <= petX+margin && userY >= petY && userY <= petY+ymargin){
 				hView.makeClean();
 				hView.notCleaning();
 				return 1;			
@@ -708,6 +710,53 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 						//hView.drawSponge(userX, userY);
 						break;
 					}
+					case MotionEvent.ACTION_MOVE: {
+			        // Find the index of the active pointer and fetch its position
+			        final int pointerIndex = 
+			                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
+			            
+			        final float userX = MotionEventCompat.getX(event, pointerIndex);
+			        final float userY = MotionEventCompat.getY(event, pointerIndex);
+			            
+			         // Calculate the distance moved
+			        final float dx = userX - mLastTouchX;
+			        final float dy = userY - mLastTouchY;
+			        
+			        mPosX += dx;
+			        mPosY += dy;
+			        
+			      
+			        // Invalidate
+			        if (spongeClicked && id != -1) {
+			        
+			        	
+			        	/*temp.setX((int)userX);
+			        	temp.setY((int)userY);*/
+
+			        	spongeX = userX;
+			        	spongeY = userY;
+			        	
+			        	/*if((temp.getX() > hView.getBackgroundWidth()/10 
+			        		&& temp.getX() < hView.getBackgroundWidth()/10 + hView.getPetWidth())
+			        		&& (temp.getY() >  + hView.getBackgroundHeight()/6
+			        		&& temp.getY() < hView.getBackgroundHeight()/6 + hView.getBackgroundHeight()/3 + hView.getPetHeight())) {
+			        			
+			        		list.remove(temp);
+		        		
+			        	}
+			        	else {
+			        		list.add(temp);
+			        	}
+			        	
+			        	hView.dragPoop(list);*/	        	
+			        }
+			
+			        // Remember this touch position for the next move event
+			       mLastTouchX = userX;
+		           mLastTouchY = userY;
+
+			        break;
+				}
 					case MotionEvent.ACTION_UP: {
 					
 					hView.setTrash(false);
