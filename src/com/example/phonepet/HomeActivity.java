@@ -59,7 +59,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private int menuWidth;
 	private int menuHeight;
 	
-	// The �active pointer� is the one currently moving our object.
+	// The active pointer is the one currently moving our object.
 	private int mActivePointerId = INVALID_POINTER_ID;
 	private float mLastTouchX = 0;
 	private float mLastTouchY = 0;
@@ -645,6 +645,19 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		  }.start();
 		 
 	}
+
+	public void dirtTimer(){
+		new CountDownTimer(8000, 1000){
+			public void onTick(long millisUntilFinished){
+
+			}
+			public void onFinish(){
+				hView.makeDirty();
+			}
+		}.start();
+
+
+	}
 	public int isSpongeClicked(float userX, float userY){
 		
 		int margin = hView.getBackgroundWidth()/10;
@@ -654,8 +667,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				
 				return 1;
 			}
+			spongeClicked = false;
 			return -1;
 		}
+		spongeClicked = false;
 		return -1;
 	}
 
@@ -663,7 +678,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		float petX = hView.petX();
 		float petY = hView.petY();
 		float margin = (float)hView.getPetWidth();
-		if(userX >= petX-margin && userX <= petX+margin && userY >= petY-margin && userY <= petY+margin){
+		float ymargin = (float)hView.getPetHeight();
+		if(userX >= petX && userX <= petX+margin && userY >= petY && userY <= petY+ymargin){
 				hView.makeClean();
 				hView.notCleaning();
 				return 1;			
@@ -864,6 +880,54 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 						//hView.drawSponge(userX, userY);
 						break;
 					}
+					case MotionEvent.ACTION_MOVE: {
+			        // Find the index of the active pointer and fetch its position
+			        final int pointerIndex = 
+			                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
+			            
+			        final float userX = MotionEventCompat.getX(event, pointerIndex);
+			        final float userY = MotionEventCompat.getY(event, pointerIndex);
+			            
+			         // Calculate the distance moved
+			        final float dx = userX - mLastTouchX;
+			        final float dy = userY - mLastTouchY;
+			        
+			        mPosX += dx;
+			        mPosY += dy;
+			        
+			      
+			        // Invalidate
+			        if (spongeClicked && id != -1) {
+			        
+			        	
+			        	/*temp.setX((int)userX);
+			        	temp.setY((int)userY);*/
+
+			        	spongeX = userX;
+			        	spongeY = userY;
+			        	
+			        	/*if((temp.getX() > hView.getBackgroundWidth()/10 
+			        		&& temp.getX() < hView.getBackgroundWidth()/10 + hView.getPetWidth())
+			        		&& (temp.getY() >  + hView.getBackgroundHeight()/6
+			        		&& temp.getY() < hView.getBackgroundHeight()/6 + hView.getBackgroundHeight()/3 + hView.getPetHeight())) {
+			        			
+			        		list.remove(temp);
+		        		
+			        	}
+			        	else {
+			        		list.add(temp);
+			        	}
+			        	
+			        	hView.dragPoop(list);*/	        	
+			        	hView.drawSponge(spongeX, spongeY);
+			        }
+			
+			        // Remember this touch position for the next move event
+			       mLastTouchX = userX;
+		           mLastTouchY = userY;
+
+			        break;
+				}
 					case MotionEvent.ACTION_UP: {
 					
 					hView.setTrash(false);

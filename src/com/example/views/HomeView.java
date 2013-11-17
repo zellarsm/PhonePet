@@ -31,6 +31,7 @@ public class HomeView extends View {
 
 	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt, mBall;
 	private String fileName = "preferences", petName;
+	private Bitmap mDirt_1,mDirt_2,mDirt_3;
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt, maxDirt = 3;
 	private float spongeX, spongeY;
@@ -103,8 +104,16 @@ public class HomeView extends View {
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, null);
 		
-		if(petDirtAmt > 0){
-			canvas.drawBitmap(mDirt, petPoint.x, petPoint.y, null);
+		if(petDirtAmt == 1){
+			canvas.drawBitmap(mDirt_1, petPoint.x, petPoint.y, null);
+		}
+
+		if(petDirtAmt == 2){
+			canvas.drawBitmap(mDirt_2, petPoint.x, petPoint.y, null);
+		}
+
+		if(petDirtAmt == 3){
+			canvas.drawBitmap(mDirt_3, petPoint.x, petPoint.y, null);
 		}
 
 		//canvas.drawBitmap(mPoop,e.getX(), e.getY(), null);
@@ -244,7 +253,9 @@ public class HomeView extends View {
 		// Default mCloud to cloud image
 		mCloud = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
 		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
-		mDirt = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
+		mDirt_1 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_1);
+		mDirt_2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
+		mDirt_3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
 		
 		
 		// Scale the bitmaps
@@ -300,7 +311,7 @@ public class HomeView extends View {
 	
 	public void makeDirty(){
 
-		if(petDirtAmt < maxDirt){
+		if(petDirtAmt <= maxDirt){
 			petDirtAmt++;		
 		}
 	}
@@ -311,11 +322,12 @@ public class HomeView extends View {
 	}
 
 	public void cleaning(){
-		makeDirty();
-		makeDirty();
+		cleaningPet = true;
+/*		makeDirty();
+		makeDirty();*/
 		spongeX = (float) (backgroundWidth/2.0);
 		spongeY = (float) (backgroundHeight/2.0);
-		cleaningPet = true;
+		
 		
 	}
 
