@@ -243,10 +243,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 		} // End method drawPoop
 
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 	public void spongeBath()
 	{
-=======
+=======*/
 		
 		public void drawBall()
 		{
@@ -275,7 +275,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		
 	public void spongeBath(){
->>>>>>> c5449b877a48b9b3c88f491452a6ddf3e20463d2
+/*>>>>>>> c5449b877a48b9b3c88f491452a6ddf3e20463d2*/
 		hView.setOnTouchListener(new CleanListener());
 	}
 

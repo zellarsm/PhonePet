@@ -29,12 +29,12 @@ import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-<<<<<<< HEAD
+/*<<<<<<< HEAD*/
 	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash;
 	private Bitmap mDirt_1,mDirt_2,mDirt_3;
-=======
-	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt, mBall;
->>>>>>> c5449b877a48b9b3c88f491452a6ddf3e20463d2
+/*=======*/
+	private Bitmap  mDirt, mBall;
+/*>>>>>>> c5449b877a48b9b3c88f491452a6ddf3e20463d2*/
 	private Point petPoint = null;
 	private String fileName = "preferences";
 	private SharedPreferences sharedPref;
