@@ -46,9 +46,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private int yCoord;
 	
 	// Pet status levels
-	private int hungerLevel; // 100% hunger, pet is full.
-	private int energyLevel; // 100% energy, pet is rested (full of energy).
-	private int happinessLevel; // 100% happiness, pet is happy.
+	private float hungerLevel; // 100% hunger, pet is full.
+	private float energyLevel; // 100% energy, pet is rested (full of energy).
+	private float happinessLevel; // 100% happiness, pet is happy.
 	private int cleanliness;
 	private int age;
 	
@@ -64,6 +64,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private final int TIME_UNITL_NEXT_SLEEP = 10 * 60 * 1000; // Pet sleeps every ten hours.
 	private final int SLEEP_DURATION = 4 * 60 * 1000; // Pet sleeps for four hours.
 	private final long DEFAULT_RUNAWAY_TIME_START = (60*60*24* 1000)*7/2; //3.5days
+	private final long DEFAULT_STATUS_TIMER_LENGTH = 60*1000;//6*60*60*1000; // 6 hours.
 	
 	
 	// We only want one instance of pet through the entire project. This is known as a Singleton.
@@ -172,29 +173,29 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 	
 	/** Pet status getters */
-	public int getPetHappiness()
+	public float getPetHappiness()
 	{
 		return this.happinessLevel;
 	}
-	public int getPetHunger()
+	public float getPetHunger()
 	{
 		return this.hungerLevel;
 	}
-	public int getPetEnergy()
+	public float getPetEnergy()
 	{
 		return this.energyLevel;
 	}
 	
 	/** Pet status setters */
-	public void setPetHappiness(int ha)
+	public void setPetHappiness(float ha)
 	{
 		this.happinessLevel = ha;
 	}
-	public void setPetHunger(int hu)
+	public void setPetHunger(float hu)
 	{
 		this.hungerLevel = hu;
 	}
-	public void setPetEnergy(int e)
+	public void setPetEnergy(float e)
 	{
 		this.energyLevel = e;
 	}
@@ -212,6 +213,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public long getDefaultRunawayTime()
 	{
 		return this.DEFAULT_RUNAWAY_TIME_START;
+	}
+	public long getDefaultStatusTime()
+	{
+		return this.DEFAULT_STATUS_TIMER_LENGTH;
 	}
 	
 	/** Time setters */

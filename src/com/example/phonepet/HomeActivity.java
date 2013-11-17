@@ -1,5 +1,6 @@
 package com.example.phonepet;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import com.example.connect4.Connect4Activity;
@@ -34,6 +35,7 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
@@ -76,6 +78,9 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	List<Poop> list;
 	ImageButton playButton, accessorizeButton, poopButton, feedButton, cleanButton;
 	
+	//TextView myTextView = (TextView) findViewById(R.id.mytextview); myTextView.setText("My double value is " + doubleValue);
+	TextView happinessValue, hungerValue, energyValue;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,12 +97,18 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		need = false;
 		controller = new PetController(pet, getApplicationContext());
 		
+		// Identify buttons
 		playButton = (ImageButton)findViewById(R.id.Play);
 		accessorizeButton = (ImageButton)findViewById(R.id.Accessorize);
 		poopButton = (ImageButton)findViewById(R.id.Poop);
 		feedButton = (ImageButton)findViewById(R.id.Feed);
 		cleanButton = (ImageButton)findViewById(R.id.Sponge);
-		//Button testButton = (Button)findViewById(R.id.TestButton);
+		
+		// Identify status variables
+		happinessValue = (TextView) findViewById(R.id.HappinessValue);
+		hungerValue = (TextView) findViewById(R.id.HungerValue);
+		energyValue = (TextView) findViewById(R.id.EnergyValue);
+		
 		
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -321,6 +332,14 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		// Update pet on the screen.
 		this.hView.drawPet(pet.getXCoord(), pet.getYCoord());
 		
+		NumberFormat formatter = NumberFormat.getNumberInstance();
+		formatter.setMinimumFractionDigits(2);
+		formatter.setMaximumFractionDigits(2);
+		// Update status levels
+		happinessValue.setText(formatter.format(pet.getPetHappiness()) + "%  ");
+		hungerValue.setText(formatter.format(pet.getPetHunger()) + "%  ");
+		energyValue.setText(formatter.format(pet.getPetEnergy()) + "%");
+		
 		// Don't draw the food on the screen unless feeding is happening.
 		if(!pet.getPetIsEating())
 		{
@@ -392,8 +411,15 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 			// Pet was just created, every status is 50%.
 			pet.setPetHappiness(50);
+			happinessValue.setText("50%  ");
 			pet.setPetHunger(50);
+			hungerValue.setText("50%  ");
 			pet.setPetEnergy(50);
+			energyValue.setText("50%");
+			
+			controller.handleMessage(PetController.MESSAGE_SET_HAPPINESS_TIMER, pet.getDefaultStatusTime()/2);
+			controller.handleMessage(PetController.MESSAGE_SET_HUNGER_TIMER, pet.getDefaultStatusTime()/2);
+			controller.handleMessage(PetController.MESSAGE_SET_ENERGY_TIMER, pet.getDefaultStatusTime()/2);
 		}
 		else
 		{
