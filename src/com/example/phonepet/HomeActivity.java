@@ -684,6 +684,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		float margin = (float)hView.getPetWidth();
 		float ymargin = (float)hView.getPetHeight();
 		if(userX >= petX && userX <= petX+margin && userY >= petY && userY <= petY+ymargin){
+				whatIsHappening = 0;
 				hView.makeClean();
 				hView.notCleaning();
 				return 1;			
