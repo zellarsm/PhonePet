@@ -752,7 +752,9 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 						mLastTouchX = userX;
 			        	mLastTouchY = userY;
-			        	hView.drawSponge(userX, userY);
+			        	if(isSpongeClicked(userX,userY) == 1){
+			        		hView.drawSponge(userX, userY);
+			        	}	
 			        	mActivePointerId = MotionEventCompat.getPointerId(event, 0);
 						//hView.drawSponge(userX, userY);
 						break;
@@ -774,7 +776,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        
 			      
 			        // Invalidate
-			        if (spongeClicked && id != -1) {
+			        if (isSpongeClicked(userX, userY) == 1) {
 			        
 			        	
 			        	/*temp.setX((int)userX);
@@ -782,21 +784,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 			        	spongeX = userX;
 			        	spongeY = userY;
-			        	
-			        	/*if((temp.getX() > hView.getBackgroundWidth()/10 
-			        		&& temp.getX() < hView.getBackgroundWidth()/10 + hView.getPetWidth())
-			        		&& (temp.getY() >  + hView.getBackgroundHeight()/6
-			        		&& temp.getY() < hView.getBackgroundHeight()/6 + hView.getBackgroundHeight()/3 + hView.getPetHeight())) {
-			        			
-			        		list.remove(temp);
-		        		
-			        	}
-			        	else {
-			        		list.add(temp);
-			        	}
-			        	
-			        	hView.dragPoop(list);*/	        	
+
 			        	hView.drawSponge(spongeX, spongeY);
+			        	if(isSpongeOnPet(spongeX, spongeY) == 1){
+
+			        	}
 			        }
 			
 			        // Remember this touch position for the next move event
