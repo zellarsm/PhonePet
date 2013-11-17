@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.phonepet.R;
 import com.example.utils.DatabaseHelper;
 import com.example.utils.Point;
+import com.example.vos.Ball;
 import com.example.vos.Food;
 import com.example.vos.Poop;
 
@@ -28,7 +29,12 @@ import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt_1,mDirt_2,mDirt_3;
+<<<<<<< HEAD
+	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash;
+	private Bitmap mDirt_1,mDirt_2,mDirt_3;
+=======
+	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt, mBall;
+>>>>>>> c5449b877a48b9b3c88f491452a6ddf3e20463d2
 	private Point petPoint = null;
 	private String fileName = "preferences";
 	private SharedPreferences sharedPref;
@@ -44,6 +50,8 @@ public class HomeView extends View {
 	private boolean cleaningPet;
 	private String petName;
 	private Paint paint;
+	private boolean ballInPlay, ballExists;
+	Ball currentBall = null;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -130,6 +138,11 @@ public class HomeView extends View {
 		if(foodExists)
 		{
 			canvas.drawBitmap(mFood, currentFood.getX(), currentFood.getY(), null);
+		}
+		
+		if(ballExists)
+		{
+			canvas.drawBitmap(mBall, currentBall.getX(), currentBall.getY(), null);
 		}
 		
 		if(cleaningPet){
@@ -243,7 +256,7 @@ public class HomeView extends View {
 		// Get food image.
 		mFood = BitmapFactory.decodeResource(getResources(), R.drawable.food);
 
-
+		mBall = BitmapFactory.decodeResource(getResources(), R.drawable.tennisball2);
 
 		// Default mBoard to the background image.
 		mBackground = BitmapFactory.decodeResource(getResources(), R.drawable.templatebackground);
@@ -289,7 +302,16 @@ public class HomeView extends View {
 		}
 	}
 	
-
+	//Draws a ball
+	public void drawBall(Ball b)
+	{
+		if(!ballInPlay)
+		{
+			currentBall = b;
+			ballExists = true;
+			this.invalidate();
+		}
+	}
 
 	public void removeFood()
 	{	

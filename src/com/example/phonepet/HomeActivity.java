@@ -11,6 +11,7 @@ import com.example.vos.Food;
 import com.example.vos.OnChangeListener;
 import com.example.vos.PetVo;
 import com.example.vos.Poop;
+import com.example.vos.Ball;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -242,8 +243,39 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 		} // End method drawPoop
 
+<<<<<<< HEAD
 	public void spongeBath()
 	{
+=======
+		
+		public void drawBall()
+		{
+			Ball ball;
+			int tempX, tempY;
+			int width, height;
+			
+			width = hView.getBackgroundWidth() - hView.getPetWidth();
+			height = hView.getBackgroundHeight();
+			
+			do
+			{
+				tempX = (int)(Math.random() * width);
+				tempY = (int)(Math.random() * (height/2) + (height/2));
+				
+				if(tempY > height - pet.getHeight())
+				{
+					tempY = tempY - height/12;
+				}
+			}
+			while(!controller.isWithinPlayground(tempX, tempY));
+			
+			ball = new Ball(tempX, tempY);
+			
+		}
+		
+		
+	public void spongeBath(){
+>>>>>>> c5449b877a48b9b3c88f491452a6ddf3e20463d2
 		hView.setOnTouchListener(new CleanListener());
 	}
 
@@ -450,7 +482,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private void showPlayOptions(final View v)
 	{
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-		final String[] playOptions = {"Fetch", "Do nothing", "Connect 4", "Quit Life"};
+		final String[] playOptions = {"Fetch", "Connect 4", "Go Back"};
 		dialogBuilder.setTitle("What would you like to play");
 		dialogBuilder.setItems(playOptions, new DialogInterface.OnClickListener(){
 		
@@ -459,17 +491,17 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 				switch(which)
 				{
-					case 0: Intent intent0 = new Intent(v.getContext(), PlayActivity.class);
-							startActivityForResult(intent0, 0);
+					case 0: //Intent intent0 = new Intent(v.getContext(), PlayActivity.class);
+							//startActivityForResult(intent0, 0);
+							drawBall();
 							break;
-							
-					case 1: break;
-					
-					case 2: Intent intent2 = new Intent(v.getContext(), Connect4Activity.class);
+		
+					case 1: Intent intent2 = new Intent(v.getContext(), Connect4Activity.class);
 							startActivityForResult(intent2, 0);
 							break;
+							
+					default: break;
 				}
-				Toast.makeText(getApplicationContext(), playOptions[which], Toast.LENGTH_SHORT).show();
 			}
 		});
 		AlertDialog alertDialog = dialogBuilder.create();
