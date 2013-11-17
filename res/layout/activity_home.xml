@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/HungerText"
          />
-        
+        <!-- 
         <TextView
             android:id="@+id/EnergyText"
             android:text="@string/energy_text"
@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/EnergyText"
          />
+          -->
         
     </RelativeLayout>
     
