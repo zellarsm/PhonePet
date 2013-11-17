@@ -16,25 +16,49 @@
         
         <TextView
             android:id="@+id/HappinessText"
-            android:text="Happiness: 100%  "
+            android:text="@string/happiness_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
          />
         
         <TextView
-            android:id="@+id/HungerText"
-            android:text="Hunger: 100%  "
+            android:id="@+id/HappinessValue"
+            android:text="100%  "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/HappinessText"
          />
         
         <TextView
-            android:id="@+id/EnergyText"
-            android:text="Energy: >9000"
+            android:id="@+id/HungerText"
+            android:text="@string/hunger_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/HappinessValue"
+         />
+        
+        <TextView
+            android:id="@+id/HungerValue"
+            android:text="100%  "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/HungerText"
+         />
+        
+        <TextView
+            android:id="@+id/EnergyText"
+            android:text="@string/energy_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/HungerValue"
+         />
+        
+        <TextView
+            android:id="@+id/EnergyValue"
+            android:text=">9000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/EnergyText"
          />
         
     </RelativeLayout>

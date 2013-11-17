@@ -22,7 +22,7 @@ public class SleepActivity extends Activity {
 		
 		
 		// Duration of four hours, tick every minute.
-		sleepTimer = new CountDownTimer(pet.SLEEP_DURATION, 1000)
+		sleepTimer = new CountDownTimer(pet.getSleepDuration(), 1000)
 		{
 			public void onFinish()
 			{
