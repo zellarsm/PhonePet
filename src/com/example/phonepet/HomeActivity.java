@@ -669,6 +669,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			if(userY >= spongeY - margin && userY <= spongeY+margin){
 				spongeClicked = true;
 				
+
 				return 1;
 			}
 			spongeClicked = false;
