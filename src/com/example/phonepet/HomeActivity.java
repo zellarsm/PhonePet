@@ -283,7 +283,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			}
 			
 			ball = new Ball(tempX, tempY);
-			hView.drawBall(ball, false);
+			hView.drawBall(ball);
 			
 			//pet.move((int)tempX, (int)tempY);
 		}
