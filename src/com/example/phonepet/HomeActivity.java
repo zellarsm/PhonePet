@@ -335,6 +335,24 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		happinessValue.setText(formatter.format(pet.getPetHappiness()) + "%  ");
 		hungerValue.setText(formatter.format(pet.getPetHunger()) + "%  ");
 		
+
+		// Display thought bubble if...
+		// ..Pet is sleeping
+		if (pet.getPetIsSleeping()) {
+			hView.showThought(1);
+		}
+		// ..Pet is hungry
+		else if (pet.getPetHunger() <= 10) {
+			hView.showThought(2);
+		}
+		// ..Pet is unhappy
+		else if (pet.getPetHappiness() <= 10) {
+			hView.showThought(3);
+		}
+		else {
+			hView.showThought(0); // No thought 
+		}
+		
 		// Don't draw the food on the screen unless feeding is happening.
 		if(!pet.getPetIsEating())
 		{

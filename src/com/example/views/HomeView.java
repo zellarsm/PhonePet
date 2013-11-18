@@ -29,13 +29,14 @@ import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt, mBall;
+	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt, mBall, mBubbleLeft, mBubbleRight, mFrownyFace, mZZ;
 	private String fileName = "preferences", petName;
 	private Bitmap mDirt_1,mDirt_2,mDirt_3;
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt;
 	private float spongeX, spongeY;
 	private boolean poopExists, foodExists, trashcanNeeded, cleaningPet, ballExists;
+	private boolean showUnhappyThought=false, showHungryThought=false, showSleepingThought=false;
 	public boolean ballInPlay;
 	private Point petPoint = null;
 	private List<Poop> myList = null;
@@ -146,6 +147,54 @@ public class HomeView extends View {
 		if(trashcanNeeded) {
 			canvas.drawBitmap(mTrash, backgroundWidth/10, backgroundHeight/6 + backgroundHeight/3, null);
 		}
+		// Draw thought bubble if necessary
+				if (showUnhappyThought || showHungryThought || showSleepingThought) {
+					// Determine where thought bubble should be placed.
+					Point bubblePoint = getBubblePoint();
+					
+					// Draw bubble
+					if (bubblePoint.x < petPoint.x) {
+						// Using bubble_left
+						canvas.drawBitmap(mBubbleLeft, bubblePoint.x, bubblePoint.y, null);
+					}
+					else {
+						// Using bubble right
+						canvas.drawBitmap(mBubbleRight, bubblePoint.x, bubblePoint.y, null);
+					}
+					
+					
+					// Draw necessary thought in center of bubble
+					if (showUnhappyThought)
+						canvas.drawBitmap(mFrownyFace, bubblePoint.x + mBubbleLeft.getWidth()/2 - mFrownyFace.getWidth()/2,
+														bubblePoint.y + mBubbleLeft.getHeight()/2 - mFrownyFace.getHeight()/2,
+														null);
+					else if (showHungryThought)
+						canvas.drawBitmap(mFood, bubblePoint.x + mBubbleLeft.getWidth()/2 - mFood.getWidth()/2,
+								bubblePoint.y + mBubbleLeft.getHeight()/2 - mFood.getHeight()/2,
+								null);
+					else
+						canvas.drawBitmap(mZZ, bubblePoint.x + mBubbleLeft.getWidth()/2 - mZZ.getWidth()/2,
+								bubblePoint.y + mBubbleLeft.getHeight()/2 - mZZ.getHeight()/2,
+								null);
+				}
+	}
+	
+	private Point getBubblePoint() {
+		Point bubblePoint = new Point(0,0);
+		// Size of thought bubble is (bgWidth/8) x (bgHeight/8).
+		
+		if (petPoint.x < backgroundWidth/8) {
+			// Use bubble_right image. Put bubble point at top-right corner of pet.
+			bubblePoint.x = petPoint.x + petWidth;
+			bubblePoint.y = petPoint.y - backgroundHeight/8;
+		}
+		else {
+			// Use bubble_left image. Put bubble point at top-left corner of pet.
+			bubblePoint.x = petPoint.x - backgroundWidth/8;
+			bubblePoint.y = petPoint.y - backgroundHeight/8;
+		}
+		
+		return bubblePoint;
 	}
 	
 	/**
@@ -260,6 +309,12 @@ public class HomeView extends View {
 		mDirt_2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
 		mDirt_3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
 		
+
+		// Get thought bubble images
+		mBubbleLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bubble_left);
+		mBubbleRight = BitmapFactory.decodeResource(getResources(), R.drawable.bubble_right);
+		mFrownyFace = BitmapFactory.decodeResource(getResources(), R.drawable.frowny_face);
+		mZZ = BitmapFactory.decodeResource(getResources(), R.drawable.zz);
 		
 		// Scale the bitmaps
 		mBackground = Bitmap.createScaledBitmap(mBackground, backgroundWidth, backgroundHeight, true); // Environment
@@ -267,6 +322,10 @@ public class HomeView extends View {
 		mPet = Bitmap.createScaledBitmap(mPet, petWidth, petHeight, true); // Pet
 		mPoop = Bitmap.createScaledBitmap(mPoop, petWidth/3, petHeight/3, true);
 		mTrash = Bitmap.createScaledBitmap(mTrash, petWidth, petHeight, true);
+		mBubbleLeft = Bitmap.createScaledBitmap(mBubbleLeft, backgroundWidth/8, backgroundHeight/8, true);
+		mBubbleRight = Bitmap.createScaledBitmap(mBubbleRight, backgroundWidth/8, backgroundHeight/8, true);
+		mFrownyFace = Bitmap.createScaledBitmap(mFrownyFace, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
+		mZZ = Bitmap.createScaledBitmap(mZZ, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
 	}
 	
 
@@ -371,6 +430,34 @@ public class HomeView extends View {
 	public void notCleaning(){
 
 		cleaningPet = false;
+	}
+	
+	public void showThought(int which) {
+		if (which == 1) {
+			// Show sleeping thought
+			showUnhappyThought = false;
+			showHungryThought = false;
+			showSleepingThought = true;
+		}
+		else if (which == 2) {
+			// Show hungry thought
+			showUnhappyThought = false;
+			showHungryThought = true;
+			showSleepingThought = false;
+		}
+		else if (which == 3) {
+			// Show unhappy thought
+			showUnhappyThought = true;
+			showHungryThought = false;
+			showSleepingThought = false;
+			
+		}
+		else {
+			// Show no thought
+			showUnhappyThought = false;
+			showHungryThought = false;
+			showSleepingThought = false;
+		}
 	}
 
 }

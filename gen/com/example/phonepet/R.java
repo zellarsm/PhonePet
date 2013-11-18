@@ -137,48 +137,53 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int brown_dog=0x7f020052;
         public static final int brown_fox=0x7f020053;
         public static final int brown_panda=0x7f020054;
-        public static final int bw_panda=0x7f020055;
-        public static final int clean_background=0x7f020056;
-        public static final int cloud=0x7f020057;
-        public static final int dirt_1=0x7f020058;
-        public static final int dirt_2=0x7f020059;
-        public static final int dirt_3=0x7f02005a;
-        public static final int dummy_egg=0x7f02005b;
-        public static final int food=0x7f02005c;
-        public static final int green_dog=0x7f02005d;
-        public static final int green_fox=0x7f02005e;
-        public static final int green_panda=0x7f02005f;
-        public static final int ic_launcher=0x7f020060;
-        public static final int mikesoccerball=0x7f020061;
-        public static final int orange_dog=0x7f020062;
-        public static final int orange_fox=0x7f020063;
-        public static final int orange_panda=0x7f020064;
-        public static final int poop=0x7f020065;
-        public static final int pooper_scooper=0x7f020066;
-        public static final int purple_dog=0x7f020067;
-        public static final int purple_fox=0x7f020068;
-        public static final int purple_panda=0x7f020069;
-        public static final int red_curtain=0x7f02006a;
-        public static final int red_curtain_light=0x7f02006b;
-        public static final int red_dog=0x7f02006c;
-        public static final int red_fox=0x7f02006d;
-        public static final int red_panda=0x7f02006e;
-        public static final int scooby_snack=0x7f02006f;
-        public static final int smileyface=0x7f020070;
-        public static final int sponge=0x7f020071;
-        public static final int taco=0x7f020072;
-        public static final int templatebackground=0x7f020073;
-        public static final int tennisball=0x7f020074;
-        public static final int tennisball2=0x7f020075;
-        public static final int transbackground=0x7f020076;
-        public static final int trashcan=0x7f020077;
-        public static final int tshirt=0x7f020078;
-        public static final int tshirt2=0x7f020079;
-        public static final int white_dog=0x7f02007a;
-        public static final int white_fox=0x7f02007b;
-        public static final int yellow_dog=0x7f02007c;
-        public static final int yellow_fox=0x7f02007d;
-        public static final int yellow_panda=0x7f02007e;
+        public static final int bubble_left=0x7f020055;
+        public static final int bubble_right=0x7f020056;
+        public static final int bw_panda=0x7f020057;
+        public static final int clean_background=0x7f020058;
+        public static final int cloud=0x7f020059;
+        public static final int dirt_1=0x7f02005a;
+        public static final int dirt_2=0x7f02005b;
+        public static final int dirt_3=0x7f02005c;
+        public static final int dummy_egg=0x7f02005d;
+        public static final int food=0x7f02005e;
+        public static final int frowny_face=0x7f02005f;
+        public static final int green_dog=0x7f020060;
+        public static final int green_fox=0x7f020061;
+        public static final int green_panda=0x7f020062;
+        public static final int ic_launcher=0x7f020063;
+        public static final int mikesoccerball=0x7f020064;
+        public static final int orange_dog=0x7f020065;
+        public static final int orange_fox=0x7f020066;
+        public static final int orange_panda=0x7f020067;
+        public static final int poop=0x7f020068;
+        public static final int pooper_scooper=0x7f020069;
+        public static final int purple_dog=0x7f02006a;
+        public static final int purple_fox=0x7f02006b;
+        public static final int purple_panda=0x7f02006c;
+        public static final int red_curtain=0x7f02006d;
+        public static final int red_curtain_light=0x7f02006e;
+        public static final int red_dog=0x7f02006f;
+        public static final int red_fox=0x7f020070;
+        public static final int red_panda=0x7f020071;
+        public static final int scooby_snack=0x7f020072;
+        public static final int smileyface=0x7f020073;
+        public static final int sponge=0x7f020074;
+        public static final int taco=0x7f020075;
+        public static final int templatebackground=0x7f020076;
+        public static final int tennisball=0x7f020077;
+        public static final int tennisball2=0x7f020078;
+        public static final int thought_bubble=0x7f020079;
+        public static final int transbackground=0x7f02007a;
+        public static final int trashcan=0x7f02007b;
+        public static final int tshirt=0x7f02007c;
+        public static final int tshirt2=0x7f02007d;
+        public static final int white_dog=0x7f02007e;
+        public static final int white_fox=0x7f02007f;
+        public static final int yellow_dog=0x7f020080;
+        public static final int yellow_fox=0x7f020081;
+        public static final int yellow_panda=0x7f020082;
+        public static final int zz=0x7f020083;
     }
     public static final class id {
         public static final int Accessorize=0x7f0a0045;
@@ -399,7 +404,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name com.example.phonepet:buttonBarButtonStyle
+          @attr name android:buttonBarButtonStyle
         */
         public static final int ButtonBarContainerTheme_buttonBarButtonStyle = 1;
         /**
@@ -409,7 +414,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name com.example.phonepet:buttonBarStyle
+          @attr name android:buttonBarStyle
         */
         public static final int ButtonBarContainerTheme_buttonBarStyle = 0;
     };
