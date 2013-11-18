@@ -65,7 +65,7 @@ public class HomeView extends View {
 		poopExists = false;
 		foodExists = false;
 		ballExists = false;
-		ballInPLay = false;
+		ballInPlay = false;
 		cleaningPet = false;
 		trashcanNeeded = false;
 		
