@@ -50,7 +50,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private float hungerLevel; // 100% hunger, pet is full.
 	private float happinessLevel; // 100% happiness, pet is happy.
 	private int  petDirtAmt, maxDirt = 3;;
-	private int moveCount;
+	private int moveCount, moveLimit = 5;
 	private boolean cleaning;
 	private int age;
 	
@@ -287,9 +287,12 @@ public class PetVo extends SimpleObservable<PetVo> {
 	/*Cleaning functions*/
 
 	public void makeDirty(){
+		if(moveCount%moveLimit == 0 ){
+			if(petDirtAmt <= maxDirt){
 
-		if(petDirtAmt <= maxDirt){
-			petDirtAmt++;		
+				petDirtAmt++;		
+				
+			}
 		}
 	}
 	public void makeClean(){
@@ -318,6 +321,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 
 		moveCount++;
 		/*Log.v("moveCount", Integer.toString(moveCount));*/
+	}
+
+	public int getMoves(){
+		return moveCount;
 	}
 
 	public void notCleaning(){
