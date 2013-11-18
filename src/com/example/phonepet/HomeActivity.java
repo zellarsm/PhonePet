@@ -72,6 +72,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private boolean testButtonJustHeld = false;
 	private boolean poopIsClicked, need;
 	private boolean spongeClicked;
+	private boolean ballInPlay = false;
 	private int whatIsHappening = 0; // 0 means nothing, 1 means scooping poop, 2 means cleaning
 	private int id;
 	private Poop temp, temp2;
@@ -112,8 +113,18 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.handleMessage(PetController.MESSAGE_PLAY);
-				showPlayOptions(v);
+				//controller.handleMessage(PetController.MESSAGE_PLAY);
+				if(ballInPlay)
+				{
+					// Stops playing Fetch
+					ballInPlay = false;
+					hView.drawBall(null, true);
+					hView.setOnTouchListener(new DefaultListener());
+				}
+				else
+				{
+					showPlayOptions(v);
+				}
 			}
 		});
 		
@@ -256,29 +267,26 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		} // End method drawPoop
 
 		
-		public void drawBall()
+		public void drawBall(float tempX, float tempY)
 		{
 			Ball ball;
-			int tempX, tempY;
-			int width, height;
+			int integerX, integerY;
 			
-			width = hView.getBackgroundWidth() - hView.getPetWidth();
-			height = hView.getBackgroundHeight();
+			integerX = (int)tempX;
+			integerY = (int)tempY;
 			
-			do
+			
+			
+			if(!controller.isWithinPlayground(integerX, integerY))
 			{
-				tempX = (int)(Math.random() * width);
-				tempY = (int)(Math.random() * (height/2) + (height/2));
-				
-				if(tempY > height - pet.getHeight())
-				{
-					tempY = tempY - height/12;
-				}
+				Toast.makeText(getApplicationContext(), "Cannot place ball here!", Toast.LENGTH_SHORT).show();
+				return;
 			}
-			while(!controller.isWithinPlayground(tempX, tempY));
 			
 			ball = new Ball(tempX, tempY);
+			hView.drawBall(ball, false);
 			
+			//pet.move((int)tempX, (int)tempY);
 		}
 		
 		
@@ -585,9 +593,13 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 				switch(which)
 				{
-					case 0: //Intent intent0 = new Intent(v.getContext(), PlayActivity.class);
-							//startActivityForResult(intent0, 0);
-							drawBall();
+					case 0: Toast.makeText(getApplicationContext(), "Playing Fetch", Toast.LENGTH_SHORT).show();
+							if(ballInPlay)
+								ballInPlay =false;
+							else
+								ballInPlay = true;
+							
+							hView.setOnTouchListener(new BallListener());
 							break;
 		
 					case 1: Intent intent2 = new Intent(v.getContext(), Connect4Activity.class);
@@ -920,6 +932,30 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			}
 	}
 	
+	
+	private class BallListener implements OnTouchListener
+	{
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			switch(event.getAction())
+			{
+					case MotionEvent.ACTION_DOWN:
+						final int pointerIndex = MotionEventCompat.getActionIndex(event);
+						final float userX = MotionEventCompat.getX(event, pointerIndex);
+						final float userY =  MotionEventCompat.getY(event, pointerIndex);
+						
+						//mLastTouch is just to know where we last clicked, not used in this instance
+						mLastTouchX = userX;
+				        mLastTouchY = userY;
+				        drawBall(userX, userY);
+				        //pet.setXYCoord((int)userX, (int)userY);
+			}
+			return true;
+		}
+		
+	}
 	//void feedPet() {};
 	//void bathePet() {};
 	//void removePoop() {};

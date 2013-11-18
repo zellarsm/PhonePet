@@ -35,7 +35,7 @@ public class HomeView extends View {
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt;
 	private float spongeX, spongeY;
-	private boolean poopExists, foodExists, trashcanNeeded, cleaningPet, ballInPlay, ballExists;
+	private boolean poopExists, foodExists, trashcanNeeded, cleaningPet, ballExists;
 	private Point petPoint = null;
 	private List<Poop> myList = null;
 	private Food currentFood = null;
@@ -62,6 +62,7 @@ public class HomeView extends View {
 		cloud2X = 10;
 		poopExists = false;
 		foodExists = false;
+		ballExists = false;
 		cleaningPet = false;
 		trashcanNeeded = false;
 		
@@ -292,12 +293,21 @@ public class HomeView extends View {
 	}
 	
 	//Draws a ball
-	public void drawBall(Ball b)
+	public void drawBall(Ball b, boolean remove)
 	{
-		if(!ballInPlay)
+		//Ball tempBall = b;
+		
+		if(!remove)
 		{
 			currentBall = b;
 			ballExists = true;
+			
+			this.invalidate();
+		}
+		
+		if(remove)
+		{
+			ballExists = false;
 			this.invalidate();
 		}
 	}
