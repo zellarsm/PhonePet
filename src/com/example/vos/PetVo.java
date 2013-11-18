@@ -314,10 +314,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 		return petDirtAmt;
 	}
 
-	public int moveInc(){
+	public void moveInc(){
 
 		moveCount++;
-		Log.v("moveCount", Integer.toString(moveCount));
+		/*Log.v("moveCount", Integer.toString(moveCount));*/
 	}
 
 	public void notCleaning(){
