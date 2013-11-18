@@ -33,7 +33,7 @@ public class HomeView extends View {
 	private String fileName = "preferences", petName;
 	private Bitmap mDirt_1,mDirt_2,mDirt_3;
 	private SharedPreferences sharedPref;
-	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt, maxDirt = 3;
+	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt;
 	private float spongeX, spongeY;
 	private boolean poopExists, foodExists, trashcanNeeded, cleaningPet, ballInPlay, ballExists;
 	private Point petPoint = null;
@@ -309,37 +309,7 @@ public class HomeView extends View {
 	}
 	// End food functionality
 	
-	public void makeDirty(){
 
-		if(petDirtAmt <= maxDirt){
-			petDirtAmt++;		
-		}
-	}
-	public void makeClean(){
-		if(petDirtAmt > 0){
-			petDirtAmt--;
-		}
-	}
-
-	public boolean isCleaning(){
-
-		return cleaningPet;
-	}
-
-	public void cleaning(){
-		cleaningPet = true;
-		makeDirty();
-		makeDirty();
-		spongeX = (float) (backgroundWidth/2.0);
-		spongeY = (float) (backgroundHeight/2.0);
-		
-		
-	}
-
-	public void notCleaning(){
-
-		cleaningPet = false;
-	}
 
 	public int getBackgroundWidth() {
 		return backgroundWidth;
@@ -368,4 +338,19 @@ public class HomeView extends View {
 		trashcanNeeded = need;
 		this.invalidate();
 	}
+
+	public void setDirtAmt(int amt){
+		petDirtAmt = amt;
+	}
+	
+	public void cleaning(){
+		cleaningPet = true;
+		spongeX = (float) (backgroundWidth/2.0);
+		spongeY = (float) (backgroundHeight/2.0);			
+	}
+	public void notCleaning(){
+
+		cleaningPet = false;
+	}
+
 }

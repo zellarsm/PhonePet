@@ -165,6 +165,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				if (whatIsHappening == 2) {
 
 					hView.notCleaning();
+					pet.notCleaning();
 					whatIsHappening = 0; // Nothing is happening
 					hView.setOnTouchListener(new DefaultListener());
 				}
@@ -174,8 +175,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					hView.setOnTouchListener(new CleanListener());
 					
 					controller.handleMessage(PetController.MESSAGE_CLEAN);				
-					
 					hView.cleaning();
+					pet.cleaning();
 					spongeX = (float ) (hView.getBackgroundWidth()/2.0);
 					spongeY = (float) (hView.getBackgroundHeight()/2.0);
 					spongeBath();
@@ -339,6 +340,9 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			pet.setPetIsPooping(false);
 			poopTimer();
 		}
+
+		//control dirtLevels
+		hView.setDirtAmt(3);
 	}
 
 	@Override
@@ -619,7 +623,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 			}
 			public void onFinish(){
-				hView.makeDirty();
+				pet.makeDirty();
 			}
 		}.start();
 
@@ -649,8 +653,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		float ymargin = (float)hView.getPetHeight();
 		if(userX >= petX && userX <= petX+margin && userY >= petY && userY <= petY+ymargin){
 				whatIsHappening = 0;
-				hView.makeClean();
-				hView.notCleaning();
+				pet.makeClean();
+				pet.notCleaning();
 				return 1;			
 		}
 		return -1;
