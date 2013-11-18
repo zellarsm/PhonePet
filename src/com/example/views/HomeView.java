@@ -36,6 +36,7 @@ public class HomeView extends View {
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt;
 	private float spongeX, spongeY;
 	private boolean poopExists, foodExists, trashcanNeeded, cleaningPet, ballExists;
+	public boolean ballInPlay;
 	private Point petPoint = null;
 	private List<Poop> myList = null;
 	private Food currentFood = null;
@@ -63,6 +64,7 @@ public class HomeView extends View {
 		poopExists = false;
 		foodExists = false;
 		ballExists = false;
+		ballInPLay = false;
 		cleaningPet = false;
 		trashcanNeeded = false;
 		
@@ -293,23 +295,31 @@ public class HomeView extends View {
 	}
 	
 	//Draws a ball
-	public void drawBall(Ball b, boolean remove)
+	public void drawBall(Ball b)
 	{
-		//Ball tempBall = b;
+		Ball tempBall = b;
+		float x = (b.getX() - 237)/30, y = (b.getY() - 636)/30;
 		
-		if(!remove)
+		if(ballInPlay)
 		{
-			currentBall = b;
+			currentBall = new Ball(237, 636);
 			ballExists = true;
+			
+			/*while(!currentBall.CloseEnoughTo(b))
+			{
+				currentBall.addPos(x,y);
+				this.invalidate();
+			}*/
 			
 			this.invalidate();
 		}
 		
-		if(remove)
-		{
-			ballExists = false;
-			this.invalidate();
-		}
+	}
+	
+	public void removeBall()
+	{
+		ballExists = false;
+		this.invalidate();
 	}
 
 	public void removeFood()

@@ -72,7 +72,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private boolean testButtonJustHeld = false;
 	private boolean poopIsClicked, need;
 	private boolean spongeClicked;
-	private boolean ballInPlay = false;
 	private int whatIsHappening = 0; // 0 means nothing, 1 means scooping poop, 2 means cleaning
 	private int id;
 	private Poop temp, temp2;
@@ -114,11 +113,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			@Override
 			public void onClick(View v) {
 				//controller.handleMessage(PetController.MESSAGE_PLAY);
-				if(ballInPlay)
+				if(hView.ballInPlay)
 				{
 					// Stops playing Fetch
-					ballInPlay = false;
-					hView.drawBall(null, true);
+					hView.ballInPlay = false;
+					hView.removeBall();
 					hView.setOnTouchListener(new DefaultListener());
 				}
 				else
@@ -595,10 +594,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				switch(which)
 				{
 					case 0: Toast.makeText(getApplicationContext(), "Playing Fetch", Toast.LENGTH_SHORT).show();
-							if(ballInPlay)
-								ballInPlay =false;
+							if(hView.ballInPlay)
+								hView.ballInPlay =false;
 							else
-								ballInPlay = true;
+								hView.ballInPlay = true;
 							
 							hView.setOnTouchListener(new BallListener());
 							break;
@@ -613,6 +612,30 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		});
 		AlertDialog alertDialog = dialogBuilder.create();
 		alertDialog.show();
+	}
+	
+	// Making fetch seem more fluid...
+	public void fetchTimer(int x, int y) {
+		
+		final int horizontal = x;
+		final int vertical = y;
+		
+		final int incrementX = Math.abs(x - pet.getXCoord())/4;
+		final int incrementY = Math.abs(y - pet.getYCoord())/4;
+		
+		
+		new CountDownTimer(3000, 1000) {
+
+		     public void onTick(long millisUntilFinished) {
+		    	 pet.setXYCoord(pet.getXCoord() + incrementX, pet.getYCoord() + incrementY);
+		     }
+
+		     public void onFinish() {
+		    	pet.setXYCoord(horizontal - pet.getWidth()/2, vertical - pet.getHeight());
+				//hView.removeBall();
+			}
+		  }.start();
+		 
 	}
 	
 	public void poopTimer() {
