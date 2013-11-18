@@ -112,7 +112,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//controller.handleMessage(PetController.MESSAGE_PLAY);
 				if(hView.ballInPlay)
 				{
 					// Stops playing Fetch
@@ -611,7 +610,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 				switch(which)
 				{
-					case 0: Toast.makeText(getApplicationContext(), "Playing Fetch", Toast.LENGTH_SHORT).show();
+					case 0: controller.handleMessage(PetController.MESSAGE_PLAY);
+							Toast.makeText(getApplicationContext(), "Playing Fetch", Toast.LENGTH_SHORT).show();
 							if(hView.ballInPlay)
 								hView.ballInPlay =false;
 							else
@@ -620,7 +620,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 							hView.setOnTouchListener(new BallListener());
 							break;
 		
-					case 1: Intent intent2 = new Intent(v.getContext(), Connect4Activity.class);
+					case 1: controller.handleMessage(PetController.MESSAGE_PLAY);
+							Intent intent2 = new Intent(v.getContext(), Connect4Activity.class);
 							startActivityForResult(intent2, 0);
 							break;
 							
