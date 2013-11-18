@@ -350,7 +350,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		}
 
 		//control dirtLevels
-		hView.setDirtAmt(3);
+		/*hView.setDirtAmt(pet.dirtyness());*/
+		hView.setDirtAmt(0);
 	}
 
 	@Override
@@ -629,7 +630,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		 
 	}
 
-	public void dirtTimer(){
+/*	public void dirtTimer(){
 		new CountDownTimer(8000, 1000){
 			public void onTick(long millisUntilFinished){
 
@@ -640,7 +641,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		}.start();
 
 
-	}
+	}*/
 	public int isSpongeClicked(float userX, float userY){
 		
 		int margin = hView.getBackgroundWidth()/10;
@@ -664,9 +665,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		float margin = (float)hView.getPetWidth();
 		float ymargin = (float)hView.getPetHeight();
 		if(userX >= petX && userX <= petX+margin && userY >= petY && userY <= petY+ymargin){
-				whatIsHappening = 0;
-				pet.makeClean();
-				pet.notCleaning();
 				return 1;			
 		}
 		return -1;
@@ -896,7 +894,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 			        	hView.drawSponge(spongeX, spongeY);
 			        	if(isSpongeOnPet(spongeX, spongeY) == 1){
-
+			        		whatIsHappening = 0;
+							pet.makeClean();
+							hView.notCleaning();
+							pet.notCleaning();
 			        	}
 			        }
 			

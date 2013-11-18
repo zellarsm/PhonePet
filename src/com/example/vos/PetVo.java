@@ -304,9 +304,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 
 	public void cleaning(){
 		cleaning = true;
+/*		makeDirty();
 		makeDirty();
-		makeDirty();
-
+*/
 	}
 
 	public int dirtyness(){
