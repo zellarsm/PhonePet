@@ -119,7 +119,7 @@ public class HomeView extends View {
 		if(petDirtAmt == 3){
 			canvas.drawBitmap(mDirt_3, petPoint.x, petPoint.y, null);
 		}
-
+		Log.v("petDirtAmt", Integer.toString(petDirtAmt));
 		//canvas.drawBitmap(mPoop,e.getX(), e.getY(), null);
 		if(poopExists) {
 			for(Poop e: myList) {

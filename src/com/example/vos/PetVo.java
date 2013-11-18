@@ -49,7 +49,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	// Pet status levels
 	private float hungerLevel; // 100% hunger, pet is full.
 	private float happinessLevel; // 100% happiness, pet is happy.
-	private int  petDirtAmt, maxDirt = 3;;
+	private int  petDirtAmt, maxDirt = 3;
 	private int moveCount, moveLimit = 5;
 	private boolean cleaning;
 	private int age;
@@ -111,6 +111,8 @@ public class PetVo extends SimpleObservable<PetVo> {
 		this.drawableNum = drawable;
 		this.petIsEating = false;
 		this.petIsPooping = false;
+		this.petDirtAmt = 0;
+		this.moveCount = 1;
 		// Pet is loaded.
 		notifyObservers(this);
 	}
@@ -288,7 +290,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 
 	public void makeDirty(){
 		if(moveCount%moveLimit == 0 ){
-			if(petDirtAmt <= maxDirt){
+			if(petDirtAmt < maxDirt){
 
 				petDirtAmt++;		
 				
@@ -308,9 +310,6 @@ public class PetVo extends SimpleObservable<PetVo> {
 
 	public void cleaning(){
 		cleaning = true;
-/*		makeDirty();
-		makeDirty();
-*/
 	}
 
 	public int dirtyness(){
