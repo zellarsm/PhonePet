@@ -48,10 +48,8 @@ public class PetController extends Controller {
 	public static final int MESSAGE_PET_RETURNING = 11;
 	public static final int MESSAGE_PET_UNHAPPY = 12;
 	public static final int MESSAGE_PET_HUNGRY = 13;
-	public static final int MESSAGE_PET_ENERGETIC = 14;
 	public static final int MESSAGE_SET_HAPPINESS_TIMER = 15;
 	public static final int MESSAGE_SET_HUNGER_TIMER = 16;
-	public static final int MESSAGE_SET_ENERGY_TIMER = 17;
 	public static final int MESSAGE_SET_RUNAWAY_TIMER = 18;
 	public static final int MESSAGE_SET_SLEEP_TIMER = 19;
 	
@@ -84,7 +82,8 @@ public class PetController extends Controller {
 	private boolean isMovingToFood = false;
 	
 	private RunawayCountdownTimer runawayTimer, sleepTimer;
-	private StatusCountdownTimer hungerLevel, happinessLevel, energyLevel;
+	private StatusCountdownTimer hungerLevel, happinessLevel;//, energyLevel;
+	private CountDownTimer poopTimer;
 	
 	public PetController(PetVo model, Context hActivityContext)
 	{
@@ -125,12 +124,18 @@ public class PetController extends Controller {
 			return true;
 		case MESSAGE_FEED:
 			Log.v("message feed", " call move pet to food");
+			long tempHunger = hungerLevel.getTimeLeft() + model.getFeedPetTimerIncrement();
+			hungerLevel.cancel();
+			setHungerTimer(tempHunger);
 			movePetToFood((Food)data);
 			return true;
 		case MESSAGE_CLEAN:
 			return true;
 		case MESSAGE_PLAY:
 			model.setLastTimePlayedWith(getCurrentTime());
+			long tempHappy = happinessLevel.getTimeLeft() + model.getFeedPetTimerIncrement();
+			happinessLevel.cancel();
+			setHappinessTimer(tempHappy);
 			return true;
 		case MESSAGE_TAPPED:
 			handleTap(data);
@@ -139,13 +144,10 @@ public class PetController extends Controller {
 			model.setPetIsHome(true);
 			return true;
 		case MESSAGE_PET_UNHAPPY:
-			// TAKE CARE OF ME
+			// PLAY WITH ME
 			return true;
 		case MESSAGE_PET_HUNGRY:
 			// FEED ME
-			return true;
-		case MESSAGE_PET_ENERGETIC:
-			// PLAY WITH ME
 			return true;
 		case MESSAGE_SET_HAPPINESS_TIMER:
 			Log.v("setting happiness timer", "call setHappinessTimer");
@@ -153,9 +155,6 @@ public class PetController extends Controller {
 			return true;
 		case MESSAGE_SET_HUNGER_TIMER:
 			setHungerTimer((Long) data);
-			return true;
-		case MESSAGE_SET_ENERGY_TIMER:
-			setEnergyTimer((Long) data);
 			return true;
 		case MESSAGE_SET_RUNAWAY_TIMER:
 			setRunawayTimer((Long)data);
@@ -247,19 +246,19 @@ public class PetController extends Controller {
 	} // End method isWithinPlayground
 	
 	
+	/**
+	 * Make the pet move to the current piece of food.
+	 * 
+	 * @param food: Food object that the pet will move to.
+	 */
 	private void movePetToFood(Food food)
 	{
-		Log.v("move pet to food function", "top");
-		//sleepThread(2000); // 10 seconds
-		
-		int currentPetX, currentPetY, currentFoodX, currentFoodY;
-		int horiz_dx, vert_dy;
-		int jumpDistance = BACKGROUND_WIDTH/10;
-		int numHorizJumps, numVertJumps;
+		int currentPetX, currentPetY, currentFoodX, currentFoodY, horiz_dx, vert_dy;
+		int jumpDistance = BACKGROUND_WIDTH/10, numHorizJumps, numVertJumps;
 		
 		// Get current pet location
 		currentPetX = model.getXCoord();
-		currentPetY = model.getYCoord();
+		currentPetY = model.getYCoord() + model.getHeight();
 		
 		// Get food location
 		currentFoodX = food.getX();
@@ -267,9 +266,9 @@ public class PetController extends Controller {
 		
 		// If locations are not the same, alternate moving vertical / horizontal until pet is next to food.
 		horiz_dx = currentPetX - currentFoodX;
-		vert_dy = currentPetY - currentFoodY;
+		vert_dy = currentPetY - currentFoodY + 10; // Added a buffer to height jumps.
 		
-		// If vert_dy is positive, pet needs to move up. If negative, pet needs to move down.
+
 		if(vert_dy != 0)
 		{
 			numVertJumps = vert_dy / jumpDistance;
@@ -280,7 +279,6 @@ public class PetController extends Controller {
 			numVertJumps = 0;
 		}
 		
-		// If horix_dx is positive, pet needs to move left. If negative, pet needs to move right.
 		if(horiz_dx != 0)
 		{
 			numHorizJumps = horiz_dx / jumpDistance;
@@ -291,48 +289,39 @@ public class PetController extends Controller {
 			numHorizJumps = 0;
 		}
 		
-		// Now move
+		// If vert_dy is positive, pet needs to move up. If negative, pet needs to move down.
 		if(numVertJumps > 0)
 		{
-			numVertJumps++;
 			for(int k=0; k<numVertJumps; k++)
 			{
-				//life.petMove = 3; // Move up
 				life.moveSequence.add(3);
-				Log.v("add#3", "move up");
 			}
 		}
-		else if(numVertJumps <= 0)
+		else if(numVertJumps < 0)
 		{
 			numVertJumps *= -1; // Make number positive
 			numVertJumps++;
 			for(int k=0; k<numVertJumps; k++)
 			{
-				//life.petMove = 4; // Move down
 				life.moveSequence.add(4);
-				Log.v("add#4", "move down");
 			}
 		}
-		
+		// If horix_dx is positive, pet needs to move left. If negative, pet needs to move right.
 		if(numHorizJumps > 0)
 		{
 			numHorizJumps++;
 			for(int k=0; k<numHorizJumps; k++)
 			{
-				//life.petMove = 1; // Move left
 				life.moveSequence.add(1);
-				Log.v("add#1", "move left");
 			}
 		}
-		else if(numHorizJumps <= 0)
+		else if(numHorizJumps < 0)
 		{
 			numHorizJumps *= -1; // Make number positive
 			numHorizJumps++;
 			for(int k=0; k<numHorizJumps; k++)
 			{
-				//life.petMove = 2; // Move right
 				life.moveSequence.add(2);
-				Log.v("add#2", "move right");
 			}
 		}
 		
@@ -341,11 +330,8 @@ public class PetController extends Controller {
 		synchronized(life)
 		{
 			life.notify();
-		}
-		//isMovingToFood = true;
-		// Delete food.
-		
-	}
+		}		
+	} // End method movePetToFood
 	
 	
 	/**
@@ -498,14 +484,19 @@ public class PetController extends Controller {
 	// Create and start the happiness timer.
 	public void setHappinessTimer(long time)
 	{
-		Log.v("start timer ha", "starting happiness timer");
+		if(time > model.getDefaultStatusTime())
+		{
+			time = model.getDefaultStatusTime();
+		}
 		happinessLevel = new StatusCountdownTimer(time, model.getDefaultStatusTime(), 1000)
 		{
 			public void onFinish()
 			{
 				super.onFinish();
-				// Pet needs to be fed!!
-				Log.v("happitimer", "finished");
+				// Pet needs to be played with!!
+				// TODO notification
+				model.setPetHappiness(0);
+				model.justDraw();
 			}
 			
 			public void onTick(long arg0)
@@ -522,14 +513,19 @@ public class PetController extends Controller {
 	// Create and start the hunger timer.
 	public void setHungerTimer(long time)
 	{
-		Log.v("start timer hu", "starting hunger timer");
+		if(time > model.getDefaultStatusTime())
+		{
+			time = model.getDefaultStatusTime();
+		}
 		hungerLevel = new StatusCountdownTimer(time, model.getDefaultStatusTime(), 1000)
 		{
 			public void onFinish()
 			{
 				super.onFinish();
 				// Pet needs to be fed!!
-				Log.v("hungtimer", "finished");
+				// TODO notification
+				model.setPetHunger(0);
+				model.justDraw();
 			}
 			
 			public void onTick(long arg0)
@@ -544,30 +540,8 @@ public class PetController extends Controller {
 		hungerLevel.start();
 		
 	} // End method setHungerTimer
-	// Create and start the energy timer.
-	public void setEnergyTimer(long time)
-	{
-		Log.v("start timer e", "starting energy timer");
-		energyLevel = new StatusCountdownTimer(time, model.getDefaultStatusTime(), 1000)
-		{
-			public void onFinish()
-			{
-				super.onFinish();
-				// Pet needs to be fed!!
-				Log.v("energytimer", "finished");
-			}
-			
-			public void onTick(long arg0)
-			{
-				super.onTick(arg0);
-				// What happens when values are where.
-				model.setPetEnergy(energyLevel.calculatePercentage());
-				model.justDraw();
-			}
-		};
-		energyLevel.start();
-		
-	} // End method setEnergyTimer
+
+	
 	
 	// Create and start the sleep timer.
 	public void setSleepTimer()
@@ -648,13 +622,11 @@ public class PetController extends Controller {
 		case 4:
 			// Hunger Timer
 			return hungerLevel.getTimeLeft();
-		case 5:
-			// Energy Timer
-			return energyLevel.getTimeLeft();
 		default:
 			return 0;
 		}
 	}
+	
 
 	/**
 	 *  This thread is used to control the pet's actions and feelings. 
@@ -700,6 +672,7 @@ public class PetController extends Controller {
 						isMovingToFood = false;
 						movementEnabled = true;
 						model.setPetIsEating(false);
+						model.setPetIsPooping(true);
 					}
 				}
 				

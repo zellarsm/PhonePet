@@ -79,7 +79,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	ImageButton playButton, accessorizeButton, poopButton, feedButton, cleanButton;
 	
 	//TextView myTextView = (TextView) findViewById(R.id.mytextview); myTextView.setText("My double value is " + doubleValue);
-	TextView happinessValue, hungerValue, energyValue;
+	TextView happinessValue, hungerValue;//, energyValue;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		// Identify status variables
 		happinessValue = (TextView) findViewById(R.id.HappinessValue);
 		hungerValue = (TextView) findViewById(R.id.HungerValue);
-		energyValue = (TextView) findViewById(R.id.EnergyValue);
 		
 		
 		playButton.setOnClickListener(new View.OnClickListener() {
@@ -134,9 +133,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				
 				// Spawn food.
 				drawFood();
-				
-				//wait to spawn poop
-				waitTimer();
 			
 			}
 		});
@@ -298,18 +294,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		}
 		 // Set onTouchListener
 	
-
-	//@Override
-	//public boolean dispatchKeyEvent(KeyEvent event) {
-	//	boolean handled = controller.handleMessage(PetController.MESSAGE_KEY_EVENT, event);
-	//	if (!handled) {
-			// If the controller didn't handle the KeyEvent the method calls its super.
-	//		return super.dispatchKeyEvent(event);
-	//	}
-	//	return handled;
-		
-	//}
-	
 	/**
 	 * Once the model notifies the view of a change, we just update the views on the UI thread.
 	 * @param pet
@@ -342,12 +326,18 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		// Update status levels
 		happinessValue.setText(formatter.format(pet.getPetHappiness()) + "%  ");
 		hungerValue.setText(formatter.format(pet.getPetHunger()) + "%  ");
-		energyValue.setText(formatter.format(pet.getPetEnergy()) + "%");
 		
 		// Don't draw the food on the screen unless feeding is happening.
 		if(!pet.getPetIsEating())
 		{
 			this.hView.removeFood();
+		}
+		
+		// Don't draw poop until after the pet has eaten.
+		if(pet.getPetIsPooping())
+		{
+			pet.setPetIsPooping(false);
+			poopTimer();
 		}
 	}
 
@@ -394,7 +384,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		// Status
 		editor.putFloat("happinessStatus", pet.getPetHappiness());
 		editor.putFloat("hungerStatus", pet.getPetHunger());
-		editor.putFloat("energyStatus", pet.getPetEnergy());
 		
 		try
 		{
@@ -412,15 +401,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		{
 			editor.putLong("hungerTimeLeft", 0);
 		}
-		try
-		{
-			editor.putLong("energyTimeLeft", controller.getCountdownTimeLeft(5));
-		}
-		catch(NullPointerException e)
-		{
-			editor.putLong("energyTimeLeft", 0);
-		}
-		
 		editor.putLong("lastTimeAte", pet.getLastTimeAte());
 		editor.putLong("lastTimePlayedWith", pet.getLastTimePlayedWith());
 		
@@ -464,12 +444,9 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			happinessValue.setText("50%  ");
 			pet.setPetHunger(50);
 			hungerValue.setText("50%  ");
-			pet.setPetEnergy(50);
-			energyValue.setText("50%");
 			
 			controller.handleMessage(PetController.MESSAGE_SET_HAPPINESS_TIMER, pet.getDefaultStatusTime()/2);
 			controller.handleMessage(PetController.MESSAGE_SET_HUNGER_TIMER, pet.getDefaultStatusTime()/2);
-			controller.handleMessage(PetController.MESSAGE_SET_ENERGY_TIMER, pet.getDefaultStatusTime()/2);
 		}
 		else
 		{
@@ -500,20 +477,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				pet.setPetHunger(0);
 				happinessValue.setText(pet.getPetHunger() + "%  ");
 				controller.handleMessage(PetController.MESSAGE_PET_HUNGRY);
-			}
-			
-			long getEnergy = sharedPref.getLong("energyTimeLeft", currentTime.toMillis(true));
-			if(getEnergy != currentTime.toMillis(true) && ((getEnergy - timePassed) > 0))
-			{
-				pet.setPetEnergy(sharedPref.getFloat("energyStatus", 50));
-				energyValue.setText(pet.getPetEnergy() + "%  ");
-				controller.handleMessage(PetController.MESSAGE_SET_ENERGY_TIMER, (getEnergy - timePassed));
-			}
-			else
-			{
-				pet.setPetEnergy(0);
-				happinessValue.setText(pet.getPetEnergy() + "%  ");
-				controller.handleMessage(PetController.MESSAGE_PET_ENERGETIC);
 			}
 			
 			pet.setLastTimeAte(sharedPref.getLong("lastTimeAte", 0));
@@ -635,7 +598,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		alertDialog.show();
 	}
 	
-	public void waitTimer() {
+	public void poopTimer() {
 		
 		new CountDownTimer(8000, 1000) {
 

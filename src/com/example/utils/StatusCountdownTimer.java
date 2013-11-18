@@ -19,7 +19,10 @@ public class StatusCountdownTimer extends CountDownTimer
 	}
 
 	@Override
-	public void onFinish() {} // Will be overridden when created.
+	public void onFinish()
+	{
+		this.timeLeft = 0;
+	}
 
 	@Override
 	public void onTick(long millisUntilFinished)

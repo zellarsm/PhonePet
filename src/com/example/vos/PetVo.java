@@ -32,6 +32,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private boolean petIsHome;
 	private boolean petIsSleeping;
 	private boolean petIsEating;
+	private boolean petIsPooping;
 	
 	/* Pet color
 	 * orange = 1
@@ -47,7 +48,6 @@ public class PetVo extends SimpleObservable<PetVo> {
 	
 	// Pet status levels
 	private float hungerLevel; // 100% hunger, pet is full.
-	private float energyLevel; // 100% energy, pet is rested (full of energy).
 	private float happinessLevel; // 100% happiness, pet is happy.
 	private int cleanliness;
 	private int age;
@@ -65,6 +65,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private final int SLEEP_DURATION = 4 * 60 * 1000; // Pet sleeps for four hours.
 	private final long DEFAULT_RUNAWAY_TIME_START = (60*60*24* 1000)*7/2; //3.5days
 	private final long DEFAULT_STATUS_TIMER_LENGTH = 60*1000;//6*60*60*1000; // 6 hours.
+	private final long FEED_PET_TIMER_INCREMENT = DEFAULT_STATUS_TIMER_LENGTH/4;
 	
 	
 	// We only want one instance of pet through the entire project. This is known as a Singleton.
@@ -93,6 +94,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public boolean getPetIsEating() {
 		return this.petIsEating;
 	}
+	public boolean getPetIsPooping() {
+		return this.petIsPooping;
+	}
 	
 	// Pet has been initially loaded, notify the view.
 	public void loadPet(int width, int height, int xCoord, int yCoord, int petType, int drawable) {
@@ -104,6 +108,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 		this.petType = petType;
 		this.drawableNum = drawable;
 		this.petIsEating = false;
+		this.petIsPooping = false;
 		// Pet is loaded.
 		notifyObservers(this);
 	}
@@ -116,6 +121,9 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 	public void setPetIsEating(boolean bool) {
 		this.petIsEating = bool;
+	}
+	public void setPetIsPooping(boolean bool) {
+		this.petIsPooping = bool;
 	}
 	public void setXCoord(int x) {
 		this.xCoord = x;
@@ -181,11 +189,6 @@ public class PetVo extends SimpleObservable<PetVo> {
 	{
 		return this.hungerLevel;
 	}
-	public float getPetEnergy()
-	{
-		return this.energyLevel;
-	}
-	
 	/** Pet status setters */
 	public void setPetHappiness(float ha)
 	{
@@ -194,10 +197,6 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public void setPetHunger(float hu)
 	{
 		this.hungerLevel = hu;
-	}
-	public void setPetEnergy(float e)
-	{
-		this.energyLevel = e;
 	}
 
 	
@@ -217,6 +216,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public long getDefaultStatusTime()
 	{
 		return this.DEFAULT_STATUS_TIMER_LENGTH;
+	}
+	public long getFeedPetTimerIncrement()
+	{
+		return this.FEED_PET_TIMER_INCREMENT;
 	}
 	public long getLastTimeAte()
 	{
