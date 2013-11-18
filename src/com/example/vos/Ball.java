@@ -43,19 +43,22 @@ public class Ball {
 		ballY = (float)y;
 	}
 	
-	public void setPos(int x, int y)
+	public void addPos(float x, float y)
 	{
-		ballX = (float)x;
-		ballY = (float)y;
+		ballX += x;
+		ballY += y;
 	}
 	
 	public void setID(int id) {
 		ID = id;
 	}
 	
-	public boolean closeEnough(Ball other)
+	public boolean CloseEnoughTo(Ball other)
 	{
-		return true;
+		if(Math.abs(this.getX() - other.getX()) < 10)
+			if(Math.abs(this.getY() - other.getY()) < 10)
+				return true;
 		
+		return false;
 	}
 }
