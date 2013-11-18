@@ -246,19 +246,19 @@ public class PetController extends Controller {
 	} // End method isWithinPlayground
 	
 	
+	/**
+	 * Make the pet move to the current piece of food.
+	 * 
+	 * @param food: Food object that the pet will move to.
+	 */
 	private void movePetToFood(Food food)
 	{
-		Log.v("move pet to food function", "top");
-		//sleepThread(2000); // 10 seconds
-		
-		int currentPetX, currentPetY, currentFoodX, currentFoodY;
-		int horiz_dx, vert_dy;
-		int jumpDistance = BACKGROUND_WIDTH/10;
-		int numHorizJumps, numVertJumps;
+		int currentPetX, currentPetY, currentFoodX, currentFoodY, horiz_dx, vert_dy;
+		int jumpDistance = BACKGROUND_WIDTH/10, numHorizJumps, numVertJumps;
 		
 		// Get current pet location
 		currentPetX = model.getXCoord();
-		currentPetY = model.getYCoord();
+		currentPetY = model.getYCoord() + model.getHeight();
 		
 		// Get food location
 		currentFoodX = food.getX();
@@ -266,9 +266,9 @@ public class PetController extends Controller {
 		
 		// If locations are not the same, alternate moving vertical / horizontal until pet is next to food.
 		horiz_dx = currentPetX - currentFoodX;
-		vert_dy = currentPetY - currentFoodY;
+		vert_dy = currentPetY - currentFoodY + 10; // Added a buffer to height jumps.
 		
-		// If vert_dy is positive, pet needs to move up. If negative, pet needs to move down.
+
 		if(vert_dy != 0)
 		{
 			numVertJumps = vert_dy / jumpDistance;
@@ -279,7 +279,6 @@ public class PetController extends Controller {
 			numVertJumps = 0;
 		}
 		
-		// If horix_dx is positive, pet needs to move left. If negative, pet needs to move right.
 		if(horiz_dx != 0)
 		{
 			numHorizJumps = horiz_dx / jumpDistance;
@@ -290,48 +289,39 @@ public class PetController extends Controller {
 			numHorizJumps = 0;
 		}
 		
-		// Now move
+		// If vert_dy is positive, pet needs to move up. If negative, pet needs to move down.
 		if(numVertJumps > 0)
 		{
-			numVertJumps++;
 			for(int k=0; k<numVertJumps; k++)
 			{
-				//life.petMove = 3; // Move up
 				life.moveSequence.add(3);
-				Log.v("add#3", "move up");
 			}
 		}
-		else if(numVertJumps <= 0)
+		else if(numVertJumps < 0)
 		{
 			numVertJumps *= -1; // Make number positive
 			numVertJumps++;
 			for(int k=0; k<numVertJumps; k++)
 			{
-				//life.petMove = 4; // Move down
 				life.moveSequence.add(4);
-				Log.v("add#4", "move down");
 			}
 		}
-		
+		// If horix_dx is positive, pet needs to move left. If negative, pet needs to move right.
 		if(numHorizJumps > 0)
 		{
 			numHorizJumps++;
 			for(int k=0; k<numHorizJumps; k++)
 			{
-				//life.petMove = 1; // Move left
 				life.moveSequence.add(1);
-				Log.v("add#1", "move left");
 			}
 		}
-		else if(numHorizJumps <= 0)
+		else if(numHorizJumps < 0)
 		{
 			numHorizJumps *= -1; // Make number positive
 			numHorizJumps++;
 			for(int k=0; k<numHorizJumps; k++)
 			{
-				//life.petMove = 2; // Move right
 				life.moveSequence.add(2);
-				Log.v("add#2", "move right");
 			}
 		}
 		
@@ -340,11 +330,8 @@ public class PetController extends Controller {
 		synchronized(life)
 		{
 			life.notify();
-		}
-		//isMovingToFood = true;
-		// Delete food.
-		
-	}
+		}		
+	} // End method movePetToFood
 	
 	
 	/**
@@ -497,7 +484,6 @@ public class PetController extends Controller {
 	// Create and start the happiness timer.
 	public void setHappinessTimer(long time)
 	{
-		Log.v("start timer ha", "starting happiness timer");
 		if(time > model.getDefaultStatusTime())
 		{
 			time = model.getDefaultStatusTime();
@@ -507,8 +493,8 @@ public class PetController extends Controller {
 			public void onFinish()
 			{
 				super.onFinish();
-				// Pet needs to be fed!!
-				Log.v("happitimer", "finished");
+				// Pet needs to be played with!!
+				// TODO notification
 				model.setPetHappiness(0);
 				model.justDraw();
 			}
@@ -527,7 +513,6 @@ public class PetController extends Controller {
 	// Create and start the hunger timer.
 	public void setHungerTimer(long time)
 	{
-		Log.v("start timer hu", "starting hunger timer");
 		if(time > model.getDefaultStatusTime())
 		{
 			time = model.getDefaultStatusTime();
@@ -538,7 +523,7 @@ public class PetController extends Controller {
 			{
 				super.onFinish();
 				// Pet needs to be fed!!
-				Log.v("hungtimer", "finished");
+				// TODO notification
 				model.setPetHunger(0);
 				model.justDraw();
 			}

@@ -243,7 +243,7 @@ public class HomeView extends View {
 		//get trashcan image
 		mTrash = BitmapFactory.decodeResource(getResources(), R.drawable.trashcan);
 		// Get food image.
-		mFood = BitmapFactory.decodeResource(getResources(), R.drawable.food);
+		mFood = BitmapFactory.decodeResource(getResources(), R.drawable.scooby_snack);
 
 		mBall = BitmapFactory.decodeResource(getResources(), R.drawable.tennisball2);
 
