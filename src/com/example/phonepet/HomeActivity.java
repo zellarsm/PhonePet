@@ -367,7 +367,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 		//control dirtLevels
 		/*hView.setDirtAmt(pet.dirtyness());*/
-		hView.setDirtAmt(0);
+		pet.makeDirty();
+		hView.setDirtAmt(pet.dirtyness());
 	}
 
 	@Override

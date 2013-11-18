@@ -346,6 +346,7 @@ public class PetController extends Controller {
 		  	7 4 8	
 	 */
 	private boolean move(int direction) {
+		model.moveInc();
 		int destX, destY;
 		// No matter what the movement, the distance will be 1/10th the 
 		// width of screen in x or y or both.
