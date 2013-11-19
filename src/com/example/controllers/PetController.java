@@ -83,7 +83,7 @@ public class PetController extends Controller {
 	
 	private RunawayCountdownTimer runawayTimer, sleepTimer;
 	private StatusCountdownTimer hungerLevel, happinessLevel;//, energyLevel;
-	private CountDownTimer poopTimer;
+	private CountDownTimer poopTimer, sleepingTimer;
 	
 	public PetController(PetVo model, Context hActivityContext)
 	{
@@ -123,7 +123,7 @@ public class PetController extends Controller {
 		case MESSAGE_SCOOP_POOP:
 			return true;
 		case MESSAGE_FEED:
-			Log.v("message feed", " call move pet to food");
+			if (model.getPetIsSleeping()) handleWake(); 
 			long tempHunger = hungerLevel.getTimeLeft() + model.getFeedPetTimerIncrement();
 			hungerLevel.cancel();
 			setHungerTimer(tempHunger);
@@ -172,7 +172,7 @@ public class PetController extends Controller {
 		currTime.setToNow();
 		return currTime.toMillis(true);
 	}
-
+ 
 	private void handleTap(Object data)
 	{
 		// Determine what the user tapped.
@@ -182,6 +182,8 @@ public class PetController extends Controller {
 		if (point.x >= model.getXCoord() && point.x <= model.getXCoord() + model.getWidth()
 				&& (point.y >= model.getXCoord() && point.y <= model.getYCoord() + model.getHeight())) {
 			
+				// Move pet in random direction if movement enabled.
+			if (life.movementEnabled) {
 				int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
 				
 				life.petMove = direction;
@@ -189,6 +191,7 @@ public class PetController extends Controller {
 					life.notify();
 				}
 			}
+		}
 	} // End method handleTap
 
 	// Get pet's information
@@ -557,6 +560,7 @@ public class PetController extends Controller {
 		};
 		sleepTimer.start();
 		
+		
 	} // End method setSleepTimer
 	
 	
@@ -564,16 +568,39 @@ public class PetController extends Controller {
 	private void handleSleeping()
 	{
 		// Pet is leaving Home to go to new activity.
-		model.setPetIsHome(false);
+		//model.setPetIsHome(false);
 		model.setPetIsSleeping(true);
+		life.movementEnabled = false;
 		
-		// Launch SleepActivity.
-		Intent myIntent = new Intent(getHomeContext(), SleepActivity.class);
-		myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PetController.this.homeContext.startActivity(myIntent);
+		// Move pet to house
+		model.setXYCoord(CENTER_HOUSE_X - model.getWidth()/2, BOTTOM_HOUSE_Y - model.getHeight());
+		
+		// Duration of four hours, tick every minute.
+		sleepingTimer = new CountDownTimer(model.getSleepDuration(), 1000)
+		{
+			public void onFinish()
+			{
+				handleWake();
+			}
+
+			@Override
+			public void onTick(long arg0){}
+		};
+		sleepingTimer.start();
+		
+		//// Launch SleepActivity.
+		//Intent myIntent = new Intent(getHomeContext(), SleepActivity.class);
+		//myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		//PetController.this.homeContext.startActivity(myIntent);
 		
 	} // End method handleSleeping
-	
+	 
+	public void handleWake() {
+		sleepingTimer.cancel(); // Cancel if it hasn't finished yet 
+		model.setPetIsSleeping(false);
+       	life.movementEnabled = true;
+       	life.moveSequence.add(4); // Jump out of house.
+	}
 	// Create and start the runaway timer.
 	public void setRunawayTimer(long time)
 	{
@@ -663,12 +690,10 @@ public class PetController extends Controller {
 					if(!moveSequence.isEmpty())
 					{
 							int temp = moveSequence.remove(0);
-							Log.v("moving pet direction =", Integer.toString(temp));
 							petMove = temp;
 					}
 					else
 					{
-						Log.v("movetofood", "should be at food nao");
 						model.setLastTimeAte(getCurrentTime());
 						isMovingToFood = false;
 						movementEnabled = true;

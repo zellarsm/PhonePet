@@ -232,7 +232,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			hView.drawFood(food);
 			
 			controller.handleMessage(PetController.MESSAGE_FEED, food);
-			Log.v("end of draw food", "is pet at food yet?");
 	
 		} // End method drawFood
 		
@@ -324,6 +323,10 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	}
 	
 	private void updateView() {
+		// Give pet transparency if it is sleeping.
+		Log.v("sleeping", Boolean.toString(pet.getPetIsSleeping()));
+		hView.setPetTransparent(pet.getPetIsSleeping());
+		
 		// Update pet on the screen.
 		this.hView.drawPet(pet.getXCoord(), pet.getYCoord());
 		

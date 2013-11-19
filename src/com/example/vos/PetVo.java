@@ -33,6 +33,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private boolean petIsSleeping;
 	private boolean petIsEating;
 	private boolean petIsPooping;
+	private boolean petIsTransparent;
 	
 	/* Pet color
 	 * orange = 1
@@ -327,8 +328,11 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 
 	public void notCleaning(){
-
 		cleaning = false;
+	}
+
+	public void setPetIsTransparent(boolean b) {
+		petIsTransparent = true;	
 	}
 
 	/*End Cleaning Functions*/

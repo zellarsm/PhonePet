@@ -30,7 +30,7 @@ import android.widget.LinearLayout;
 public class HomeView extends View {
 
 	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt, mBall, mBubbleLeft, mBubbleRight, mFrownyFace, mZZ;
-	private String fileName = "preferences", petName;
+	private String fileName = "preferences", petName, imageInSD;
 	private Bitmap mDirt_1,mDirt_2,mDirt_3;
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt;
@@ -41,7 +41,7 @@ public class HomeView extends View {
 	private Point petPoint = null;
 	private List<Poop> myList = null;
 	private Food currentFood = null;
-	private Paint paint;
+	private Paint paint, petTransparency;
 	private Ball currentBall = null;
 	
 	public HomeView(Context context, AttributeSet attrs) {
@@ -73,10 +73,12 @@ public class HomeView extends View {
 		paint = new Paint();
 		paint.setColor(Color.BLACK);
 		paint.setTextSize(20);
-		//Typeface tf = Typeface.create("Mistral", Typeface.BOLD);
-		//paint.setTypeface(tf);	
+		
 		petName = sharedPref.getString("petName", " ");
 		nameX = getXCoordOfName(petName, paint);
+		
+		petTransparency = new Paint();
+		petTransparency.setAlpha(100); // Default no transparency
 				
 		// Load bitmaps
 		loadBitmaps();
@@ -106,7 +108,7 @@ public class HomeView extends View {
 		canvas.drawText(petName, nameX, backgroundHeight/2, paint);
 				
 		// Draw pet
-		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, null);
+		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, petTransparency);
 		
 		if(petDirtAmt == 1){
 			canvas.drawBitmap(mDirt_1, petPoint.x, petPoint.y, null);
@@ -287,7 +289,7 @@ public class HomeView extends View {
 	// Load pet bitmap from file
 	public void loadBitmaps() {
 		// Get pet image from sd card.
-		String imageInSD = Environment.getExternalStorageDirectory() + "/PhonePet/petBitmap/pet";
+		imageInSD = Environment.getExternalStorageDirectory() + "/PhonePet/petBitmap/pet";
 		mPet = BitmapFactory.decodeFile(imageInSD);
 
 		// Get poop image.
@@ -459,5 +461,14 @@ public class HomeView extends View {
 			showSleepingThought = false;
 		}
 	}
-
+	
+	public void setPetTransparent(boolean yes) {
+		if (yes) {
+			petTransparency.setAlpha(75);
+		}
+		else  {
+			petTransparency.reset(); 
+		}
+	}
+	
 }
