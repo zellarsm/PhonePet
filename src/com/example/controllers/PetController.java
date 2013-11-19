@@ -9,15 +9,12 @@ import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.text.format.Time;
 import android.util.Log;
-import com.example.phonepet.SleepActivity;
 import com.example.utils.Point;
 import com.example.utils.RunawayCountdownTimer;
 import com.example.utils.StatusCountdownTimer;
 import com.example.phonepet.AccessorizeActivity;
-import com.example.phonepet.CleanActivity;
 import com.example.phonepet.R;
 import com.example.phonepet.RunawayActivity;
-import com.example.views.HomeView;
 import com.example.vos.Food;
 import com.example.vos.PetVo;
 
@@ -115,7 +112,7 @@ public class PetController extends Controller {
 	public boolean handleMessage(int what, Object data) {
 		switch (what) {
 		case MESSAGE_LOAD:
-			loadPet();
+			loadPet(); 
 			return true;
 		case MESSAGE_ACCESSORIZE:
 			accessorize();
@@ -126,7 +123,7 @@ public class PetController extends Controller {
 			if (model.getPetIsSleeping()) handleWake(); 
 			long tempHunger = hungerLevel.getTimeLeft() + model.getFeedPetTimerIncrement();
 			hungerLevel.cancel();
-			setHungerTimer(tempHunger);
+			setHungerTimer(tempHunger); 
 			movePetToFood((Food)data);
 			return true;
 		case MESSAGE_CLEAN:
@@ -150,7 +147,6 @@ public class PetController extends Controller {
 			// FEED ME
 			return true;
 		case MESSAGE_SET_HAPPINESS_TIMER:
-			Log.v("setting happiness timer", "call setHappinessTimer");
 			setHappinessTimer((Long) data);
 			return true;
 		case MESSAGE_SET_HUNGER_TIMER:
@@ -349,7 +345,6 @@ public class PetController extends Controller {
 		  	7 4 8	
 	 */
 	private boolean move(int direction) {
-		model.moveInc();
 		int destX, destY;
 		// No matter what the movement, the distance will be 1/10th the 
 		// width of screen in x or y or both.
@@ -424,7 +419,6 @@ public class PetController extends Controller {
 			}
 			else {
 				// Pet is within range of house door.  Move up only if not going through top of house
-				Log.v("gothere", "5");
 				if (destY < TOP_HOUSE_DOOR_Y) {
 					return false;
 				}
@@ -455,7 +449,8 @@ public class PetController extends Controller {
 			}
 			
 		}
-
+		
+		model.moveInc();
 		return true;
 		
 	}
@@ -671,7 +666,7 @@ public class PetController extends Controller {
 				// Wait. Wake up after 2 seconds or when main thread commands it.
 				try {
 					synchronized(this) {
-						wait(2000);
+						wait(2000); 
 					}
 					
 				} catch (InterruptedException e) {
@@ -702,7 +697,7 @@ public class PetController extends Controller {
 					}
 				}
 				
-				if (petMove > 0)
+				if (petMove > 0) 
 				{
 					// Perform move
 					move(petMove);

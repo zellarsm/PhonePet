@@ -1,6 +1,7 @@
 package com.example.vos;
 
 import android.text.format.Time;
+import android.util.Log;
 
 /*
  * The Vo stands for Value Object. Value Objects are a type of model.
@@ -50,8 +51,8 @@ public class PetVo extends SimpleObservable<PetVo> {
 	// Pet status levels
 	private float hungerLevel; // 100% hunger, pet is full.
 	private float happinessLevel; // 100% happiness, pet is happy.
-	private int  petDirtAmt, maxDirt = 3;
-	private int moveCount, moveLimit = 5;
+	private int  petDirtAmt, maxDirt = 10;
+	private int moveCount=1, moveLimit = 10;
 	private boolean cleaning;
 	private int age;
 	
@@ -292,9 +293,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public void makeDirty(){
 		if(moveCount%moveLimit == 0 ){
 			if(petDirtAmt < maxDirt){
-
 				petDirtAmt++;		
-				
 			}
 		}
 	}
@@ -318,9 +317,8 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 
 	public void moveInc(){
-
 		moveCount++;
-		/*Log.v("moveCount", Integer.toString(moveCount));*/
+		makeDirty();
 	}
 
 	public int getMoves(){

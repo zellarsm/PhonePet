@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.phonepet.R;
 import com.example.utils.DatabaseHelper;
+import com.example.utils.Dirt;
 import com.example.utils.Point;
 import com.example.vos.Ball;
 import com.example.vos.Food;
@@ -29,9 +30,10 @@ import android.widget.LinearLayout;
  
 public class HomeView extends View {
 
-	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, mDirt, mBall, mBubbleLeft, mBubbleRight, mFrownyFace, mZZ;
+	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, 
+					mDirt1, mDirt2, mDirt3,mDirt4,mDirt5,mDirt6,mDirt7,mDirt8,
+					mBall, mBubbleLeft, mBubbleRight, mFrownyFace, mZZ;
 	private String fileName = "preferences", petName, imageInSD;
-	private Bitmap mDirt_1,mDirt_2,mDirt_3;
 	private SharedPreferences sharedPref;
 	private int backgroundWidth, backgroundHeight, petWidth, petHeight, cloud1X, cloud2X, nameX, petDirtAmt;
 	private float spongeX, spongeY;
@@ -41,8 +43,9 @@ public class HomeView extends View {
 	private Point petPoint = null;
 	private List<Poop> myList = null;
 	private Food currentFood = null;
-	private Paint paint, petTransparency;
+	private Paint paint, petTransparency, dirtTransparency;
 	private Ball currentBall = null;
+	private Dirt[] dirtArray;
 	
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -79,7 +82,12 @@ public class HomeView extends View {
 		
 		petTransparency = new Paint();
 		petTransparency.setAlpha(100); // Default no transparency
+		dirtTransparency = new Paint();
+		dirtTransparency.setAlpha(98);
 				
+		// Create random dirt layout
+		createDirtArray();
+		
 		// Load bitmaps
 		loadBitmaps();
 		
@@ -107,26 +115,35 @@ public class HomeView extends View {
 		// Draw pet name
 		canvas.drawText(petName, nameX, backgroundHeight/2, paint);
 				
+		// Draw poop
+		if(poopExists)
+			for(Poop e: myList)
+				canvas.drawBitmap(mPoop, e.getX(), e.getY(), null);
+		
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, petTransparency);
-		
-		if(petDirtAmt == 1){
-			canvas.drawBitmap(mDirt_1, petPoint.x, petPoint.y, null);
-		}
 
-		if(petDirtAmt == 2){
-			canvas.drawBitmap(mDirt_2, petPoint.x, petPoint.y, null);
-		}
-
-		if(petDirtAmt == 3){
-			canvas.drawBitmap(mDirt_3, petPoint.x, petPoint.y, null);
-		}
-		Log.v("petDirtAmt", Integer.toString(petDirtAmt));
-		//canvas.drawBitmap(mPoop,e.getX(), e.getY(), null);
-		if(poopExists) {
-			for(Poop e: myList) {
-				canvas.drawBitmap(mPoop, e.getX(), e.getY(), null);
-			}
+		// Draw dirt
+		for (int i=0; i<petDirtAmt; i++) {
+			int curX = (int) (petPoint.x + petWidth/5 * dirtArray[i].x);
+			int curY = (int) (petPoint.y + petHeight/5 * dirtArray[i].y);
+			
+			if (dirtArray[i].pic == 1)
+				canvas.drawBitmap(mDirt1, curX, curY, dirtTransparency);
+			else if (dirtArray[i].pic == 2)
+				canvas.drawBitmap(mDirt2, curX, curY, dirtTransparency);
+			else if (dirtArray[i].pic == 3)
+				canvas.drawBitmap(mDirt3, curX, curY, dirtTransparency);
+			else if (dirtArray[i].pic == 4)
+				canvas.drawBitmap(mDirt4, curX, curY, dirtTransparency);
+			else if (dirtArray[i].pic == 5)
+				canvas.drawBitmap(mDirt5, curX, curY, dirtTransparency);
+			else if (dirtArray[i].pic == 6)
+				canvas.drawBitmap(mDirt6, curX, curY, dirtTransparency);
+			else if (dirtArray[i].pic == 7)
+				canvas.drawBitmap(mDirt7, curX, curY, dirtTransparency);
+			else
+				canvas.drawBitmap(mDirt8, curX, curY, dirtTransparency);
 		}
 		
 		// Draw food on the screen if there is food.
@@ -141,8 +158,6 @@ public class HomeView extends View {
 		}
 		
 		if(cleaningPet){
-			//canvas.drawBitmap(R.drawable.sponge, 100.0, 100.0, null);
-			//Log.v("currently cleaning pet", Boolean.toString(cleaningPet));
 			canvas.drawBitmap(mSponge, spongeX, spongeY, null);
 		}
 		
@@ -150,35 +165,32 @@ public class HomeView extends View {
 			canvas.drawBitmap(mTrash, backgroundWidth/10, backgroundHeight/6 + backgroundHeight/3, null);
 		}
 		// Draw thought bubble if necessary
-				if (showUnhappyThought || showHungryThought || showSleepingThought) {
-					// Determine where thought bubble should be placed.
-					Point bubblePoint = getBubblePoint();
-					
-					// Draw bubble
-					if (bubblePoint.x < petPoint.x) {
-						// Using bubble_left
-						canvas.drawBitmap(mBubbleLeft, bubblePoint.x, bubblePoint.y, null);
-					}
-					else {
-						// Using bubble right
-						canvas.drawBitmap(mBubbleRight, bubblePoint.x, bubblePoint.y, null);
-					}
-					
-					
-					// Draw necessary thought in center of bubble
-					if (showUnhappyThought)
-						canvas.drawBitmap(mFrownyFace, bubblePoint.x + mBubbleLeft.getWidth()/2 - mFrownyFace.getWidth()/2,
-														bubblePoint.y + mBubbleLeft.getHeight()/2 - mFrownyFace.getHeight()/2,
-														null);
-					else if (showHungryThought)
-						canvas.drawBitmap(mFood, bubblePoint.x + mBubbleLeft.getWidth()/2 - mFood.getWidth()/2,
-								bubblePoint.y + mBubbleLeft.getHeight()/2 - mFood.getHeight()/2,
-								null);
-					else
-						canvas.drawBitmap(mZZ, bubblePoint.x + mBubbleLeft.getWidth()/2 - mZZ.getWidth()/2,
-								bubblePoint.y + mBubbleLeft.getHeight()/2 - mZZ.getHeight()/2,
-								null);
-				}
+		if (showUnhappyThought || showHungryThought || showSleepingThought) {
+			// Determine where thought bubble should be placed.
+			Point bubblePoint = getBubblePoint();
+			
+			// Draw bubble
+			if (bubblePoint.x < petPoint.x)
+				// Using bubble_left
+				canvas.drawBitmap(mBubbleLeft, bubblePoint.x, bubblePoint.y, null);
+			else
+				// Using bubble right
+				canvas.drawBitmap(mBubbleRight, bubblePoint.x, bubblePoint.y, null);
+			
+			// Draw necessary thought in center of bubble
+			if (showUnhappyThought)
+				canvas.drawBitmap(mFrownyFace, bubblePoint.x + mBubbleLeft.getWidth()/2 - mFrownyFace.getWidth()/2,
+												bubblePoint.y + mBubbleLeft.getHeight()/2 - mFrownyFace.getHeight()/2,
+												null);
+			else if (showHungryThought)
+				canvas.drawBitmap(mFood, bubblePoint.x + mBubbleLeft.getWidth()/2 - mFood.getWidth()/2,
+						bubblePoint.y + mBubbleLeft.getHeight()/2 - mFood.getHeight()/2,
+						null);
+			else
+				canvas.drawBitmap(mZZ, bubblePoint.x + mBubbleLeft.getWidth()/2 - mZZ.getWidth()/2,
+						bubblePoint.y + mBubbleLeft.getHeight()/2 - mZZ.getHeight()/2,
+						null);
+		}
 	}
 	
 	private Point getBubblePoint() {
@@ -202,9 +214,6 @@ public class HomeView extends View {
 	/**
 	 * Handles cloud movement at a time interval.
 	 * If a cloud moves off screen it will eventually be redrawn on the opposite side.
-	 * 
-	 * @author Michael
-	 *
 	 */
 	private class MoveClouds extends Thread {
 		@Override
@@ -306,12 +315,18 @@ public class HomeView extends View {
 				
 		// Default mCloud to cloud image
 		mCloud = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
-		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
-		mDirt_1 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_1);
-		mDirt_2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
-		mDirt_3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
 		
-
+		// Create sponge and dirt bitmaps
+		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
+		mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_1);
+		mDirt2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
+		mDirt3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
+		mDirt4 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_4);
+		mDirt5 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_5);
+		mDirt6 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_6);
+		mDirt7 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_7);
+		mDirt8 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_8);
+		
 		// Get thought bubble images
 		mBubbleLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bubble_left);
 		mBubbleRight = BitmapFactory.decodeResource(getResources(), R.drawable.bubble_right);
@@ -328,6 +343,14 @@ public class HomeView extends View {
 		mBubbleRight = Bitmap.createScaledBitmap(mBubbleRight, backgroundWidth/8, backgroundHeight/8, true);
 		mFrownyFace = Bitmap.createScaledBitmap(mFrownyFace, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
 		mZZ = Bitmap.createScaledBitmap(mZZ, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
+		mDirt1 = Bitmap.createScaledBitmap(mDirt1, petWidth/6, petHeight/6, true);
+		mDirt2 = Bitmap.createScaledBitmap(mDirt2, petWidth/6, petHeight/6, true);
+		mDirt3 = Bitmap.createScaledBitmap(mDirt3, petWidth/6, petHeight/6, true);
+		mDirt4 = Bitmap.createScaledBitmap(mDirt4, petWidth/6, petHeight/6, true);
+		mDirt5 = Bitmap.createScaledBitmap(mDirt5, petWidth/6, petHeight/6, true);
+		mDirt6 = Bitmap.createScaledBitmap(mDirt6, petWidth/6, petHeight/6, true);
+		mDirt7 = Bitmap.createScaledBitmap(mDirt7, petWidth/6, petHeight/6, true);
+		mDirt8 = Bitmap.createScaledBitmap(mDirt8, petWidth/6, petHeight/6, true);
 	}
 	
 
@@ -468,6 +491,22 @@ public class HomeView extends View {
 		}
 		else  {
 			petTransparency.reset(); 
+		}
+	}
+	
+	// Creates array of dirt objects with random pictures and locations on pet
+	public void createDirtArray() {
+		// Dirtiest pet can be is length 10
+		dirtArray = new Dirt[10];
+		for (int i=0; i<10; i++) {
+			// Pick random dirt picture and random location on pet.
+			int pic = 1 + (int)(Math.random() * ((8 - 1) + 1));
+			int x = 1 + (int)(Math.random() * ((4 - 1) + 1));
+			int y = 2 + (int)(Math.random() * ((5 - 2) + 1)); 
+			
+			// Create the dirt
+			Dirt dirt = new Dirt(pic, x, y);
+			dirtArray[i] = dirt;
 		}
 	}
 	

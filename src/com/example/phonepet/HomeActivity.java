@@ -166,13 +166,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			}
 		});
 		
-		
 		cleanButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// Cleaning was already happening. Deactivate cleaning mode.
 				if (whatIsHappening == 2) {
-
 					hView.notCleaning();
 					pet.notCleaning();
 					whatIsHappening = 0; // Nothing is happening
@@ -182,13 +180,12 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				else {
 					whatIsHappening = 2; // Cleaning mode
 					hView.setOnTouchListener(new CleanListener());
-					
-					controller.handleMessage(PetController.MESSAGE_CLEAN);				
+			
 					hView.cleaning();
 					pet.cleaning();
 					spongeX = (float ) (hView.getBackgroundWidth()/2.0);
 					spongeY = (float) (hView.getBackgroundHeight()/2.0);
-					spongeBath();
+
 				}
 			}
 		});
@@ -324,7 +321,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	
 	private void updateView() {
 		// Give pet transparency if it is sleeping.
-		Log.v("sleeping", Boolean.toString(pet.getPetIsSleeping()));
 		hView.setPetTransparent(pet.getPetIsSleeping());
 		
 		// Update pet on the screen.
@@ -368,9 +364,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			poopTimer();
 		}
 
-		//control dirtLevels
-		/*hView.setDirtAmt(pet.dirtyness());*/
-		pet.makeDirty();
 		hView.setDirtAmt(pet.dirtyness());
 	}
 
@@ -727,9 +720,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			// Is click within pet image X-range
 			if ((userX >= x)
 					&& (userX <= x + hView.getPetWidth()/2)) {
-				Log.v("userx", Float.toString(userX));
-				Log.v("x", Integer.toString(x));
-			
 			    // Is click within pet image Y-range
 				if ((userY >= y) 
 						&& (userY <= y + hView.getPetHeight())) {
@@ -878,8 +868,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 				}
 				return true;
 
-			
-			
 			}	
 	}
 	
@@ -893,11 +881,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 						final int pointerIndex = MotionEventCompat.getActionIndex(event);
 						final float userX = MotionEventCompat.getX(event, pointerIndex);
 						final float userY =  MotionEventCompat.getY(event, pointerIndex);
-						/*Log.v("USER X", Float.toString(userX));
-						Log.v("USER Y", Float.toString(userY));
-						Log.v("isSpongeClicked", Integer.toString(isSpongeClicked(userX,userY)));*/
-					/*	Log.v("isSpongeOnPet", Integer.toString(isSpongeOnPet(userX,userY)));*/
-					
+
 			        	if(isSpongeClicked(userX,userY) == 1){
 			        		spongeX = userX;
 							spongeY = userY;
@@ -909,7 +893,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        		hView.drawSponge(userX, userY);
 			        	}	
 			        	mActivePointerId = MotionEventCompat.getPointerId(event, 0);
-						//hView.drawSponge(userX, userY);
 						break;
 					}
 					case MotionEvent.ACTION_MOVE: {
@@ -926,24 +909,16 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        
 			        mPosX += dx;
 			        mPosY += dy;
-			        
-			      
-			        // Invalidate
-			        if (isSpongeClicked(userX, userY) == 1) {
-			        
-			        	
-			        	/*temp.setX((int)userX);
-			        	temp.setY((int)userY);*/
 
+			        if (isSpongeClicked(userX, userY) == 1) {
 			        	spongeX = userX;
 			        	spongeY = userY;
 
 			        	hView.drawSponge(spongeX, spongeY);
 			        	if(isSpongeOnPet(spongeX, spongeY) == 1){
-			        		whatIsHappening = 0;
 							pet.makeClean();
-							hView.notCleaning();
-							pet.notCleaning();
+							
+							hView.createDirtArray(); // Create new random dirt location array
 			        	}
 			        }
 			
@@ -953,13 +928,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 
 			        break;
 				}
-					case MotionEvent.ACTION_UP: {
-					
-					hView.setTrash(false);
-					
-			        mActivePointerId = INVALID_POINTER_ID;
-			        break;
-				}	
+
 					case MotionEvent.ACTION_POINTER_UP: {
 			           
 			        final int pointerIndex = MotionEventCompat.getActionIndex(event); 
