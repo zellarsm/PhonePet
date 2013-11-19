@@ -19,10 +19,13 @@ import android.os.CountDownTimer;
 import android.provider.Settings.System;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.text.format.Time;
 import android.util.Log;
@@ -78,6 +81,9 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	List<Poop> list;
 	ImageButton playButton, accessorizeButton, poopButton, feedButton, cleanButton;
 	
+	private NotificationManager notifier;
+	private NotificationCompat.Builder builder;
+	
 	//TextView myTextView = (TextView) findViewById(R.id.mytextview); myTextView.setText("My double value is " + doubleValue);
 	TextView happinessValue, hungerValue;//, energyValue;
 	
@@ -85,6 +91,14 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		
+		// Set up notifications
+		notifier = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+		builder = new NotificationCompat.Builder(this);
+		builder.setSmallIcon(R.drawable.ic_launcher);
+		builder.setAutoCancel(true);
+		PendingIntent pIntent = PendingIntent.getActivity(this,  0,  new Intent(this, StartupActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+		builder.setContentIntent(pIntent);
 
 		// Instantiate pet model and set the HomeActivity as an observer.
 		// Now any time the model changes, the onChange method gets called. 
@@ -242,19 +256,24 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			width = hView.getBackgroundWidth() - hView.getPetWidth();
 			height = hView.getBackgroundHeight();
 				
-				do
-				{
-					tempX = (int)(Math.random() * width);
-					tempY = (int)(Math.random() * (height/2) + (height/2));
-					
-					if(tempY > height - pet.getHeight()) {
-						tempY = tempY - height/12;
-					}
-					poop = new Poop(tempX, tempY);
+			do
+			{
+				tempX = (int)(Math.random() * width);
+				tempY = (int)(Math.random() * (height/2) + (height/2));
+				
+				if(tempY > height - pet.getHeight()) {
+					tempY = tempY - height/12;
 				}
-				while(!controller.isWithinPlayground(tempX, tempY));
-				db.addPoop(poop);
+				poop = new Poop(tempX, tempY);
+			}
+			while(!controller.isWithinPlayground(tempX, tempY));
+			db.addPoop(poop);
 			
+//			if(db.getPoopCount() == 3)
+//			{
+//				pet.setPoopNotif(1);
+//			}
+				
 	        list = db.getAllPoop();			
 			hView.drawPoop(list);
 			
@@ -333,7 +352,115 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		happinessValue.setText(formatter.format(pet.getPetHappiness()) + "%  ");
 		hungerValue.setText(formatter.format(pet.getPetHunger()) + "%  ");
 		
-
+		// Send happiness-related notification.
+		if((pet.getHappyNotif() == 1) && (pet.getPetHappiness() < 50))
+		{
+			pet.setHappyNotif(2);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + " is getting lonely.");
+			builder.setContentText("You should play with " + pet.getPetName());
+			
+			// Send notification
+			notifier.notify(1, builder.build());
+		}
+		else if((pet.getHappyNotif() == 2) && (pet.getPetHappiness() < 25))
+		{
+			pet.setHappyNotif(3);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + " really misses you!");
+			builder.setContentText("You should play with " + pet.getPetName());
+			
+			// Send notification
+			notifier.notify(2, builder.build());
+		}
+		else if((pet.getHappyNotif() == 3) && (pet.getPetHappiness() < 5))
+		{
+			pet.setHappyNotif(4);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + " thinks you're never coming back!!");
+			builder.setContentText("You should play with " + pet.getPetName());
+			
+			// Send notification
+			notifier.notify(3, builder.build());
+		}
+		
+		// Send hunger-related notification.
+		if((pet.getHungryNotif() == 1) && (pet.getPetHunger() <= 50))
+		{
+			pet.setHungryNotif(2);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + " is getting hungry.");
+			builder.setContentText("You should feed " + pet.getPetName());
+			
+			// Send notification
+			notifier.notify(4, builder.build());
+		}
+		else if((pet.getHungryNotif() == 2) && (pet.getPetHunger() <= 25))
+		{
+			pet.setHungryNotif(3);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + "'s tummy is growling!");
+			builder.setContentText("You should feed " + pet.getPetName());
+			
+			// Send notification
+			notifier.notify(5, builder.build());
+		}
+		else if((pet.getHungryNotif() == 3) && (pet.getPetHunger() <= 5))
+		{
+			pet.setHungryNotif(4);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + " IS STARVING!!");
+			builder.setContentText("You should feed " + pet.getPetName());
+			
+			// Send notification
+			notifier.notify(6, builder.build());
+		}
+		
+		// Send runaway-related notification.
+		if(pet.getRunawayNotif() == 1)
+		{
+			pet.setRunawayNotif(2);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + " is feeling neglected.");
+			builder.setContentText("You should take care of " + pet.getPetName());
+			
+			// Send notification
+			notifier.notify(7, builder.build());
+		}
+		
+		// Set bath-related notification.
+		if(pet.getBathNotif() == 1)
+		{
+			pet.setBathNotif(2);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + " is feeling dirty.");
+			builder.setContentText("You should give " + pet.getPetName() + " a bath.");
+			
+			// Send notification
+			notifier.notify(8, builder.build());
+		}
+		// Set poop-related notification.
+		if(pet.getPoopNotif() == 1)
+		{
+			pet.setPoopNotif(2);
+			
+			// Build notification.
+			builder.setContentTitle(pet.getPetName() + " is surrounded by poo.");
+			builder.setContentText("You should clean up " + pet.getPetName() + "'s poop.");
+			
+			// Send notification
+			notifier.notify(9, builder.build());
+		}
+		
+		
 		// Display thought bubble if...
 		// ..Pet is sleeping
 		if (pet.getPetIsSleeping()) {
@@ -365,7 +492,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		}
 
 		hView.setDirtAmt(pet.dirtyness());
-	}
+	} // End method updateView
 
 	@Override
 	protected void onStop()
@@ -471,7 +598,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			pet.setPetHunger(50);
 			hungerValue.setText("50%  ");
 			
-			controller.handleMessage(PetController.MESSAGE_SET_HAPPINESS_TIMER, pet.getDefaultStatusTime()/2);
+			controller.handleMessage(PetController.MESSAGE_SET_HAPPINESS_TIMER, pet.getDefaultStatusTime());
 			controller.handleMessage(PetController.MESSAGE_SET_HUNGER_TIMER, pet.getDefaultStatusTime()/2);
 		}
 		else

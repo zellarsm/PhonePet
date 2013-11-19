@@ -214,7 +214,8 @@ public class PetController extends Controller {
 		model.loadPet(
 					sharedPref.getInt("petWidth", 0), sharedPref.getInt("petHeight", 0),
 					sharedPref.getInt("petX", 0), sharedPref.getInt("petY", 0),
-					sharedPref.getInt("petType", 0), sharedPref.getInt("petDrawable", R.drawable.orange_fox)
+					sharedPref.getInt("petType", 0), sharedPref.getInt("petDrawable", R.drawable.orange_fox),
+					sharedPref.getString("petName", "Mike")
 					);
 		 
 		// Create and start a thread to control pet's actions and feelings.
@@ -501,7 +502,22 @@ public class PetController extends Controller {
 			public void onTick(long arg0)
 			{
 				super.onTick(arg0);
-				// What happens when values are where.
+				
+				// Set notification parameter.
+				if(happinessLevel.calculatePercentage() > 50)
+				{
+					model.setHappyNotif(0);
+				}
+				else if(happinessLevel.calculatePercentage() > 25)
+				{
+					model.setHappyNotif(1);
+				}
+				else if(happinessLevel.calculatePercentage() > 5)
+				{
+					model.setHappyNotif(2);
+				}
+				
+				// Set pet happiness level.
 				model.setPetHappiness(happinessLevel.calculatePercentage());
 				model.justDraw();
 			}
@@ -530,7 +546,22 @@ public class PetController extends Controller {
 			public void onTick(long arg0)
 			{
 				super.onTick(arg0);
-				// What happens when values are where.
+
+				// Set notification parameter.
+				if(hungerLevel.calculatePercentage() > 50)
+				{
+					model.setHungryNotif(0);
+				}
+				else if(hungerLevel.calculatePercentage() > 25)
+				{
+					model.setHungryNotif(1);
+				}
+				else if(hungerLevel.calculatePercentage() > 5)
+				{
+					model.setHungryNotif(2);
+				}
+				
+				// Set pet hunger level.
 				model.setPetHunger(hungerLevel.calculatePercentage());
 				model.justDraw();
 			}
@@ -605,6 +636,16 @@ public class PetController extends Controller {
 			{
 				// Pet runs away.
 				runaway();
+			}
+			
+			public void onTick(long arg0)
+			{
+				super.onTick(arg0);
+				
+				if(arg0 <= model.getDefaultRunawayNoticiationTime())
+				{
+					model.setRunawayNotif(1);
+				}
 			}
 		};
 		runawayTimer.start();

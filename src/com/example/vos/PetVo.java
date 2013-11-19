@@ -29,6 +29,7 @@ public class PetVo extends SimpleObservable<PetVo> {
  	 * panda = 2 
  	 * dog = 3 */
 	private int petType;
+	private String petName;
 	
 	private boolean petIsHome;
 	private boolean petIsSleeping;
@@ -68,8 +69,15 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private final int TIME_UNITL_NEXT_SLEEP = 10 * 60 * 1000; // Pet sleeps every ten hours.
 	private final int SLEEP_DURATION = 4 * 60 * 1000; // Pet sleeps for four hours.
 	private final long DEFAULT_RUNAWAY_TIME_START = (60*60*24* 1000)*7/2; //3.5days
-	private final long DEFAULT_STATUS_TIMER_LENGTH = 60*1000;//6*60*60*1000; // 6 hours.
+	private final long DEFAULT_RUNAWAY_NOTIF_TIME = (60*60*24* 1000)*3/2; // 1.5 days remaining on clock.
+	private final long DEFAULT_STATUS_TIMER_LENGTH = 21600000; // 6 hours.
 	private final long FEED_PET_TIMER_INCREMENT = DEFAULT_STATUS_TIMER_LENGTH/4;
+	
+	private int happyNotification;
+	private int hungryNotification;
+	private int runawayNotification;
+	private int bathNotification;
+	private int poopNotification;
 	
 	
 	// We only want one instance of pet through the entire project. This is known as a Singleton.
@@ -103,20 +111,33 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 	
 	// Pet has been initially loaded, notify the view.
-	public void loadPet(int width, int height, int xCoord, int yCoord, int petType, int drawable) {
+	public void loadPet(int width, int height, int xCoord, int yCoord, int petType, int drawable, String name) {
 		// Remember that width and height is NOT the center of the pet bitmap, it's the top left.
+		this.petName = name;
 		this.width = width;
 		this.height = height;
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 		this.petType = petType;
 		this.drawableNum = drawable;
+		
 		this.petIsEating = false;
 		this.petIsPooping = false;
 		this.petDirtAmt = 0;
 		this.moveCount = 1;
+		
+		this.happyNotification = -1;
+		this.hungryNotification = -1;
+		this.runawayNotification = -1;
+		this.bathNotification = -1;
+		this.poopNotification = -1;
 		// Pet is loaded.
 		notifyObservers(this);
+	}
+	
+	public String getPetName()
+	{
+		return this.petName;
 	}
 	
 	public void setPetIsHome(boolean bool) {
@@ -219,6 +240,10 @@ public class PetVo extends SimpleObservable<PetVo> {
 	{
 		return this.DEFAULT_RUNAWAY_TIME_START;
 	}
+	public long getDefaultRunawayNoticiationTime()
+	{
+		return this.DEFAULT_RUNAWAY_NOTIF_TIME;
+	}
 	public long getDefaultStatusTime()
 	{
 		return this.DEFAULT_STATUS_TIMER_LENGTH;
@@ -245,6 +270,50 @@ public class PetVo extends SimpleObservable<PetVo> {
 	public void setLastTimePlayedWith(long t)
 	{
 		this.lastTimePlayedWith = t;
+	}
+	
+	/** Notification getters */
+	public int getHappyNotif()
+	{
+		return this.happyNotification;
+	}
+	public int getHungryNotif()
+	{
+		return this.hungryNotification;
+	}
+	public int getRunawayNotif()
+	{
+		return this.runawayNotification;
+	}
+	public int getBathNotif()
+	{
+		return this.bathNotification;
+	}
+	public int getPoopNotif()
+	{
+		return this.poopNotification;
+	}
+	
+	/** Notification setters */
+	public void setHappyNotif(int i)
+	{
+		this.happyNotification = i;
+	}
+	public void setHungryNotif(int i)
+	{
+		this.hungryNotification = i;
+	}
+	public void setRunawayNotif(int i)
+	{
+		this.runawayNotification = i;
+	}
+	public void setBathNotif(int i)
+	{
+		this.bathNotification = i;
+	}
+	public void setPoopNotif(int i)
+	{
+		this.poopNotification = i;
 	}
 	
 	// Chow down

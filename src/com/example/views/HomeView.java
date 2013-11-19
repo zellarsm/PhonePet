@@ -381,19 +381,10 @@ public class HomeView extends View {
 	//Draws a ball
 	public void drawBall(Ball b)
 	{
-		Ball tempBall = b;
-		float x = (b.getX() - 237)/30, y = (b.getY() - 636)/30;
-		
 		if(ballInPlay)
 		{
-			currentBall = new Ball(237, 636);
+			currentBall = b;;
 			ballExists = true;
-			
-			/*while(!currentBall.CloseEnoughTo(b))
-			{
-				currentBall.addPos(x,y);
-				this.invalidate();
-			}*/
 			
 			this.invalidate();
 		}
