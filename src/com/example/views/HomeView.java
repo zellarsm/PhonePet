@@ -83,7 +83,7 @@ public class HomeView extends View {
 		petTransparency = new Paint();
 		petTransparency.setAlpha(100); // Default no transparency
 		dirtTransparency = new Paint();
-		dirtTransparency.setAlpha(98);
+		dirtTransparency.setAlpha(100);
 				
 		// Create random dirt layout
 		createDirtArray();
@@ -124,7 +124,7 @@ public class HomeView extends View {
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, petTransparency);
 
 		// Draw dirt
-		for (int i=0; i<petDirtAmt; i++) {
+		/*for (int i=0; i<petDirtAmt; i++) {
 			int curX = (int) (petPoint.x + petWidth/5 * dirtArray[i].x);
 			int curY = (int) (petPoint.y + petHeight/5 * dirtArray[i].y);
 			
@@ -144,8 +144,15 @@ public class HomeView extends View {
 				canvas.drawBitmap(mDirt7, curX, curY, dirtTransparency);
 			else
 				canvas.drawBitmap(mDirt8, curX, curY, dirtTransparency);
+		}*/
+		if(petDirtAmt > 0){
+			int curX = (int) (petPoint.x /*+ petWidth/5 * dirtArray[i].x*/);
+			int curY = (int) (petPoint.y /*+ petHeight/5 * dirtArray[i].y*/);
+			canvas.drawBitmap(mDirt1, curX, curY, dirtTransparency);
 		}
-		
+		Log.v("sponge on pet x", Integer.toString((int)(spongeX-petPoint.x)));
+		Log.v("sponge on pet y", Integer.toString((int)(spongeY-petPoint.y)));
+		Log.v("Dirt amount", Integer.toString(petDirtAmt));
 		// Draw food on the screen if there is food.
 		if(foodExists)
 		{
@@ -318,7 +325,7 @@ public class HomeView extends View {
 		
 		// Create sponge and dirt bitmaps
 		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
-		mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_1);
+		mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
 		mDirt2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
 		mDirt3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
 		mDirt4 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_4);
@@ -343,7 +350,7 @@ public class HomeView extends View {
 		mBubbleRight = Bitmap.createScaledBitmap(mBubbleRight, backgroundWidth/8, backgroundHeight/8, true);
 		mFrownyFace = Bitmap.createScaledBitmap(mFrownyFace, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
 		mZZ = Bitmap.createScaledBitmap(mZZ, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
-		mDirt1 = Bitmap.createScaledBitmap(mDirt1, petWidth/6, petHeight/6, true);
+		mDirt1 = Bitmap.createScaledBitmap(mDirt1, petWidth, petHeight, true);
 		mDirt2 = Bitmap.createScaledBitmap(mDirt2, petWidth/6, petHeight/6, true);
 		mDirt3 = Bitmap.createScaledBitmap(mDirt3, petWidth/6, petHeight/6, true);
 		mDirt4 = Bitmap.createScaledBitmap(mDirt4, petWidth/6, petHeight/6, true);
