@@ -333,7 +333,7 @@ public class HomeView extends View {
 		mBubbleLeft = Bitmap.createScaledBitmap(mBubbleLeft, backgroundWidth/8, backgroundHeight/8, true);
 		mBubbleRight = Bitmap.createScaledBitmap(mBubbleRight, backgroundWidth/8, backgroundHeight/8, true);
 		mFrownyFace = Bitmap.createScaledBitmap(mFrownyFace, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
-		//mZZ = Bitmap.createScaledBitmap(mZZ, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
+		mZZ = Bitmap.createScaledBitmap(mZZ, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
 		mDirt1 = Bitmap.createScaledBitmap(mDirt1, petWidth, petHeight, true);
 
 	}

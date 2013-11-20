@@ -69,6 +69,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	private float mPosX = 0;
 	private float mPosY = 0;
 	private float spongeX, spongeY;
+	private int spongeDistance;
+	private int cleanDistance;
 	//boolean petIsClicked = false;
 	private String fileName = "preferences";
 	DatabaseHelper db;
@@ -122,6 +124,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		happinessValue = (TextView) findViewById(R.id.HappinessValue);
 		hungerValue = (TextView) findViewById(R.id.HungerValue);
 		
+		cleanDistance = hView.getPetWidth()/4;
 
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -1034,18 +1037,22 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        final float dx = userX - mLastTouchX;
 			        final float dy = userY - mLastTouchY;
 			        
-			        mPosX += dx;
-			        mPosY += dy;
+			       	
 
 			        if (isSpongeClicked(userX, userY) == 1) {
+
 			        	spongeX = userX;
 			        	spongeY = userY;
 
 			        	hView.drawSponge(spongeX, spongeY);
 			        	if(isSpongeOnPet(spongeX, spongeY) == 1){
-							pet.makeClean();
+
+			        		spongeDistance = spongeDistance+ (int)Math.sqrt( Math.pow(dy,2) + Math.pow(dx,2));
+			        		Log.v("sponge distance on pet", Integer.toString(spongeDistance));
+			        		if(spongeDistance%cleanDistance == 0)
+								pet.makeClean();
 							
-							hView.createDirtArray(); // Create new random dirt location array
+							
 			        	}
 			        }
 			
