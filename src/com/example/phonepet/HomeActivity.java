@@ -122,7 +122,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		happinessValue = (TextView) findViewById(R.id.HappinessValue);
 		hungerValue = (TextView) findViewById(R.id.HungerValue);
 		
-		
+
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

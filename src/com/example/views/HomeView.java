@@ -46,7 +46,7 @@ public class HomeView extends View {
 	private Paint paint, petTransparency, dirtTransparency;
 	private Ball currentBall = null;
 	private Dirt[] dirtArray;
-	
+	private int petType;
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
@@ -123,36 +123,18 @@ public class HomeView extends View {
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, petTransparency);
 
-		// Draw dirt
-		/*for (int i=0; i<petDirtAmt; i++) {
-			int curX = (int) (petPoint.x + petWidth/5 * dirtArray[i].x);
-			int curY = (int) (petPoint.y + petHeight/5 * dirtArray[i].y);
-			
-			if (dirtArray[i].pic == 1)
-				canvas.drawBitmap(mDirt1, curX, curY, dirtTransparency);
-			else if (dirtArray[i].pic == 2)
-				canvas.drawBitmap(mDirt2, curX, curY, dirtTransparency);
-			else if (dirtArray[i].pic == 3)
-				canvas.drawBitmap(mDirt3, curX, curY, dirtTransparency);
-			else if (dirtArray[i].pic == 4)
-				canvas.drawBitmap(mDirt4, curX, curY, dirtTransparency);
-			else if (dirtArray[i].pic == 5)
-				canvas.drawBitmap(mDirt5, curX, curY, dirtTransparency);
-			else if (dirtArray[i].pic == 6)
-				canvas.drawBitmap(mDirt6, curX, curY, dirtTransparency);
-			else if (dirtArray[i].pic == 7)
-				canvas.drawBitmap(mDirt7, curX, curY, dirtTransparency);
-			else
-				canvas.drawBitmap(mDirt8, curX, curY, dirtTransparency);
-		}*/
+
 		if(petDirtAmt > 0){
 			int curX = (int) (petPoint.x /*+ petWidth/5 * dirtArray[i].x*/);
 			int curY = (int) (petPoint.y /*+ petHeight/5 * dirtArray[i].y*/);
 			canvas.drawBitmap(mDirt1, curX, curY, dirtTransparency);
 		}
-		Log.v("sponge on pet x", Integer.toString((int)(spongeX-petPoint.x)));
-		Log.v("sponge on pet y", Integer.toString((int)(spongeY-petPoint.y)));
-		Log.v("Dirt amount", Integer.toString(petDirtAmt));
+
+		for(int i = 1 ; i < petDirtAmt; i++){
+
+			canvas.drawBitmap(mDirt1, petPoint.x, petPoint.y, dirtTransparency);	
+		}
+
 		// Draw food on the screen if there is food.
 		if(foodExists)
 		{
@@ -325,14 +307,16 @@ public class HomeView extends View {
 		
 		// Create sponge and dirt bitmaps
 		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
-		mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
-		mDirt2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
-		mDirt3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
-		mDirt4 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_4);
-		mDirt5 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_5);
-		mDirt6 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_6);
-		mDirt7 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_7);
-		mDirt8 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_8);
+		petType = 2;
+		if(petType == 1)
+			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
+		else if(petType == 2)
+			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
+		else if(petType ==3)
+			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
+		else{
+			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
+		}
 		
 		// Get thought bubble images
 		mBubbleLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bubble_left);
@@ -349,17 +333,10 @@ public class HomeView extends View {
 		mBubbleLeft = Bitmap.createScaledBitmap(mBubbleLeft, backgroundWidth/8, backgroundHeight/8, true);
 		mBubbleRight = Bitmap.createScaledBitmap(mBubbleRight, backgroundWidth/8, backgroundHeight/8, true);
 		mFrownyFace = Bitmap.createScaledBitmap(mFrownyFace, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
-		mZZ = Bitmap.createScaledBitmap(mZZ, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
+		//mZZ = Bitmap.createScaledBitmap(mZZ, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
 		mDirt1 = Bitmap.createScaledBitmap(mDirt1, petWidth, petHeight, true);
-		mDirt2 = Bitmap.createScaledBitmap(mDirt2, petWidth/6, petHeight/6, true);
-		mDirt3 = Bitmap.createScaledBitmap(mDirt3, petWidth/6, petHeight/6, true);
-		mDirt4 = Bitmap.createScaledBitmap(mDirt4, petWidth/6, petHeight/6, true);
-		mDirt5 = Bitmap.createScaledBitmap(mDirt5, petWidth/6, petHeight/6, true);
-		mDirt6 = Bitmap.createScaledBitmap(mDirt6, petWidth/6, petHeight/6, true);
-		mDirt7 = Bitmap.createScaledBitmap(mDirt7, petWidth/6, petHeight/6, true);
-		mDirt8 = Bitmap.createScaledBitmap(mDirt8, petWidth/6, petHeight/6, true);
+
 	}
-	
 
 	public void drawPoop(List<Poop> list) {
 		
@@ -490,6 +467,11 @@ public class HomeView extends View {
 		else  {
 			petTransparency.reset(); 
 		}
+	}
+
+	public void setPetType(int pet_type){
+
+		petType = pet_type;
 	}
 	
 	// Creates array of dirt objects with random pictures and locations on pet
