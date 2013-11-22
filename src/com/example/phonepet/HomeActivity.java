@@ -494,6 +494,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			poopTimer();
 		}
 
+		
 		hView.setDirtAmt(pet.dirtyness());
 	} // End method updateView
 

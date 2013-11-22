@@ -9,6 +9,7 @@ import com.example.utils.Dirt;
 import com.example.utils.Point;
 import com.example.vos.Ball;
 import com.example.vos.Food;
+import com.example.vos.PetVo;
 import com.example.vos.Poop;
 
 
@@ -31,7 +32,7 @@ import android.widget.LinearLayout;
 public class HomeView extends View {
 
 	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, 
-					mDirt1, mDirt2, mDirt3,mDirt4,mDirt5,mDirt6,mDirt7,mDirt8,
+					mDirt1, mDirt2, mDirt3,
 					mBall, mBubbleLeft, mBubbleRight, mFrownyFace, mZZ;
 	private String fileName = "preferences", petName, imageInSD;
 	private SharedPreferences sharedPref;
@@ -45,8 +46,10 @@ public class HomeView extends View {
 	private Food currentFood = null;
 	private Paint paint, petTransparency, dirtTransparency;
 	private Ball currentBall = null;
-	private Dirt[] dirtArray;
-	private int petType;
+	
+	
+	PetVo pet = PetVo.getInstance();
+
 	public HomeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
@@ -86,7 +89,7 @@ public class HomeView extends View {
 		dirtTransparency.setAlpha(100);
 				
 		// Create random dirt layout
-		createDirtArray();
+		
 		
 		// Load bitmaps
 		loadBitmaps();
@@ -125,14 +128,21 @@ public class HomeView extends View {
 
 
 		if(petDirtAmt > 0){
-			int curX = (int) (petPoint.x /*+ petWidth/5 * dirtArray[i].x*/);
-			int curY = (int) (petPoint.y /*+ petHeight/5 * dirtArray[i].y*/);
-			canvas.drawBitmap(mDirt1, curX, curY, dirtTransparency);
-		}
-
-		for(int i = 1 ; i < petDirtAmt; i++){
-
-			canvas.drawBitmap(mDirt1, petPoint.x, petPoint.y, dirtTransparency);	
+			int curX = (int) (petPoint.x );
+			int curY = (int) (petPoint.y );
+			
+			Log.v("pet type", Integer.toString(pet.getPetType()));
+			for(int i = 1 ; i < petDirtAmt; i++){
+				if(pet.getPetType()==1){
+					canvas.drawBitmap(mDirt1, curX, curY, dirtTransparency);
+				}else if(pet.getPetType()==2){
+					canvas.drawBitmap(mDirt2, curX, curY, dirtTransparency);
+				}else if(pet.getPetType()==3){
+					canvas.drawBitmap(mDirt3, curX, curY, dirtTransparency);
+				}else{
+	
+				}
+			}
 		}
 
 		// Draw food on the screen if there is food.
@@ -307,16 +317,16 @@ public class HomeView extends View {
 		
 		// Create sponge and dirt bitmaps
 		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
-		petType = 2;
-		if(petType == 1)
+		//petType = 3;
+		
 			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
-		else if(petType == 2)
-			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
-		else if(petType ==3)
-			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
-		else{
-			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
-		}
+		
+			mDirt2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
+		
+			mDirt3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
+		
+	
+		
 		
 		// Get thought bubble images
 		mBubbleLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bubble_left);
@@ -335,6 +345,8 @@ public class HomeView extends View {
 		mFrownyFace = Bitmap.createScaledBitmap(mFrownyFace, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
 		mZZ = Bitmap.createScaledBitmap(mZZ, mBubbleLeft.getWidth()/2, mBubbleLeft.getHeight()/2, true);
 		mDirt1 = Bitmap.createScaledBitmap(mDirt1, petWidth, petHeight, true);
+		mDirt2 = Bitmap.createScaledBitmap(mDirt2, petWidth, petHeight, true);
+		mDirt3 = Bitmap.createScaledBitmap(mDirt3, petWidth, petHeight, true);
 
 	}
 
@@ -469,25 +481,5 @@ public class HomeView extends View {
 		}
 	}
 
-	public void setPetType(int pet_type){
 
-		petType = pet_type;
-	}
-	
-	// Creates array of dirt objects with random pictures and locations on pet
-	public void createDirtArray() {
-		// Dirtiest pet can be is length 10
-		dirtArray = new Dirt[10];
-		for (int i=0; i<10; i++) {
-			// Pick random dirt picture and random location on pet.
-			int pic = 1 + (int)(Math.random() * ((8 - 1) + 1));
-			int x = 1 + (int)(Math.random() * ((4 - 1) + 1));
-			int y = 2 + (int)(Math.random() * ((5 - 2) + 1)); 
-			
-			// Create the dirt
-			Dirt dirt = new Dirt(pic, x, y);
-			dirtArray[i] = dirt;
-		}
-	}
-	
 }
