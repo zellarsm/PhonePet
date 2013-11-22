@@ -53,7 +53,11 @@ public class PetVo extends SimpleObservable<PetVo> {
 	private float hungerLevel; // 100% hunger, pet is full.
 	private float happinessLevel; // 100% happiness, pet is happy.
 	private int  petDirtAmt, maxDirt = 10;
-	private int moveCount=1, moveLimit = 10;
+
+
+
+	private int moveCount=1, moveLimit = 15;
+
 	private boolean cleaning;
 	private int age;
 	
