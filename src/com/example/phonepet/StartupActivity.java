@@ -21,22 +21,16 @@ public class StartupActivity extends Activity {
 		
 		// Check if a pet exists on the user's phone
 		SharedPreferences sharedPref = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.clear();
-		//editor.commit(); // Clear for development purposes
-		
 		Boolean petExists = sharedPref.getBoolean("pet_exists", false);
 		
 		if (petExists)
 		{
-			Log.v("startupp", "going to home activity");
 			// Pet exists, go Home
 			intent = new Intent(this, HomeActivity.class);
 			startActivity(intent);
 		}
 		else
 		{
-			Log.v("startupp2", "going to create new pet");
 			// User does not own a pet, allow them to create one.	
 			intent = new Intent(this, CreateActivity.class);
 			startActivity(intent);

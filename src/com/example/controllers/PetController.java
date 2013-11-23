@@ -746,10 +746,18 @@ public class PetController extends Controller {
 				}
 				if (movementEnabled)
 				{
-					// Move pet
-					petMove++;
-					if (petMove == 3) {
-						petMove = 0;
+					if (isMovingToFood) {
+						// Move pet
+						petMove++;
+						if (petMove == 3) {
+							petMove = 0;
+							// Move the pet randomly.
+							int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
+										//  min + ................... ((max - min) + 1));
+							move(direction);
+						}
+					}
+					else {
 						// Move the pet randomly.
 						int direction = 1 + (int)(Math.random() * ((4 - 1) + 1));
 									//  min + ................... ((max - min) + 1));
