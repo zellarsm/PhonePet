@@ -172,8 +172,8 @@ public class PetVo extends SimpleObservable<PetVo> {
 		notifyObservers(this);
 	}
 	public void setXYCoord(int x, int y) {
-		this.xCoord = x;//-(width/2);
-		this.yCoord = y;//-(height/2);
+		this.xCoord = x;
+		this.yCoord = y;
 		notifyObservers(this);
 	}
 	public void setWidth(int width) {
@@ -368,7 +368,7 @@ public class PetVo extends SimpleObservable<PetVo> {
 	}
 
 
-	/*Cleaning functions*/
+	/** Cleaning functions */
 
 	public void makeDirty(){
 		if(moveCount%moveLimit == 0 ){
@@ -413,5 +413,5 @@ public class PetVo extends SimpleObservable<PetVo> {
 		petIsTransparent = true;	
 	}
 
-	/*End Cleaning Functions*/
+	/** End Cleaning Functions */
 }

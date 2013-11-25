@@ -41,56 +41,39 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
-
+public class HomeActivity extends Activity implements OnChangeListener<PetVo>
+{
 	private static final int INVALID_POINTER_ID = 0;
 
-	public HomeActivity() {
+	public HomeActivity() {}
 
-	}
-
-	private PetController controller;
+	private PetController controller; // Pet controller
 	private PetVo pet; // Pet
 	
 	private HomeView hView;
 	
 	// Window parameters
-	private int windowWidth;
-	private int windowHeight;
-	private int playgroundHeight;
-	private int playgroundWidth;
-	private int menuWidth;
-	private int menuHeight;
-	
+	private int windowWidth, windowHeight, playgroundHeight, playgroundWidth, menuWidth, menuHeight,
+				spongeDistance, cleanDistance, id;
 	// The active pointer is the one currently moving our object.
 	private int mActivePointerId = INVALID_POINTER_ID;
-	private float mLastTouchX = 0;
-	private float mLastTouchY = 0;
-	private float mPosX = 0;
-	private float mPosY = 0;
-	private float spongeX, spongeY;
-	private int spongeDistance;
-	private int cleanDistance;
-	//boolean petIsClicked = false;
-	private String fileName = "preferences";
+	// whatIsHappening: 0 means nothing, 1 means scooping poop, 2 means cleaning
+	private int whatIsHappening = 0;
+	
 	DatabaseHelper db;
-	private boolean testButtonJustHeld = false;
-	private boolean poopIsClicked, need;
-	private boolean spongeClicked;
-	private int whatIsHappening = 0; // 0 means nothing, 1 means scooping poop, 2 means cleaning
-	private int id;
+	private String fileName = "preferences";
+	private float mLastTouchX = 0, mLastTouchY = 0, mPosX = 0, mPosY = 0, spongeX, spongeY;
+	private boolean testButtonJustHeld = false, poopIsClicked, need, spongeClicked;
 	private Poop temp, temp2;
 	List<Poop> list;
 	ImageButton playButton, accessorizeButton, poopButton, feedButton, cleanButton;
-	
 	private NotificationManager notifier;
 	private NotificationCompat.Builder builder;
-	
-	//TextView myTextView = (TextView) findViewById(R.id.mytextview); myTextView.setText("My double value is " + doubleValue);
-	TextView happinessValue, hungerValue;//, energyValue;
+	TextView happinessValue, hungerValue;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 		
@@ -126,9 +109,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		cleanDistance = hView.getPetWidth()/4;
 
-		playButton.setOnClickListener(new View.OnClickListener() {
+		playButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				controller.handleMessage(PetController.MESSAGE_PLAY);
 				if(hView.ballInPlay)
 				{
@@ -144,29 +129,32 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			}
 		});
 		
-		accessorizeButton.setOnClickListener(new View.OnClickListener() {
+		accessorizeButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				// Send message to the controller asking it to handle event.
 				// When the event is handled, the controller updates the model.
 				controller.handleMessage(PetController.MESSAGE_ACCESSORIZE);
-				
 			}
 		});
 		
-		feedButton.setOnClickListener(new View.OnClickListener() {
+		feedButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
-				
+			public void onClick(View v)
+			{
 				// Spawn food.
 				drawFood();
-			
 			}
 		});
 		
-		poopButton.setOnClickListener(new View.OnClickListener() {
+		poopButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				// Scoop poop was already happening. Deactivate scoop poop mode.
 				if (whatIsHappening == 1) {
 					whatIsHappening = 0; // Nothing is happening
@@ -174,19 +162,21 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					hView.setTrash(false);  
 				}
 				// Scoop poop was not already happening. Activate scoop poop mode.
-				else {
+				else
+				{
 					whatIsHappening = 1; // Scoop poop mode
 					hView.setOnTouchListener(new ScoopPoopListener());
 					hView.setTrash(true); 
 					poopCleaner();
 				}
-					
 			}
 		});
 		
-		cleanButton.setOnClickListener(new View.OnClickListener() {
+		cleanButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				// Cleaning was already happening. Deactivate cleaning mode.
 				if (whatIsHappening == 2) {
 					hView.notCleaning();
@@ -195,7 +185,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					hView.setOnTouchListener(new DefaultListener());
 				}
 				// Cleaning was not already happening.  Activate cleaning mode.
-				else {
+				else
+				{
 					whatIsHappening = 2; // Cleaning mode
 					hView.setOnTouchListener(new CleanListener());
 			
@@ -203,7 +194,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					pet.cleaning();
 					spongeX = (float ) (hView.getBackgroundWidth()/2.0);
 					spongeY = (float) (hView.getBackgroundHeight()/2.0);
-
 				}
 			}
 		});
@@ -214,118 +204,112 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		// Set default OnTouchListener
 		hView.setOnTouchListener(new DefaultListener());
-	}
+	} // End method onCreate
+	
 	/*
 	 * Simply delegate the logic to the controller by sending a message asking it to handle the
 	 * KeyEvent for us.  Our controller returns a boolean indicating whether or not the message
 	 * handled. 
 	 */
 	
-		public void drawFood()
+	public void drawFood()
+	{
+		Food food;
+		int tempX, tempY;
+		int width, height;
+		
+		width = hView.getBackgroundWidth() - hView.getPetWidth();
+		height = hView.getBackgroundHeight();
+		
+		do
 		{
-			Food food;
-			int tempX, tempY;
-			int width, height;
+			tempX = (int)(Math.random() * width);
+			tempY = (int)(Math.random() * (height/2) + (height/2));
 			
-			width = hView.getBackgroundWidth() - hView.getPetWidth();
-			height = hView.getBackgroundHeight();
-			
-			do
+			if(tempY > height - pet.getHeight())
 			{
-				tempX = (int)(Math.random() * width);
-				tempY = (int)(Math.random() * (height/2) + (height/2));
-				
-				if(tempY > height - pet.getHeight())
-				{
-					tempY = tempY - height/12;
-				}
+				tempY = tempY - height/12;
 			}
-			while(!controller.isWithinPlayground(tempX, tempY));
-			
-			pet.setPetIsEating(true);
-			food = new Food(tempX, tempY);       
-			hView.drawFood(food);
-			
-			controller.handleMessage(PetController.MESSAGE_FEED, food);
+		}
+		while(!controller.isWithinPlayground(tempX, tempY));
+		
+		pet.setPetIsEating(true);
+		food = new Food(tempX, tempY);       
+		hView.drawFood(food);
+		
+		controller.handleMessage(PetController.MESSAGE_FEED, food);
+
+	} // End method drawFood
 	
-		} // End method drawFood
-		
-		public void drawPoop()
-		{
+	public void drawPoop()
+	{
 
-			int tempX, tempY;
-			Poop poop;
-			int width, height;
-			
-			width = hView.getBackgroundWidth() - hView.getPetWidth();
-			height = hView.getBackgroundHeight();
-				
-			do
-			{
-				tempX = (int)(Math.random() * width);
-				tempY = (int)(Math.random() * (height/2) + (height/2));
-				
-				if(tempY > height - pet.getHeight()) {
-					tempY = tempY - height/12;
-				}
-				poop = new Poop(tempX, tempY);
-			}
-			while(!controller.isWithinPlayground(tempX, tempY));
-			db.addPoop(poop);
-			
-//			if(db.getPoopCount() == 3)
-//			{
-//				pet.setPoopNotif(1);
-//			}
-				
-	        list = db.getAllPoop();			
-			hView.drawPoop(list);
-			
-		} // End method drawPoop
-
+		int tempX, tempY;
+		Poop poop;
+		int width, height;
 		
-		public void drawBall(float tempX, float tempY)
+		width = hView.getBackgroundWidth() - hView.getPetWidth();
+		height = hView.getBackgroundHeight();
+			
+		do
 		{
-			Ball ball;
-			int integerX, integerY;
+			tempX = (int)(Math.random() * width);
+			tempY = (int)(Math.random() * (height/2) + (height/2));
 			
-			integerX = (int)tempX;
-			integerY = (int)tempY;
-			
-			
-			
-			if(!controller.isWithinPlayground(integerX, integerY))
+			if(tempY > height - pet.getHeight())
 			{
-				Toast.makeText(getApplicationContext(), "Cannot place ball here!", Toast.LENGTH_SHORT).show();
-				return;
+				tempY = tempY - height/12;
 			}
+			poop = new Poop(tempX, tempY);
+		}
+		while(!controller.isWithinPlayground(tempX, tempY));
+		db.addPoop(poop);
 			
-			ball = new Ball(tempX, tempY);
-			hView.drawBall(ball);
-			
-			controller.movePetToBall(ball);
+        list = db.getAllPoop();			
+		hView.drawPoop(list);
+		
+	} // End method drawPoop
+
+	
+	public void drawBall(float tempX, float tempY)
+	{
+		Ball ball;
+		int integerX, integerY;
+		
+		integerX = (int)tempX;
+		integerY = (int)tempY;
+		
+		if(!controller.isWithinPlayground(integerX, integerY))
+		{
+			Toast.makeText(getApplicationContext(), "Cannot place ball here!", Toast.LENGTH_SHORT).show();
+			return;
 		}
 		
+		ball = new Ball(tempX, tempY);
+		hView.drawBall(ball);
 		
-	public void spongeBath(){
+		controller.movePetToBall(ball);
+	} // End method drawBall
+		
+		
+	public void spongeBath()
+	{
 		hView.setOnTouchListener(new CleanListener());
 	}
 
 
-	public void poopCleaner() {
-		
-		
-			hView.setOnTouchListener(new ScoopPoopListener());
-				
-		}
-		 // Set onTouchListener
+	public void poopCleaner()
+	{
+		hView.setOnTouchListener(new ScoopPoopListener());
+	}
 	
 	/**
 	 * Once the model notifies the view of a change, we just update the views on the UI thread.
 	 * @param pet
 	 */
 	@Override
-	public void onChange(PetVo pet) {
+	public void onChange(PetVo pet)
+	{
 		/* Since a change has occurred we need to update the view. All views must be modified
 		 * on the UI Thread. Since we don't know what thread called onChange, we need to switch
 		 * over to the UI thread before making a modification. The updateView() method is the
@@ -334,15 +318,18 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		 * This implements data binding. Our activity is registered as an observer and whenever 
 		 * our model is updated we know our UI is going to stay right in-sync.
 		*/ 
-		runOnUiThread(new Runnable() {
+		runOnUiThread(new Runnable()
+		{
 			@Override
-			public void run() {
+			public void run()
+			{
 				updateView();
 			}
 		});
 	}
 	
-	private void updateView() {
+	private void updateView()
+	{
 		// Give pet transparency if it is sleeping.
 		hView.setPetTransparent(pet.getPetIsSleeping());
 		
@@ -467,18 +454,22 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		
 		// Display thought bubble if...
 		// ..Pet is sleeping
-		if (pet.getPetIsSleeping()) {
+		if (pet.getPetIsSleeping())
+		{
 			hView.showThought(1);
 		}
 		// ..Pet is hungry
-		else if (pet.getPetHunger() <= 10) {
+		else if (pet.getPetHunger() <= 10)
+		{
 			hView.showThought(2);
 		}
 		// ..Pet is unhappy
-		else if (pet.getPetHappiness() <= 10) {
+		else if (pet.getPetHappiness() <= 10)
+		{
 			hView.showThought(3);
 		}
-		else {
+		else
+		{
 			hView.showThought(0); // No thought 
 		}
 		
@@ -644,9 +635,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			
 			pet.setLastTimeAte(sharedPref.getLong("lastTimeAte", 0));
 			pet.setLastTimePlayedWith(sharedPref.getLong("lastTimePlayedWith", 0));
-			
-			
-			
+
 		}
 		
 		// Set the sleep timer.
@@ -707,28 +696,35 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 	
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.home, menu);
 		return true;
 	}
 	
-	public int getWindowWidth() {
+	public int getWindowWidth()
+	{
 		return this.windowWidth;
 	}
-	public int getWindowHeight() {
+	public int getWindowHeight()
+	{
 		return this.windowHeight;
 	}
-	public int getPlaygroundWidth() {
+	public int getPlaygroundWidth()
+	{
 		return this.playgroundWidth;
 	}
-	public int getPlaygroundHeight() {
+	public int getPlaygroundHeight() 
+	{
 		return this.playgroundHeight;
 	}
-	public int getMenuWidth() {
+	public int getMenuWidth() 
+	{
 		return this.menuWidth;
 	}
-	public int getMenuHeight() {
+	public int getMenuHeight()
+	{
 		return this.menuHeight;
 	}
 	
@@ -737,11 +733,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 		final String[] playOptions = {"Fetch", "Connect 4", "Go Back"};
 		dialogBuilder.setTitle("What would you like to play");
-		dialogBuilder.setItems(playOptions, new DialogInterface.OnClickListener(){
-		
+		dialogBuilder.setItems(playOptions, new DialogInterface.OnClickListener()
+		{
 			@Override
-			public void onClick(DialogInterface dialog, int which){
-			
+			public void onClick(DialogInterface dialog, int which)
+			{
 				switch(which)
 				{
 					case 0: controller.handleMessage(PetController.MESSAGE_PLAY);
@@ -765,10 +761,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		});
 		AlertDialog alertDialog = dialogBuilder.create();
 		alertDialog.show();
-	}
+	} // End method showPlayOptions
 	
 	// Making fetch seem more fluid...
-	public void fetchTimer(int x, int y) {
+	public void fetchTimer(int x, int y)
+	{
 		
 		final int horizontal = x;
 		final int vertical = y;
@@ -777,55 +774,48 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		final int incrementY = Math.abs(y - pet.getYCoord())/4;
 		
 		
-		new CountDownTimer(3000, 1000) {
+		new CountDownTimer(3000, 1000)
+		{
 
-		     public void onTick(long millisUntilFinished) {
+		     public void onTick(long millisUntilFinished)
+		     {
 		    	 pet.setXYCoord(pet.getXCoord() + incrementX, pet.getYCoord() + incrementY);
 		     }
 
-		     public void onFinish() {
+		     public void onFinish()
+		     {
 		    	pet.setXYCoord(horizontal - pet.getWidth()/2, vertical - pet.getHeight());
 				//hView.removeBall();
 			}
 		  }.start();
 		 
-	}
+	} // End method fetchTimer
 	
-	public void poopTimer() {
-		
-		new CountDownTimer(8000, 1000) {
+	public void poopTimer()
+	{
+		new CountDownTimer(8000, 1000)
+		{
 
-		     public void onTick(long millisUntilFinished) {
-		     }
+		     public void onTick(long millisUntilFinished){}
 
-		     public void onFinish() {
+		     public void onFinish()
+		     {
 		    	// Spawn poop
 				drawPoop();
 			}
-		  }.start();
-		 
-	}
-
-/*	public void dirtTimer(){
-		new CountDownTimer(8000, 1000){
-			public void onTick(long millisUntilFinished){
-
-			}
-			public void onFinish(){
-				pet.makeDirty();
-			}
 		}.start();
+		 
+	} // End method poopTimer
 
-
-	}*/
-	public int isSpongeClicked(float userX, float userY){
+	public int isSpongeClicked(float userX, float userY)
+	{
 		
 		int margin = hView.getBackgroundWidth()/10;
-		if(userX >= spongeX - margin && userX <= spongeX + margin){
-			if(userY >= spongeY - margin && userY <= spongeY+margin){
+		if(userX >= spongeX - margin && userX <= spongeX + margin)
+		{
+			if(userY >= spongeY - margin && userY <= spongeY+margin)
+			{
 				spongeClicked = true;
-				
-
 				return 1;
 			}
 			spongeClicked = false;
@@ -833,21 +823,23 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		}
 		spongeClicked = false;
 		return -1;
-	}
+	} // End method isSpongeClicked
 
-	public int isSpongeOnPet(float userX, float userY){
+	public int isSpongeOnPet(float userX, float userY)
+	{
 		float petX = hView.petX();
 		float petY = hView.petY();
 		float margin = (float)hView.getPetWidth();
 		float ymargin = (float)hView.getPetHeight();
-		if(userX >= petX && userX <= petX+margin && userY >= petY && userY <= petY+ymargin){
+		if(userX >= petX && userX <= petX+margin && userY >= petY && userY <= petY+ymargin)
+		{
 				return 1;			
 		}
 		return -1;
-	}
+	} // End method isSpongeOnPet
 
-	public int isPoopClicked(float userX, float userY) {
-		
+	public int isPoopClicked(float userX, float userY)
+	{
 		int x, y, count = 0;
 		List<Poop> myList = db.getAllPoop(); 
 		for(Poop e: myList) {
@@ -855,12 +847,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			y = e.getY();
 			
 			// Is click within pet image X-range
-			if ((userX >= x)
-					&& (userX <= x + hView.getPetWidth()/2)) {
+			if ((userX >= x) && (userX <= x + hView.getPetWidth()/2))
+			{
 			    // Is click within pet image Y-range
-				if ((userY >= y) 
-						&& (userY <= y + hView.getPetHeight())) {
-				
+				if ((userY >= y) && (userY <= y + hView.getPetHeight()))
+				{
 					// Pet has been selected
 					Log.v("userY", Float.toString(userY));
 					Log.v("y", Integer.toString(y));
@@ -874,7 +865,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		poopIsClicked = false;
 		return -1;
 		
-	} // End method 
+	} // End method isPoopClicked
 	
 	// Define Listeners here
 	private class DefaultListener implements OnTouchListener {
@@ -895,15 +886,18 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			return true;
 		}
 	
-	}
+	} // End class DefaultListener
 	
-	private class ScoopPoopListener implements OnTouchListener {
-		public boolean onTouch(View v, MotionEvent event) {
-			
+	private class ScoopPoopListener implements OnTouchListener
+	{
+		public boolean onTouch(View v, MotionEvent event)
+		{
 			final int action = MotionEventCompat.getActionMasked(event); 
 				
-				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN: {
+				switch (event.getAction())
+				{
+				case MotionEvent.ACTION_DOWN: 
+				{
 					final int pointerIndex = MotionEventCompat.getActionIndex(event); 
 			        final float userX = MotionEventCompat.getX(event, pointerIndex); 
 			        final float userY = MotionEventCompat.getY(event, pointerIndex); 
@@ -923,7 +917,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 					
 				} // End case MotionEvent.ACTION_DOWN
 				
-			case MotionEvent.ACTION_MOVE: {
+				case MotionEvent.ACTION_MOVE:
+				{
 			        // Find the index of the active pointer and fetch its position
 			        final int pointerIndex = 
 			                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
@@ -932,15 +927,16 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        final float userY = MotionEventCompat.getY(event, pointerIndex);
 			            
 			        // Calculate the distance moved
-			       final float dx = userX - mLastTouchX;
-			       final float dy = userY - mLastTouchY;
-			       hView.setTrash(true);
-			       mPosX += dx;
-			       mPosY += dy;
-			       list = db.getAllPoop();
-			      
+			        final float dx = userX - mLastTouchX;
+			        final float dy = userY - mLastTouchY;
+			        hView.setTrash(true);
+			        mPosX += dx;
+			        mPosY += dy;
+			        list = db.getAllPoop();
+				      
 			        // Invalidate
-			        if (poopIsClicked && id != -1) {
+			        if (poopIsClicked && id != -1)
+			        {
 			        
 			        	temp = list.get(id);  
 			        	list.remove(id);
@@ -951,46 +947,45 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        	if((temp.getX() > hView.getBackgroundWidth()/10 
 			        		&& temp.getX() < hView.getBackgroundWidth()/10 + hView.getPetWidth())
 			        		&& (temp.getY() >  + hView.getBackgroundHeight()/6
-			        		&& temp.getY() < hView.getBackgroundHeight()/6 + hView.getBackgroundHeight()/3 + hView.getPetHeight())) {
-			        			
+			        		&& temp.getY() < hView.getBackgroundHeight()/6 + hView.getBackgroundHeight()/3 + hView.getPetHeight()))
+			        	{
 			        		list.remove(temp);
 		        		
 			        	}
-			        	else {
+			        	else
+			        	{
 			        		list.add(temp);
 			        	}
 			        	
 			        	hView.dragPoop(list);	        	
 			        }
-			
-			        // Remember this touch position for the next move event
-			       mLastTouchX = userX;
-		           mLastTouchY = userY;
-
-			        break;
-				}
 				
-				case MotionEvent.ACTION_UP: {
-					
+				        // Remember this touch position for the next move event
+				        mLastTouchX = userX;
+			            mLastTouchY = userY;
+				        break;
+					}
+				case MotionEvent.ACTION_UP:
+				{
 					db.deleteDatabse();
-					for(Poop e: list) {
+					for(Poop e: list)
+					{
 						db.addPoop(e);
-						
 					}
 			        mActivePointerId = INVALID_POINTER_ID;
 			        break;
-				}	
-			            
-			    case MotionEvent.ACTION_CANCEL: {
+				}	      
+			    case MotionEvent.ACTION_CANCEL:
+			    {
 			        mActivePointerId = INVALID_POINTER_ID;
 			        break;
 			    }
-			        
-			    case MotionEvent.ACTION_POINTER_UP: {
-			           
+			    case MotionEvent.ACTION_POINTER_UP:
+			    {
 			        final int pointerIndex = MotionEventCompat.getActionIndex(event); 
 			        final int pointerId = MotionEventCompat.getPointerId(event, pointerIndex); 
-			        if (pointerId == mActivePointerId) {
+			        if (pointerId == mActivePointerId)
+			        {
 			            // This was our active pointer going up. Choose a new
 			            // active pointer and adjust accordingly.
 			            final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
@@ -1000,21 +995,22 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        }
 			       break;
 			    }
-			
-					
-				}
-				return true;
 
-			}	
-	}
+		    }
+			return true;
+
+		}	
+	} // End class ScoopPoopListener
 	
-	private class CleanListener implements OnTouchListener {
-			public boolean onTouch(View v, MotionEvent event){
+	private class CleanListener implements OnTouchListener
+	{
+			public boolean onTouch(View v, MotionEvent event)
+			{
 				final int action = MotionEventCompat.getActionMasked(event);
 
 				switch(event.getAction()){
-					case MotionEvent.ACTION_DOWN:{
-						
+					case MotionEvent.ACTION_DOWN:
+					{
 						final int pointerIndex = MotionEventCompat.getActionIndex(event);
 						final float userX = MotionEventCompat.getX(event, pointerIndex);
 						final float userY =  MotionEventCompat.getY(event, pointerIndex);
@@ -1032,7 +1028,8 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        	mActivePointerId = MotionEventCompat.getPointerId(event, 0);
 						break;
 					}
-					case MotionEvent.ACTION_MOVE: {
+					case MotionEvent.ACTION_MOVE:
+					{
 			        // Find the index of the active pointer and fetch its position
 			        final int pointerIndex = 
 			                MotionEventCompat.findPointerIndex(event, mActivePointerId);  
@@ -1046,32 +1043,29 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        
 			       	
 
-			        if (isSpongeClicked(userX, userY) == 1) {
+			        if (isSpongeClicked(userX, userY) == 1)
+			        {
 
 			        	spongeX = userX;
 			        	spongeY = userY;
 
 			        	hView.drawSponge(spongeX, spongeY);
-			        	if(isSpongeOnPet(spongeX, spongeY) == 1){
-
+			        	if(isSpongeOnPet(spongeX, spongeY) == 1)
+			        	{
 			        		spongeDistance = spongeDistance+ (int)Math.sqrt( Math.pow(dy,2) + Math.pow(dx,2));
 			        		Log.v("sponge distance on pet", Integer.toString(spongeDistance));
 			        		if(spongeDistance%cleanDistance == 0)
 								pet.makeClean();
-							
-							
 			        	}
 			        }
-			
+
 			        // Remember this touch position for the next move event
 			       mLastTouchX = userX;
 		           mLastTouchY = userY;
-
 			        break;
 				}
-
-					case MotionEvent.ACTION_POINTER_UP: {
-			           
+				case MotionEvent.ACTION_POINTER_UP:
+				{
 			        final int pointerIndex = MotionEventCompat.getActionIndex(event); 
 			        final int pointerId = MotionEventCompat.getPointerId(event, pointerIndex); 
 			        if (pointerId == mActivePointerId) {
@@ -1084,38 +1078,33 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			        }
 			       break;
 			    }
-				};
-				return true;
-			}
-	}
+			};
+			return true;
+		}
+	} // End class CleanListener
 	
 	
 	private class BallListener implements OnTouchListener
 	{
-
 		@Override
-		public boolean onTouch(View v, MotionEvent event) {
+		public boolean onTouch(View v, MotionEvent event)
+		{
 			// TODO Auto-generated method stub
 			switch(event.getAction())
 			{
-					case MotionEvent.ACTION_DOWN:
-						final int pointerIndex = MotionEventCompat.getActionIndex(event);
-						final float userX = MotionEventCompat.getX(event, pointerIndex);
-						final float userY =  MotionEventCompat.getY(event, pointerIndex);
+				case MotionEvent.ACTION_DOWN:
+					final int pointerIndex = MotionEventCompat.getActionIndex(event);
+					final float userX = MotionEventCompat.getX(event, pointerIndex);
+					final float userY =  MotionEventCompat.getY(event, pointerIndex);
 						
-						//mLastTouch is just to know where we last clicked, not used in this instance
-						mLastTouchX = userX;
-				        mLastTouchY = userY;
-				        drawBall(userX, userY);
+					//mLastTouch is just to know where we last clicked, not used in this instance
+					mLastTouchX = userX;
+				    mLastTouchY = userY;
+				    drawBall(userX, userY);
 			}
 			return true;
 		}
-		
-	}
-	//void feedPet() {};
-	//void bathePet() {};
-	//void removePoop() {};
-	//void notifyOwnerOfNeglect(){};
-	//void runawayPet(Pet pet) {};
+	} // End class BallListener
+
 
 } // End class HomeActivity

@@ -29,7 +29,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
  
-public class HomeView extends View {
+public class HomeView extends View
+{
 
 	private Bitmap mBackground, mPet, mCloud, mPoop, mFood, mSponge, mTrash, 
 					mDirt1, mDirt2, mDirt3,
@@ -50,7 +51,8 @@ public class HomeView extends View {
 	
 	PetVo pet = PetVo.getInstance();
 
-	public HomeView(Context context, AttributeSet attrs) {
+	public HomeView(Context context, AttributeSet attrs)
+	{
 		super(context, attrs);
 		
 		petPoint = new Point(0,0);
@@ -87,9 +89,6 @@ public class HomeView extends View {
 		petTransparency.setAlpha(100); // Default no transparency
 		dirtTransparency = new Paint();
 		dirtTransparency.setAlpha(100);
-				
-		// Create random dirt layout
-		
 		
 		// Load bitmaps
 		loadBitmaps();
@@ -127,20 +126,24 @@ public class HomeView extends View {
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, petTransparency);
 
 
-		if(petDirtAmt > 0){
+		if(petDirtAmt > 0)
+		{
 			int curX = (int) (petPoint.x );
 			int curY = (int) (petPoint.y );
 			
-			Log.v("pet type", Integer.toString(pet.getPetType()));
-			for(int i = 1 ; i < petDirtAmt; i++){
-				if(pet.getPetType()==1){
+			for(int i = 1 ; i < petDirtAmt; i++)
+			{
+				if(pet.getPetType()==1)
+				{
 					canvas.drawBitmap(mDirt1, curX, curY, dirtTransparency);
-				}else if(pet.getPetType()==2){
+				}
+				else if(pet.getPetType()==2)
+				{
 					canvas.drawBitmap(mDirt2, curX, curY, dirtTransparency);
-				}else if(pet.getPetType()==3){
+				}
+				else if(pet.getPetType()==3)
+				{
 					canvas.drawBitmap(mDirt3, curX, curY, dirtTransparency);
-				}else{
-	
 				}
 			}
 		}
@@ -156,15 +159,19 @@ public class HomeView extends View {
 			canvas.drawBitmap(mBall, currentBall.getX(), currentBall.getY(), null);
 		}
 		
-		if(cleaningPet){
+		if(cleaningPet)
+		{
 			canvas.drawBitmap(mSponge, spongeX, spongeY, null);
 		}
 		
-		if(trashcanNeeded) {
+		if(trashcanNeeded)
+		{
 			canvas.drawBitmap(mTrash, backgroundWidth/10, backgroundHeight/6 + backgroundHeight/3, null);
 		}
+		
 		// Draw thought bubble if necessary
-		if (showUnhappyThought || showHungryThought || showSleepingThought) {
+		if (showUnhappyThought || showHungryThought || showSleepingThought)
+		{
 			// Determine where thought bubble should be placed.
 			Point bubblePoint = getBubblePoint();
 			
@@ -192,16 +199,19 @@ public class HomeView extends View {
 		}
 	}
 	
-	private Point getBubblePoint() {
+	private Point getBubblePoint()
+	{
 		Point bubblePoint = new Point(0,0);
 		// Size of thought bubble is (bgWidth/8) x (bgHeight/8).
 		
-		if (petPoint.x < backgroundWidth/8) {
+		if (petPoint.x < backgroundWidth/8)
+		{
 			// Use bubble_right image. Put bubble point at top-right corner of pet.
 			bubblePoint.x = petPoint.x + petWidth;
 			bubblePoint.y = petPoint.y - backgroundHeight/8;
 		}
-		else {
+		else 
+		{
 			// Use bubble_left image. Put bubble point at top-left corner of pet.
 			bubblePoint.x = petPoint.x - backgroundWidth/8;
 			bubblePoint.y = petPoint.y - backgroundHeight/8;
@@ -214,10 +224,13 @@ public class HomeView extends View {
 	 * Handles cloud movement at a time interval.
 	 * If a cloud moves off screen it will eventually be redrawn on the opposite side.
 	 */
-	private class MoveClouds extends Thread {
+	private class MoveClouds extends Thread
+	{
 		@Override
-		public void run() {
-			while (true) {
+		public void run()
+		{
+			while (true)
+			{
 				// Cloud 1 just went off screen
 				if (cloud1X > backgroundWidth + backgroundWidth/20)
 					// Reset the cloud's position to the left off-screen only if the other cloud is visible (x > 0).
@@ -236,9 +249,12 @@ public class HomeView extends View {
 				cloud2X += 2;
 				
 				// Sleep thread for 2 seconds.
-				try {
+				try
+				{
 					sleep(2000);
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -246,7 +262,8 @@ public class HomeView extends View {
 	}
 	
 	// Draw everything on the bitmap
-	public void drawPet(int x, int y) {
+	public void drawPet(int x, int y)
+	{
 		petPoint.x = x;
 		petPoint.y = y;
 		
@@ -254,23 +271,27 @@ public class HomeView extends View {
 		this.invalidate();
 	}
 
-	public float petX(){
+	public float petX()
+	{
 		return petPoint.x;
 	}
 
-	public float petY(){
+	public float petY()
+	{
 		return petPoint.y;
 	}
 
 	// Update the pet on the bitmap if it's moved.
-	public void dragPet(int x, int y) {
+	public void dragPet(int x, int y)
+	{
 		petPoint.x = x;
 		petPoint.y = y;
 				
 		this.invalidate();
 	}
 	
-	public void drawSponge(float x, float y){
+	public void drawSponge(float x, float y)
+	{
 		spongeX = x;
 		spongeY = y;
 
@@ -279,7 +300,8 @@ public class HomeView extends View {
 
 	// Returns the x coordinate at which the pet's name should be placed on the screen.
 	// Props to whoever understands this math ;)
-	public int getXCoordOfName(String text, Paint paint) {
+	public int getXCoordOfName(String text, Paint paint)
+	{
 		// First determine width of Painted name
 		Rect bounds = new Rect();
 		paint.getTextBounds(text, 0, text.length(), bounds);
@@ -295,18 +317,22 @@ public class HomeView extends View {
 	}
 	
 	// Load pet bitmap from file
-	public void loadBitmaps() {
+	public void loadBitmaps()
+	{
 		// Get pet image from sd card.
 		imageInSD = Environment.getExternalStorageDirectory() + "/PhonePet/petBitmap/pet";
 		mPet = BitmapFactory.decodeFile(imageInSD);
 
 		// Get poop image.
 		mPoop = BitmapFactory.decodeResource(getResources(), R.drawable.poop);
-		//get trashcan image
+		
+		// Get trashcan image
 		mTrash = BitmapFactory.decodeResource(getResources(), R.drawable.trashcan);
+		
 		// Get food image.
 		mFood = BitmapFactory.decodeResource(getResources(), R.drawable.scooby_snack);
 
+		// Get ball image.
 		mBall = BitmapFactory.decodeResource(getResources(), R.drawable.tennisball2);
 
 		// Default mBoard to the background image.
@@ -317,16 +343,9 @@ public class HomeView extends View {
 		
 		// Create sponge and dirt bitmaps
 		mSponge = BitmapFactory.decodeResource(getResources(), R.drawable.sponge);
-		//petType = 3;
-		
-			mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
-		
-			mDirt2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
-		
-			mDirt3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
-		
-	
-		
+		mDirt1 = BitmapFactory.decodeResource(getResources(), R.drawable.fox_dirt);
+		mDirt2 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_2);
+		mDirt3 = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_3);
 		
 		// Get thought bubble images
 		mBubbleLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bubble_left);
@@ -347,18 +366,18 @@ public class HomeView extends View {
 		mDirt1 = Bitmap.createScaledBitmap(mDirt1, petWidth, petHeight, true);
 		mDirt2 = Bitmap.createScaledBitmap(mDirt2, petWidth, petHeight, true);
 		mDirt3 = Bitmap.createScaledBitmap(mDirt3, petWidth, petHeight, true);
-
 	}
 
-	public void drawPoop(List<Poop> list) {
+	public void drawPoop(List<Poop> list)
+	{
 		
 		myList = list;
-		for (Poop cn : myList) {
+		for (Poop cn : myList)
+		{
             String log = "Id: "+cn.getID()+" ,x: " + cn.getX() + " ,y: " + cn.getY();
         }	
 		        
 		poopExists = true;		
-		
 		this.invalidate();
 	}
 		
@@ -384,7 +403,6 @@ public class HomeView extends View {
 			
 			this.invalidate();
 		}
-		
 	}
 	
 	public void removeBall()
@@ -402,44 +420,51 @@ public class HomeView extends View {
 	
 
 
-	public int getBackgroundWidth() {
+	public int getBackgroundWidth()
+	{
 		return backgroundWidth;
 	}
 	
-	public int getBackgroundHeight() {
+	public int getBackgroundHeight()
+	{
 		return backgroundHeight;
 	}
 	
-	public int getPetWidth() {
+	public int getPetWidth()
+	{
 		return petWidth;
 	}
 	
-	public int getPetHeight() {
+	public int getPetHeight()
+	{
 		return petHeight;
 	}
 
-	public void dragPoop(List<Poop> list) {
-		
+	public void dragPoop(List<Poop> list)
+	{
 		myList = list;
 		this.invalidate();
-		
 	}
 
-	public void setTrash(boolean need) {
+	public void setTrash(boolean need)
+	{
 		trashcanNeeded = need;
 		this.invalidate();
 	}
 
-	public void setDirtAmt(int amt){
+	public void setDirtAmt(int amt)
+	{
 		petDirtAmt = amt;
 	}
 	
-	public void cleaning(){
+	public void cleaning()
+	{
 		cleaningPet = true;
 		spongeX = (float) (backgroundWidth/2.0);
 		spongeY = (float) (backgroundHeight/2.0);			
 	}
-	public void notCleaning(){
+	public void notCleaning()
+	{
 
 		cleaningPet = false;
 	}
@@ -464,7 +489,8 @@ public class HomeView extends View {
 			showSleepingThought = false;
 			
 		}
-		else {
+		else 
+		{
 			// Show no thought
 			showUnhappyThought = false;
 			showHungryThought = false;
@@ -472,11 +498,14 @@ public class HomeView extends View {
 		}
 	}
 	
-	public void setPetTransparent(boolean yes) {
-		if (yes) {
+	public void setPetTransparent(boolean yes)
+	{
+		if (yes)
+		{
 			petTransparency.setAlpha(75);
 		}
-		else  {
+		else
+		{
 			petTransparency.reset(); 
 		}
 	}
