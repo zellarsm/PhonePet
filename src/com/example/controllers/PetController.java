@@ -250,7 +250,7 @@ public class PetController extends Controller {
 	public void movePetToBall(Ball ball)
 	{
 		int currentPetX, currentPetY, currentBallX, currentBallY, horiz_dx, vert_dy;
-		int jumpDistance = BACKGROUND_WIDTH/10, numHorizJumps, numVertJumps;
+		int jumpDistance = BACKGROUND_WIDTH/8, numHorizJumps, numVertJumps;
 		
 		// Get current pet location
 		currentPetX = model.getXCoord();

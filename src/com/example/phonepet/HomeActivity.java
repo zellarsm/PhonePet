@@ -129,6 +129,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				controller.handleMessage(PetController.MESSAGE_PLAY);
 				if(hView.ballInPlay)
 				{
 					// Stops playing Fetch
