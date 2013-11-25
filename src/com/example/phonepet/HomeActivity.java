@@ -302,7 +302,7 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			ball = new Ball(tempX, tempY);
 			hView.drawBall(ball);
 			
-			//pet.move((int)tempX, (int)tempY);
+			controller.movePetToBall(ball);
 		}
 		
 		
@@ -494,6 +494,11 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 			poopTimer();
 		}
 
+		if(pet.getPetHasBall())
+		{
+			pet.setPetHasBall(false);
+			hView.removeBall();
+		}
 		
 		hView.setDirtAmt(pet.dirtyness());
 	} // End method updateView
@@ -1101,7 +1106,6 @@ public class HomeActivity extends Activity implements OnChangeListener<PetVo> {
 						mLastTouchX = userX;
 				        mLastTouchY = userY;
 				        drawBall(userX, userY);
-				        //pet.setXYCoord((int)userX, (int)userY);
 			}
 			return true;
 		}

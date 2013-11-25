@@ -15,6 +15,7 @@ import com.example.utils.StatusCountdownTimer;
 import com.example.phonepet.AccessorizeActivity;
 import com.example.phonepet.R;
 import com.example.phonepet.RunawayActivity;
+import com.example.vos.Ball;
 import com.example.vos.Food;
 import com.example.vos.PetVo;
 
@@ -245,6 +246,88 @@ public class PetController extends Controller {
 		return true;
 	} // End method isWithinPlayground
 	
+	
+	public void movePetToBall(Ball ball)
+	{
+		int currentPetX, currentPetY, currentBallX, currentBallY, horiz_dx, vert_dy;
+		int jumpDistance = BACKGROUND_WIDTH/10, numHorizJumps, numVertJumps;
+		
+		// Get current pet location
+		currentPetX = model.getXCoord();
+		currentPetY = model.getYCoord() + model.getHeight();
+		
+		// Get ball location
+		currentBallX = (int)ball.getX();
+		currentBallY = (int)ball.getY();
+		
+		// If locations are not the same, alternate moving vertical / horizontal until pet is next to ball.
+		horiz_dx = currentPetX - currentBallX;
+		vert_dy = currentPetY - currentBallY + 10; // Added a buffer to height jumps.
+		
+
+		if(vert_dy != 0)
+		{
+			numVertJumps = vert_dy / jumpDistance;
+		}
+		else
+		{
+			// Pet is already on the same horizontal axis as the ball.
+			numVertJumps = 0;
+		}
+		
+		if(horiz_dx != 0)
+		{
+			numHorizJumps = horiz_dx / jumpDistance;
+		}
+		else
+		{
+			// Pet is already on the same vertical axis as the ball.
+			numHorizJumps = 0;
+		}
+		
+		// If vert_dy is positive, pet needs to move up. If negative, pet needs to move down.
+		if(numVertJumps > 0)
+		{
+			for(int k=0; k<numVertJumps; k++)
+			{
+				life.moveSequence.add(3);
+			}
+		}
+		else if(numVertJumps < 0)
+		{
+			numVertJumps *= -1; // Make number positive
+			numVertJumps++;
+			for(int k=0; k<numVertJumps; k++)
+			{
+				life.moveSequence.add(4);
+			}
+		}
+		// If horix_dx is positive, pet needs to move left. If negative, pet needs to move right.
+		if(numHorizJumps > 0)
+		{
+			numHorizJumps++;
+			for(int k=0; k<numHorizJumps; k++)
+			{
+				life.moveSequence.add(1);
+			}
+		}
+		else if(numHorizJumps < 0)
+		{
+			numHorizJumps *= -1; // Make number positive
+			numHorizJumps++;
+			for(int k=0; k<numHorizJumps; k++)
+			{
+				life.moveSequence.add(2);
+			}
+		}
+		
+		life.isMovingToBall = true;
+		life.movementEnabled = false;
+		synchronized(life)
+		{
+			life.notify();
+		}		
+	} // End method movePetToFood
 	
 	/**
 	 * Make the pet move to the current piece of food.
@@ -697,7 +780,7 @@ public class PetController extends Controller {
 	 */
 	private class PetLife extends Thread {
 		int petMove = 0;
-		boolean movementEnabled = true, isMovingToFood = false;
+		boolean movementEnabled = true, isMovingToFood = false, isMovingToBall = false;
 		ArrayList<Integer> moveSequence = new ArrayList<Integer>();
 		
 		public void run()
@@ -735,6 +818,23 @@ public class PetController extends Controller {
 						movementEnabled = true;
 						model.setPetIsEating(false);
 						model.setPetIsPooping(true);
+					}
+				}
+				
+				if(isMovingToBall)
+				{
+				
+					if(!moveSequence.isEmpty())
+					{
+							int temp = moveSequence.remove(0);
+							petMove = temp;
+					}
+					else
+					{
+						model.setLastTimeAte(getCurrentTime());
+						isMovingToBall = false;
+						movementEnabled = true;
+						model.setPetHasBall(true);
 					}
 				}
 				
