@@ -131,84 +131,115 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int acc_yellow_hairbow=0x7f02004c;
         public static final int acc_yellow_hairbow2=0x7f02004d;
         public static final int background2=0x7f02004e;
-        public static final int black_dog=0x7f02004f;
-        public static final int black_fox=0x7f020050;
-        public static final int blue_dog=0x7f020051;
-        public static final int blue_fox=0x7f020052;
-        public static final int blue_panda=0x7f020053;
-        public static final int brown_dog=0x7f020054;
-        public static final int brown_fox=0x7f020055;
-        public static final int brown_panda=0x7f020056;
-        public static final int bubble_left=0x7f020057;
-        public static final int bubble_right=0x7f020058;
-        public static final int bw_panda=0x7f020059;
-        public static final int clean_background=0x7f02005a;
-        public static final int cloud=0x7f02005b;
-        public static final int dirt_1=0x7f02005c;
-        public static final int dirt_2=0x7f02005d;
-        public static final int dirt_3=0x7f02005e;
-        public static final int dirt_4=0x7f02005f;
-        public static final int dirt_5=0x7f020060;
-        public static final int dirt_6=0x7f020061;
-        public static final int dirt_7=0x7f020062;
-        public static final int dirt_8=0x7f020063;
-        public static final int dummy_egg=0x7f020064;
-        public static final int food=0x7f020065;
-        public static final int fox_dirt=0x7f020066;
-        public static final int frowny_face=0x7f020067;
-        public static final int green_dog=0x7f020068;
-        public static final int green_fox=0x7f020069;
-        public static final int green_panda=0x7f02006a;
-        public static final int ic_launcher=0x7f02006b;
-        public static final int mikesoccerball=0x7f02006c;
-        public static final int orange_dog=0x7f02006d;
-        public static final int orange_fox=0x7f02006e;
-        public static final int orange_panda=0x7f02006f;
-        public static final int poop=0x7f020070;
-        public static final int pooper_scooper=0x7f020071;
-        public static final int purple_dog=0x7f020072;
-        public static final int purple_fox=0x7f020073;
-        public static final int purple_panda=0x7f020074;
-        public static final int red_curtain=0x7f020075;
-        public static final int red_curtain_light=0x7f020076;
-        public static final int red_dog=0x7f020077;
-        public static final int red_fox=0x7f020078;
-        public static final int red_panda=0x7f020079;
-        public static final int scooby_snack=0x7f02007a;
-        public static final int smileyface=0x7f02007b;
-        public static final int sponge=0x7f02007c;
-        public static final int taco=0x7f02007d;
-        public static final int templatebackground=0x7f02007e;
-        public static final int tennisball=0x7f02007f;
-        public static final int tennisball2=0x7f020080;
-        public static final int thought_bubble=0x7f020081;
-        public static final int transbackground=0x7f020082;
-        public static final int trashcan=0x7f020083;
-        public static final int tshirt=0x7f020084;
-        public static final int tshirt2=0x7f020085;
-        public static final int white_dog=0x7f020086;
-        public static final int white_fox=0x7f020087;
-        public static final int yellow_dog=0x7f020088;
-        public static final int yellow_fox=0x7f020089;
-        public static final int yellow_panda=0x7f02008a;
-        public static final int zz=0x7f02008b;
+        public static final int black_bottom=0x7f02004f;
+        public static final int black_dog=0x7f020050;
+        public static final int black_egg=0x7f020051;
+        public static final int black_fox=0x7f020052;
+        public static final int black_top=0x7f020053;
+        public static final int blue_bottom=0x7f020054;
+        public static final int blue_dog=0x7f020055;
+        public static final int blue_egg=0x7f020056;
+        public static final int blue_fox=0x7f020057;
+        public static final int blue_panda=0x7f020058;
+        public static final int blue_top=0x7f020059;
+        public static final int brown_bottom=0x7f02005a;
+        public static final int brown_dog=0x7f02005b;
+        public static final int brown_egg=0x7f02005c;
+        public static final int brown_fox=0x7f02005d;
+        public static final int brown_panda=0x7f02005e;
+        public static final int brown_top=0x7f02005f;
+        public static final int bubble_left=0x7f020060;
+        public static final int bubble_right=0x7f020061;
+        public static final int bw_panda=0x7f020062;
+        public static final int clean_background=0x7f020063;
+        public static final int cloud=0x7f020064;
+        public static final int crack=0x7f020065;
+        public static final int crack2=0x7f020066;
+        public static final int dirt_1=0x7f020067;
+        public static final int dirt_2=0x7f020068;
+        public static final int dirt_3=0x7f020069;
+        public static final int dirt_4=0x7f02006a;
+        public static final int dirt_5=0x7f02006b;
+        public static final int dirt_6=0x7f02006c;
+        public static final int dirt_7=0x7f02006d;
+        public static final int dirt_8=0x7f02006e;
+        public static final int dummy_egg=0x7f02006f;
+        public static final int egg_hatch_background=0x7f020070;
+        public static final int food=0x7f020071;
+        public static final int fox_dirt=0x7f020072;
+        public static final int frowny_face=0x7f020073;
+        public static final int green_bottom=0x7f020074;
+        public static final int green_dog=0x7f020075;
+        public static final int green_egg=0x7f020076;
+        public static final int green_fox=0x7f020077;
+        public static final int green_panda=0x7f020078;
+        public static final int green_top=0x7f020079;
+        public static final int ic_launcher=0x7f02007a;
+        public static final int mikesoccerball=0x7f02007b;
+        public static final int orange_bottom=0x7f02007c;
+        public static final int orange_dog=0x7f02007d;
+        public static final int orange_egg=0x7f02007e;
+        public static final int orange_fox=0x7f02007f;
+        public static final int orange_panda=0x7f020080;
+        public static final int orange_top=0x7f020081;
+        public static final int poop=0x7f020082;
+        public static final int pooper_scooper=0x7f020083;
+        public static final int purple_bottom=0x7f020084;
+        public static final int purple_dog=0x7f020085;
+        public static final int purple_egg=0x7f020086;
+        public static final int purple_fox=0x7f020087;
+        public static final int purple_panda=0x7f020088;
+        public static final int purple_top=0x7f020089;
+        public static final int red_bottom=0x7f02008a;
+        public static final int red_curtain=0x7f02008b;
+        public static final int red_curtain_light=0x7f02008c;
+        public static final int red_dog=0x7f02008d;
+        public static final int red_egg=0x7f02008e;
+        public static final int red_fox=0x7f02008f;
+        public static final int red_panda=0x7f020090;
+        public static final int red_top=0x7f020091;
+        public static final int scooby_snack=0x7f020092;
+        public static final int smileyface=0x7f020093;
+        public static final int sponge=0x7f020094;
+        public static final int taco=0x7f020095;
+        public static final int templatebackground=0x7f020096;
+        public static final int tennisball=0x7f020097;
+        public static final int tennisball2=0x7f020098;
+        public static final int thought_bubble=0x7f020099;
+        public static final int transbackground=0x7f02009a;
+        public static final int trashcan=0x7f02009b;
+        public static final int tshirt=0x7f02009c;
+        public static final int tshirt2=0x7f02009d;
+        public static final int white_bottom=0x7f02009e;
+        public static final int white_dog=0x7f02009f;
+        public static final int white_egg=0x7f0200a0;
+        public static final int white_fox=0x7f0200a1;
+        public static final int white_top=0x7f0200a2;
+        public static final int yellow_bottom=0x7f0200a3;
+        public static final int yellow_dog=0x7f0200a4;
+        public static final int yellow_egg=0x7f0200a5;
+        public static final int yellow_fox=0x7f0200a6;
+        public static final int yellow_panda=0x7f0200a7;
+        public static final int yellow_top=0x7f0200a8;
+        public static final int zz=0x7f0200a9;
     }
     public static final class id {
-        public static final int Accessorize=0x7f0a0045;
-        public static final int Feed=0x7f0a0046;
-        public static final int HappinessText=0x7f0a0040;
-        public static final int HappinessValue=0x7f0a0041;
-        public static final int HomeView=0x7f0a0044;
-        public static final int HungerText=0x7f0a0042;
-        public static final int HungerValue=0x7f0a0043;
-        public static final int Play=0x7f0a0047;
-        public static final int Poop=0x7f0a0048;
-        public static final int RunawayOKButton=0x7f0a004a;
-        public static final int Sponge=0x7f0a0049;
-        public static final int StatusBar=0x7f0a003f;
-        public static final int action_settings=0x7f0a004e;
+        public static final int Accessorize=0x7f0a0047;
+        public static final int Feed=0x7f0a0048;
+        public static final int HappinessText=0x7f0a0042;
+        public static final int HappinessValue=0x7f0a0043;
+        public static final int HatchView=0x7f0a003f;
+        public static final int HomeView=0x7f0a0046;
+        public static final int HungerText=0x7f0a0044;
+        public static final int HungerValue=0x7f0a0045;
+        public static final int Play=0x7f0a0049;
+        public static final int Poop=0x7f0a004a;
+        public static final int RunawayOKButton=0x7f0a004c;
+        public static final int Sponge=0x7f0a004b;
+        public static final int StatusBar=0x7f0a0041;
+        public static final int action_settings=0x7f0a004d;
         public static final int activity_accessorize_view=0x7f0a0000;
-        public static final int activity_home_view=0x7f0a003e;
+        public static final int activity_home_view=0x7f0a0040;
         public static final int background_grid_layout=0x7f0a0021;
         public static final int blackTie=0x7f0a001b;
         public static final int black_color_btn=0x7f0a0036;
@@ -220,7 +251,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int bowtie=0x7f0a001a;
         public static final int brown_color_btn=0x7f0a0033;
         public static final int clearButton=0x7f0a0004;
-        public static final int close=0x7f0a004c;
         public static final int clownNose=0x7f0a0019;
         public static final int connect4View=0x7f0a0027;
         public static final int create_text=0x7f0a0028;
@@ -250,7 +280,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int pet_name=0x7f0a003c;
         public static final int pikachu=0x7f0a000a;
         public static final int plidDepth=0x7f0a0025;
-        public static final int popupLinearLayout=0x7f0a004b;
         public static final int purple_color_btn=0x7f0a0037;
         public static final int purplecap=0x7f0a0014;
         public static final int purplehairbow=0x7f0a000f;
@@ -262,11 +291,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int start_btn=0x7f0a0022;
         public static final int tealhairbow=0x7f0a000b;
         public static final int topHat=0x7f0a0007;
+        public static final int txt_egg_hatching=0x7f0a003e;
         public static final int txt_pick_animal=0x7f0a002a;
         public static final int txt_pick_color=0x7f0a002e;
         public static final int txt_pick_gender=0x7f0a0038;
         public static final int txt_pick_name=0x7f0a003b;
-        public static final int txt_welcome=0x7f0a004d;
         public static final int unicornHorn=0x7f0a0008;
         public static final int view_flipper=0x7f0a0029;
         public static final int white_color_btn=0x7f0a0034;
@@ -279,53 +308,52 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_clean=0x7f030001;
         public static final int activity_connect4=0x7f030002;
         public static final int activity_create=0x7f030003;
-        public static final int activity_home=0x7f030004;
-        public static final int activity_play=0x7f030005;
-        public static final int activity_runaway=0x7f030006;
-        public static final int activity_startup=0x7f030007;
-        public static final int popup_layout=0x7f030008;
+        public static final int activity_hatch=0x7f030004;
+        public static final int activity_home=0x7f030005;
+        public static final int activity_play=0x7f030006;
+        public static final int activity_runaway=0x7f030007;
+        public static final int activity_startup=0x7f030008;
     }
     public static final class menu {
         public static final int accessorize=0x7f090000;
         public static final int connect4=0x7f090001;
         public static final int create=0x7f090002;
-        public static final int home=0x7f090003;
-        public static final int play=0x7f090004;
-        public static final int runaway=0x7f090005;
-        public static final int sleep=0x7f090006;
-        public static final int startup=0x7f090007;
+        public static final int hatch=0x7f090003;
+        public static final int home=0x7f090004;
+        public static final int play=0x7f090005;
+        public static final int runaway=0x7f090006;
+        public static final int sleep=0x7f090007;
+        public static final int startup=0x7f090008;
     }
     public static final class string {
         public static final int access_desc=0x7f070022;
         public static final int action_settings=0x7f070001;
         public static final int app_name=0x7f070000;
-        public static final int clear_button=0x7f07001d;
-        /**  Strings related to Popup Window Animation 
-         */
-        public static final int close_button=0x7f07001e;
-        public static final int color_button_txt=0x7f070015;
-        public static final int continue_btn_txt=0x7f070016;
-        public static final int create_pet=0x7f070011;
-        /**  Strings related to CreateActivity 
-         */
-        public static final int default_name=0x7f07000d;
+        public static final int clear_button=0x7f07001f;
+        public static final int color_button_txt=0x7f070016;
+        public static final int continue_btn_txt=0x7f070017;
+        public static final int create_pet=0x7f070012;
+        public static final int default_name=0x7f07000e;
         public static final int dummy_button=0x7f070025;
         public static final int dummy_content=0x7f070026;
+        /**  Strings related to HatchActivity 
+         */
+        public static final int egg_hatching=0x7f07001d;
         public static final int energy_text=0x7f07002b;
         public static final int food_button=0x7f070008;
         public static final int happiness_text=0x7f070029;
         public static final int hello_world=0x7f070002;
         public static final int hunger_text=0x7f07002a;
-        public static final int img_green_egg=0x7f070010;
+        public static final int img_green_egg=0x7f070011;
         public static final int pet_name=0x7f070004;
-        public static final int pick_animal=0x7f07000e;
-        public static final int pick_color=0x7f07000f;
+        public static final int pick_animal=0x7f07000f;
+        public static final int pick_color=0x7f070010;
         public static final int play_button=0x7f070009;
         public static final int poop_button=0x7f07000a;
         public static final int preference_file_key=0x7f070005;
         /**  Strings related to AccessorizeActivity 
          */
-        public static final int save_button=0x7f07001c;
+        public static final int save_button=0x7f07001e;
         /**  Strings related to HomeActivity Menu buttons 
          */
         public static final int shirt_button=0x7f070007;
@@ -335,19 +363,22 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title_activity_accessorize=0x7f070021;
         public static final int title_activity_clean=0x7f070024;
         public static final int title_activity_create=0x7f070006;
+        public static final int title_activity_hatch=0x7f07002c;
         public static final int title_activity_home=0x7f070003;
         public static final int title_activity_play=0x7f070020;
         public static final int title_activity_runaway=0x7f070023;
         public static final int title_activity_sleep=0x7f070027;
-        public static final int txt_dog=0x7f070014;
-        public static final int txt_female=0x7f07001b;
-        public static final int txt_finish=0x7f070019;
-        public static final int txt_fox=0x7f070012;
-        public static final int txt_male=0x7f07001a;
-        public static final int txt_panda=0x7f070013;
-        public static final int txt_pick_gender=0x7f070017;
-        public static final int txt_pick_name=0x7f070018;
-        public static final int welcome=0x7f07001f;
+        public static final int txt_dog=0x7f070015;
+        public static final int txt_female=0x7f07001c;
+        public static final int txt_finish=0x7f07001a;
+        public static final int txt_fox=0x7f070013;
+        public static final int txt_male=0x7f07001b;
+        public static final int txt_panda=0x7f070014;
+        public static final int txt_pick_gender=0x7f070018;
+        public static final int txt_pick_name=0x7f070019;
+        /**  Strings related to CreateActivity 
+         */
+        public static final int welcome=0x7f07000d;
     }
     public static final class style {
         /** 
@@ -411,7 +442,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name com.example.phonepet:buttonBarButtonStyle
+          @attr name android:buttonBarButtonStyle
         */
         public static final int ButtonBarContainerTheme_buttonBarButtonStyle = 1;
         /**
@@ -421,7 +452,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name com.example.phonepet:buttonBarStyle
+          @attr name android:buttonBarStyle
         */
         public static final int ButtonBarContainerTheme_buttonBarStyle = 0;
     };

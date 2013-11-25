@@ -56,6 +56,10 @@
             android:name="com.example.phonepet.SleepActivity"
             android:label="@string/title_activity_sleep" >
         </activity>
+        <activity
+            android:name="com.example.phonepet.HatchActivity"
+            android:label="@string/title_activity_hatch" >
+        </activity>
     </application>
 
 </manifest>

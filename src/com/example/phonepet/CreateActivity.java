@@ -31,7 +31,7 @@ public class CreateActivity extends Activity {
 	private int animalSelection = 1; // 1 fox, 2 panda, 3 dog
 	private int colorSelection = 4; // Default orange fox
 	private int genderSelection = 1; // Default male
-	private String nameSelection = "MIKE"; // Default Mike
+	private String nameSelection = "BUDDY"; // Default Mike
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -222,12 +222,9 @@ public class CreateActivity extends Activity {
 				storeImage(petBitmap);
 
 				// Go to Home activity
-				goHome();
+				goHatch();
 			}
 
-			
-
-			
 		});
         
 	}
@@ -302,8 +299,8 @@ public class CreateActivity extends Activity {
 		}
 	}
 	
-	private void goHome() {
-		Intent intent = new Intent(this, HomeActivity.class);
+	private void goHatch() {
+		Intent intent = new Intent(this, HatchActivity.class);
 		startActivity(intent);
 		finish();
 	}

@@ -122,6 +122,12 @@ public class HomeView extends View
 			for(Poop e: myList)
 				canvas.drawBitmap(mPoop, e.getX(), e.getY(), null);
 		
+		// Draw trashcan
+		if(trashcanNeeded)
+		{
+			canvas.drawBitmap(mTrash, backgroundWidth/10, backgroundHeight/6 + backgroundHeight/3, null);
+		}
+		
 		// Draw pet
 		canvas.drawBitmap(mPet, petPoint.x, petPoint.y, petTransparency);
 
@@ -163,11 +169,7 @@ public class HomeView extends View
 		{
 			canvas.drawBitmap(mSponge, spongeX, spongeY, null);
 		}
-		
-		if(trashcanNeeded)
-		{
-			canvas.drawBitmap(mTrash, backgroundWidth/10, backgroundHeight/6 + backgroundHeight/3, null);
-		}
+		 
 		
 		// Draw thought bubble if necessary
 		if (showUnhappyThought || showHungryThought || showSleepingThought)
